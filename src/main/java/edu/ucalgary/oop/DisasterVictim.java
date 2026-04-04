@@ -312,6 +312,18 @@ public class DisasterVictim {
         this.gender = properCaseOption;
     }
 
+
+
+    public boolean isDeleted()
+    {
+        return this.isDeleted;
+    }
+    public void setDeleted(boolean isDeleted)
+    {
+        this.isDeleted = isDeleted;
+    }
+
+
     public void registerSkill()
     {
         //add skill!
