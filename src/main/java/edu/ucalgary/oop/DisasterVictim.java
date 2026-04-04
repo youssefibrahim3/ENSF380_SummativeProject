@@ -25,6 +25,8 @@ public class DisasterVictim {
     private String gender;
     private String comments;
 
+    private int id;
+
     private HashMap<String, String> requirements;
     private boolean isDeleted;
     private List<Skill> skills;
@@ -85,7 +87,7 @@ public class DisasterVictim {
         }
 
         this.dateOfBirth = dateOfBirth;
-        this.approxAge = null;
+        this.approxAge = 0;
     }
 
     public FamilyRelation[] getFamilyConnections() {
@@ -335,6 +337,15 @@ public class DisasterVictim {
     public void setDeleted(boolean isDeleted)
     {
         this.isDeleted = isDeleted;
+    }
+
+    public int getId()
+    {
+        return this.id;
+    }
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     //Feature 5

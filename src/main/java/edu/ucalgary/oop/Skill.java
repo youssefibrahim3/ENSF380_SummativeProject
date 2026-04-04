@@ -34,8 +34,5 @@ abstract class Skill {
     {
         this.level = level;
     }
-    public static void main(String[] args)
-    {
-        print("yes");
-    }
+
 }
