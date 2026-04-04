@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class Main {
 
+    // DatabaseManager service = new DatabaseManager();
+
     private static void manageVictims(Scanner scanner, ReliefService service)
     {
         boolean using = true;

@@ -23,6 +23,11 @@ public class ReliefService {
         this.lastKnownLocation = lastKnownLocation;
     }
 
+    public ReliefService()
+    {
+
+    }
+
     // Getter and setter for inquirer
     public Inquirer getInquirer() {
         return inquirer;
@@ -80,4 +85,5 @@ public class ReliefService {
            ", Info Provided: " + infoProvided + 
            ", Last Known Location: " + lastKnownLocation.getName();
     }
+
 }
