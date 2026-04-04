@@ -7,6 +7,8 @@ See LICENSE.txt for more information.
 package edu.ucalgary.oop;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DisasterVictim {
     private String firstName;
@@ -19,6 +21,9 @@ public class DisasterVictim {
     private String gender;
     private String comments;
 
+    private boolean isDeleted;
+    private List<Skill> skills;
+
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE) throws IllegalArgumentException {
         if (ENTRY_DATE == null) {
             throw new IllegalArgumentException("Entry date cannot be null");
@@ -28,6 +33,8 @@ public class DisasterVictim {
         this.familyConnections = new FamilyRelation[0];
         this.medicalRecords = new MedicalRecord[0];
         this.personalBelongings = new Supply[0];
+
+        this.skills = new ArrayList<>();
     }
 
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, LocalDate dateOfBirth) throws IllegalArgumentException {
@@ -304,4 +311,29 @@ public class DisasterVictim {
         
         this.gender = properCaseOption;
     }
+
+    public void registerSkill()
+    {
+        //add skill!
+        for (Skill s : this.skills)
+        {
+            if (true) //check for duplicate type
+            {
+                
+            }
+        }
+    }
+    public void removeSkill(Skill skill)
+    {
+        this.skills.remove(skill);
+    }
+    public List<Skill> getSkills()
+    {
+        return this.skills;
+    }
+    public void setSkills(List<Skill> skills)
+    {
+        this.skills = skills;
+    }
+
 }

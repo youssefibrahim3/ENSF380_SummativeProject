@@ -6,16 +6,37 @@ See LICENSE.txt for more information.
 
 package edu.ucalgary.oop;
 
-// I use enums here because I found it to be the easiest way to implement 'categories'
-abstract class Skill {
-    private enum skillCategory {
-        MEDICAL,
-        LANGUAGE,
-        TRADE
+public class LanguageSkill extends Skill {
+    public enum Capabilities
+    {
+        READ_WRITE,
+        SPEAK_LISTEN
     };
-    private enum proficiencyLevel {
-        BEGINNER,
-        INTERMEDIATE,
-        ADVANCED
-    };
+    private Capabilities[] capabilities;
+    private String language;
+
+    public LanguageSkill(ProficiencyLevel level, String language, Capabilities[] capabilities)
+    {
+        super(SkillCategory.LANGUAGE, level);
+        this.language = language;
+        this.capabilities = capabilities;
+    }
+    
+    public String getLanguage()
+    {
+        return this.language;
+    }
+    public void setLanguage(String language)
+    {
+        this.language = language;
+    }
+
+    public Capabilities[] getCapabilities()
+    {
+        return this.capabilities;
+    }
+    public void setCapabilities(Capabilities[] capabilities)
+    {
+        this.capabilities = capabilities;
+    }
 }

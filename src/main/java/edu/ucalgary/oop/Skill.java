@@ -6,20 +6,8 @@ See LICENSE.txt for more information.
 
 package edu.ucalgary.oop;
 
-// I use enums here because I found it to be the easiest way to implement 'categories'
 // Note to self: ACCESS MODIFIERS
 abstract class Skill {
-    protected enum SkillCategory {
-        MEDICAL,
-        LANGUAGE,
-        TRADE
-    };
-    protected enum ProficiencyLevel {
-        BEGINNER,
-        INTERMEDIATE,
-        ADVANCED
-    };
-
     private SkillCategory category;
     private ProficiencyLevel level;
 
@@ -45,5 +33,9 @@ abstract class Skill {
     public void setProficiencyLevel(ProficiencyLevel level)
     {
         this.level = level;
+    }
+    public static void main(String[] args)
+    {
+        print("yes");
     }
 }
