@@ -14,6 +14,7 @@ public class Main {
         boolean using = true;
         while (using)
         {
+            //Wait how do they want me to 
             System.out.println("""
                     -- VICTIM MENU --
                     0. Back
@@ -24,6 +25,19 @@ public class Main {
                     5. Manage Skills
                     6. View Victims
                     """);
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter one of the above inputs.");
+                    break;
+            }
         }
     }
 
@@ -79,7 +93,7 @@ public class Main {
                 5 - Manage Relationships
                 6 - Manage Inquiries
                     """);
-            int choice = scanner.nextInt();
+            int choice = Integer.parseInt(scanner.nextLine());
 
             //add/modify everythang
             switch (choice) {
@@ -110,4 +124,6 @@ public class Main {
         }
         scanner.close();
     }
+
+    
 }
