@@ -8,12 +8,16 @@ package edu.ucalgary.oop;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DisasterVictim {
     private String firstName;
     private String lastName;
+
     private LocalDate dateOfBirth; 
+    private int approxAge;
+
     private FamilyRelation[] familyConnections; 
     private MedicalRecord[] medicalRecords; 
     private Supply[] personalBelongings;
@@ -21,6 +25,7 @@ public class DisasterVictim {
     private String gender;
     private String comments;
 
+    private HashMap<String, String> requirements;
     private boolean isDeleted;
     private List<Skill> skills;
 
@@ -35,11 +40,18 @@ public class DisasterVictim {
         this.personalBelongings = new Supply[0];
 
         this.skills = new ArrayList<>();
+        this.requirements = new HashMap<>();
     }
 
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, LocalDate dateOfBirth) throws IllegalArgumentException {
         this(firstName, ENTRY_DATE);
         setDateOfBirth(dateOfBirth);
+    }
+
+    //extra constructor for approximate age
+    public DisasterVictim(String firstName, LocalDate ENTRY_DATE, int approxAge) throws IllegalArgumentException {
+        this(firstName, ENTRY_DATE);
+        setApproxAge(approxAge);
     }
 
     public String getFirstName() {
@@ -73,6 +85,7 @@ public class DisasterVictim {
         }
 
         this.dateOfBirth = dateOfBirth;
+        this.approxAge = null;
     }
 
     public FamilyRelation[] getFamilyConnections() {
@@ -113,6 +126,7 @@ public class DisasterVictim {
             throw new IllegalArgumentException("Supply cannot be null");
         }
 
+        
         if (this.personalBelongings == null) {
             Supply tmpSupply[] = { supply };
             this.setPersonalBelongings(tmpSupply);
@@ -313,7 +327,7 @@ public class DisasterVictim {
     }
 
 
-
+    //Feature 4
     public boolean isDeleted()
     {
         return this.isDeleted;
@@ -323,7 +337,38 @@ public class DisasterVictim {
         this.isDeleted = isDeleted;
     }
 
+    //Feature 5
+    public int getApproxAge() {
+        return approxAge;
+    }
+    public void setApproxAge(int approxAge)
+    {
+        if (approxAge <= 0)
+        {
+            throw new IllegalArgumentException("Approximate age must be a nonzero positive number.");
+        }
 
+        // If date of birth exists, cant approximate age
+        if (this.dateOfBirth != null)
+        {
+            throw new IllegalArgumentException("Cannot set approximate age when date of birth exists");
+        }
+
+        this.approxAge = approxAge;
+        this.dateOfBirth = null;
+    }
+
+    //Feature 7
+    public void setRequirement(String type, String value)
+    {
+        this.requirements.put(type, value);
+    }
+    public HashMap<String, String> getRequirements()
+    {
+        return this.requirements;
+    }
+    
+    //Feature 8
     public void registerSkill()
     {
         //add skill!

@@ -14,11 +14,14 @@ public class Main {
         boolean using = true;
         while (using)
         {
-            //Wait how do they want me to 
+            // ADD CHOOSING BETWEEN ENTERING APPROXIMATE AGE AND BIRTHDATE WHEN ADDING ONE!
+            // FOR MODIFY THERE IS A LOT OF STUFF! 
+
+            //Allocation of supplies should not include expired supples in inventory list
             System.out.println("""
                     -- VICTIM MENU --
                     0. Back
-                    1. Add Victim
+                    1. Add Victim 
                     2. Modify Victim
                     3. Delete Victim (Soft)
                     4. Delete Victim (Hard)
@@ -42,7 +45,7 @@ public class Main {
     }
 
     private static void manageSupplies(Scanner scanner, ReliefService service)
-    {
+    { // When opening the menu, warn of ALL expired items currently in inventory.
         boolean using = true;
         while (using)
         {
@@ -125,5 +128,5 @@ public class Main {
         scanner.close();
     }
 
-    
+
 }
