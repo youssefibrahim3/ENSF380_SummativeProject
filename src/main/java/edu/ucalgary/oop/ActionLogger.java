@@ -7,6 +7,15 @@ import java.time.LocalDate;
 //singleton
 public class ActionLogger {
     private static final String FILE_NAME = "src/data/action_log.txt";
+    private static ActionLogger instance = null;
+    
+    private ActionLogger() {}
+    
+    public static ActionLogger getInstance() {
+        if (instance == null) instance = new ActionLogger();
+        return instance;
+    }
+
     public static void log(String action, String description)
     {
         try {
