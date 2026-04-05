@@ -3,7 +3,7 @@ package edu.ucalgary.oop;
 import java.util.List;
 
 /**
- * Generic Data Access Object interface.
+ * Generic DAO (Data Access Object interface).
  * Defines common CRUD operations for all entity types.
  * 
  * @param <T> The entity type

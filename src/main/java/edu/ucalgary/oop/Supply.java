@@ -33,7 +33,7 @@ public class Supply {
     
     public void setExpirationDate(LocalDate expirationDate)
     {
-        if (!this.isPerishable())
+        if (this.expirationDate != null && !this.isPerishable())
         {
             throw new IllegalArgumentException("Non-perishable item cannot have expiration date");
         }

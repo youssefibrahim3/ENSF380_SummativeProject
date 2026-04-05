@@ -10,13 +10,13 @@ public class ActionLogger {
     private static ActionLogger instance = null;
     
     private ActionLogger() {}
-    
+
     public static ActionLogger getInstance() {
         if (instance == null) instance = new ActionLogger();
         return instance;
     }
 
-    public static void log(String action, String description)
+    public void log(String action, String description)
     {
         try {
             FileOutputStream out = new FileOutputStream(FILE_NAME, true);

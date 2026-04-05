@@ -26,11 +26,12 @@ public class DisasterVictim {
     private String comments;
 
     private int id;
+    private int location_id;
 
     private HashMap<String, String> requirements;
     private boolean isDeleted;
     private List<Skill> skills;
-
+    
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE) throws IllegalArgumentException {
         if (ENTRY_DATE == null) {
             throw new IllegalArgumentException("Entry date cannot be null");
@@ -74,6 +75,15 @@ public class DisasterVictim {
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public void setLocationId(int location_id)
+    {
+        this.location_id = location_id;
+    }
+    public int getLocationId()
+    {
+        return this.location_id;
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) throws IllegalArgumentException {
