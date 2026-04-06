@@ -9,12 +9,14 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
     private final Connection connection;
 
-    public VictimDAO(Connection connection) {
+    public VictimDAO(Connection connection) 
+    {
         this.connection = connection;
     }
 
     @Override
-    public List<DisasterVictim> getAll() {
+    public List<DisasterVictim> getAll() 
+    {
         List<DisasterVictim> victims = new ArrayList<>();
         String sql = "SELECT p.id, p.first_name, p.last_name, p.comments, " +
                      "dv.gender, dv.date_of_birth, dv.approximate_age, dv.entry_date " +
@@ -33,7 +35,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     @Override
-    public DisasterVictim getById(Integer personId) {
+    public DisasterVictim getById(Integer personId) 
+    {
         String sql = "SELECT p.id, p.first_name, p.last_name, p.comments, " +
                      "dv.gender, dv.date_of_birth, dv.approximate_age, dv.entry_date " +
                      "FROM Person p JOIN DisasterVictim dv ON p.id = dv.person_id " +
@@ -50,7 +53,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     @Override
-    public boolean insert(DisasterVictim victim) {
+    public boolean insert(DisasterVictim victim) 
+    {
         String personSQL = "INSERT INTO Person (first_name, last_name, comments) VALUES (?, ?, ?) RETURNING id";
         String victimSQL = "INSERT INTO DisasterVictim (person_id, gender, entry_date, location_id, date_of_birth, approximate_age) " +
                            "VALUES (?, ?, CURRENT_DATE, ?, ?, ?)";
@@ -92,7 +96,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     @Override
-    public boolean update(DisasterVictim victim) {
+    public boolean update(DisasterVictim victim) 
+    {
         String personSQL = "UPDATE Person SET first_name = ?, last_name = ?, comments = ? WHERE id = ?";
         String victimSQL = "UPDATE DisasterVictim SET gender = ? WHERE person_id = ?";
         try {
@@ -121,7 +126,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
     //Feature 4
     @Override
-    public boolean delete(Integer personId) {
+    public boolean delete(Integer personId) 
+    {
         String sql = "DELETE FROM Person WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -135,7 +141,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
-    public boolean softDelete(Integer personId) {
+    public boolean softDelete(Integer personId) 
+    {
         String sql = "UPDATE DisasterVictim SET is_soft_deleted = TRUE WHERE person_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -150,7 +157,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     //Feature 5
-    public boolean updateApproximateAge(int personId, int newAge) {
+    public boolean updateApproximateAge(int personId, int newAge) 
+    {
         String checkSQL = "SELECT date_of_birth FROM DisasterVictim WHERE person_id = ?";
         String updateSQL = "UPDATE DisasterVictim SET approximate_age = ? WHERE person_id = ?";
         try {
@@ -177,7 +185,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     //Feature 5
-    public boolean replaceAgeWithDOB(int personId, LocalDate dob) {
+    public boolean replaceAgeWithDOB(int personId, LocalDate dob) 
+    {
         String sql = "UPDATE DisasterVictim SET date_of_birth = ?, approximate_age = NULL WHERE person_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -192,7 +201,8 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
-    private DisasterVictim buildVictim(ResultSet rs) throws SQLException {
+    private DisasterVictim buildVictim(ResultSet rs) throws SQLException 
+    {
         int id = rs.getInt("id");
         String firstName = rs.getString("first_name");
         String lastName = rs.getString("last_name");
