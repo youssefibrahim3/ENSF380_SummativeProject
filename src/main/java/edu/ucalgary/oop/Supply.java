@@ -15,11 +15,16 @@ public class Supply {
     private boolean perishable;
     private LocalDate expirationDate;
 
-    public Supply(String type, int quantity, boolean perishable, LocalDate expirationDate) throws IllegalArgumentException {
+    private int location_id;
+    private int victim_id;
+
+    public Supply(String type, int quantity, boolean perishable, LocalDate expirationDate, int location_id, int victim_id) throws IllegalArgumentException {
         this.type = type;
         setQuantity(quantity); // Use setter for validation
         this.perishable = perishable;
         setExpirationDate(expirationDate);
+        this.location_id = location_id;
+        this.victim_id = victim_id;
     }
 
     public void setType(String type) { this.type = type; }
@@ -43,6 +48,24 @@ public class Supply {
     public LocalDate getExpirationDate() { return this.expirationDate; }
     public String getType() { return this.type; }
     public int getQuantity() { return this.quantity; }
+
+    public int getLocationId()
+    {
+        return this.location_id;
+    }
+    public void setLocationId(int location_id)
+    {
+        this.location_id = location_id;
+    }
+
+    public int getVictimId()
+    {
+        return this.victim_id;
+    }
+    public void setVictimId(int victim_id)
+    {
+        this.victim_id = victim_id;
+    }
 
     public boolean isExpired()
     {
