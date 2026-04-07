@@ -214,7 +214,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         LocalDate dob = (dobSQL != null) ? dobSQL.toLocalDate() : null;
         int approxAge = rs.getInt("approximate_age");
 
-        // Use the right constructor based on what data we have
+        // Use the right constructor 
         DisasterVictim v;
         if (dob != null) {
             v = new DisasterVictim(firstName, entryDate, dob);
@@ -229,5 +229,132 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         v.setComments(comments);
         if (gender != null) v.setGender(gender);
         return v;
+    }
+
+    //Feature 8
+    // Add a skill to a victim in the DB
+    public boolean insertSkill(int victimId, Skill skill) {
+        // First get or create the skill in the Skill table
+        String skillName = getSkillName(skill);
+        String category = skill.getSkillCategory().name().toLowerCase();
+        String proficiency = skill.getProficiencyLevel().name().toLowerCase();
+
+        String skillSQL = "INSERT INTO Skill (skill_name, category) VALUES (?, ?) " +
+                        "ON CONFLICT (skill_name, category) DO NOTHING";
+        String getSkillIdSQL = "SELECT id FROM Skill WHERE skill_name = ? AND category = ?";
+        String victimSkillSQL = "INSERT INTO VictimSkill (victim_id, skill_id, details, language_capabilities, " +
+                                "certification_expiry, proficiency_level) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            // Ensure skill exists in Skill table
+            PreparedStatement ps1 = connection.prepareStatement(skillSQL);
+            ps1.setString(1, skillName);
+            ps1.setString(2, category);
+            ps1.executeUpdate();
+
+            // Get the skill id
+            PreparedStatement ps2 = connection.prepareStatement(getSkillIdSQL);
+            ps2.setString(1, skillName);
+            ps2.setString(2, category);
+            ResultSet rs = ps2.executeQuery();
+            rs.next();
+            int skillId = rs.getInt("id");
+
+            // Insert into VictimSkill with category-specific fields
+            PreparedStatement ps3 = connection.prepareStatement(victimSkillSQL);
+            ps3.setInt(1, victimId);
+            ps3.setInt(2, skillId);
+
+            if (skill instanceof MedicalSkill) {
+                MedicalSkill ms = (MedicalSkill) skill;
+                ps3.setString(3, ms.getCertification().name().toLowerCase());
+                ps3.setNull(4, Types.VARCHAR);
+                if (ms.getCertificationExpiration() != null)
+                    ps3.setDate(5, Date.valueOf(ms.getCertificationExpiration()));
+                else
+                    ps3.setNull(5, Types.DATE);
+            } else if (skill instanceof LanguageSkill) {
+                LanguageSkill ls = (LanguageSkill) skill;
+                ps3.setNull(3, Types.VARCHAR);
+                // Join capabilities into a string e.g. "read/write, speak/listen"
+                StringBuilder caps = new StringBuilder();
+                for (LanguageSkill.Capabilities c : ls.getCapabilities()) {
+                    if (caps.length() > 0) caps.append(", ");
+                    caps.append(c == LanguageSkill.Capabilities.READ_WRITE ? "read/write" : "speak/listen");
+                }
+                ps3.setString(4, caps.toString());
+                ps3.setNull(5, Types.DATE);
+            } else {
+                // TradeSkill — no extra fields needed
+                ps3.setNull(3, Types.VARCHAR);
+                ps3.setNull(4, Types.VARCHAR);
+                ps3.setNull(5, Types.DATE);
+            }
+
+            ps3.setString(6, proficiency);
+            ps3.executeUpdate();
+
+            ActionLogger.getInstance().log("ADDED", "skill " + skillName + 
+                " (" + category + ") for victim " + victimId);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error inserting skill: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Remove a skill from a victim in the DB
+    public boolean deleteSkill(int victimId, Skill skill) {
+        String skillName = getSkillName(skill);
+        String category = skill.getSkillCategory().name().toLowerCase();
+        String sql = "DELETE FROM VictimSkill WHERE victim_id = ? AND skill_id = " +
+                    "(SELECT id FROM Skill WHERE skill_name = ? AND category = ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, victimId);
+            ps.setString(2, skillName);
+            ps.setString(3, category);
+            ps.executeUpdate();
+            ActionLogger.getInstance().log("DELETED", "skill " + skillName + 
+                " (" + category + ") from victim " + victimId);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error deleting skill: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Search all non-soft-deleted victims by skill category
+    public List<DisasterVictim> getVictimsBySkillCategory(String category) {
+        List<DisasterVictim> results = new ArrayList<>();
+        String sql = "SELECT DISTINCT p.id, p.first_name, p.last_name, p.comments, " +
+                    "dv.gender, dv.date_of_birth, dv.approximate_age, dv.entry_date " +
+                    "FROM Person p " +
+                    "JOIN DisasterVictim dv ON p.id = dv.person_id " +
+                    "JOIN VictimSkill vs ON dv.person_id = vs.victim_id " +
+                    "JOIN Skill s ON vs.skill_id = s.id " +
+                    "WHERE s.category = ? AND dv.is_soft_deleted = FALSE";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, category.toLowerCase());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                results.add(buildVictim(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error searching skills: " + e.getMessage());
+        }
+        return results;
+    }
+
+    // Helper — gets the skill name string from any Skill subclass
+    private String getSkillName(Skill skill) {
+        if (skill instanceof MedicalSkill) {
+            return ((MedicalSkill) skill).getCertification().name().toLowerCase().replace("_", "-");
+        } else if (skill instanceof LanguageSkill) {
+            return ((LanguageSkill) skill).getLanguage();
+        } else {
+            return ((TradeSkill) skill).getSkillType().name().toLowerCase();
+        }
     }
 }
