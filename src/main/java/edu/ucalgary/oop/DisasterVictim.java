@@ -390,17 +390,27 @@ public class DisasterVictim {
     }
     
     //Feature 8
-    public void registerSkill()
-    {
-        //add skill!
-        for (Skill s : this.skills)
-        {
-            if (true) //check for duplicate type
-            {
-                
+    public void registerSkill(Skill newSkill) {
+        for (Skill s : this.skills) {
+            if (s instanceof MedicalSkill && newSkill instanceof MedicalSkill) {
+                if (((MedicalSkill)s).getCertification() == ((MedicalSkill)newSkill).getCertification()) {
+                    throw new IllegalArgumentException("Victim already has this medical skill registered.");
+                }
+            }
+            if (s instanceof LanguageSkill && newSkill instanceof LanguageSkill) {
+                if (((LanguageSkill)s).getLanguage().equalsIgnoreCase(((LanguageSkill)newSkill).getLanguage())) {
+                    throw new IllegalArgumentException("Victim already has this language registered.");
+                }
+            }
+            if (s instanceof TradeSkill && newSkill instanceof TradeSkill) {
+                if (((TradeSkill)s).getSkillType() == ((TradeSkill)newSkill).getSkillType()) {
+                    throw new IllegalArgumentException("Victim already has this trade skill registered.");
+                }
             }
         }
+        this.skills.add(newSkill);
     }
+
     public void removeSkill(Skill skill)
     {
         this.skills.remove(skill);
