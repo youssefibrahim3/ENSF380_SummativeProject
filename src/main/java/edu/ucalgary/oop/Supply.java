@@ -17,8 +17,8 @@ public class Supply {
 
     private int id;
 
-    private int location_id;
-    private int victim_id;
+    private int location_id = -1;
+    private int victim_id = -1;
     private String description;
 
     public Supply(String type, int quantity, boolean perishable, LocalDate expirationDate, int location_id, int victim_id, String description) throws IllegalArgumentException {
@@ -64,6 +64,10 @@ public class Supply {
     }
     public void setLocationId(int location_id)
     {
+        if (location_id < 0)
+        {
+            throw new IllegalArgumentException("Location ID cannot be negative");
+        }
         this.location_id = location_id;
     }
 
@@ -73,6 +77,10 @@ public class Supply {
     }
     public void setVictimId(int victim_id)
     {
+        if (victim_id < 0)
+        {
+            throw new IllegalArgumentException("Victim ID cannot be negative");
+        }
         this.victim_id = victim_id;
     }
 

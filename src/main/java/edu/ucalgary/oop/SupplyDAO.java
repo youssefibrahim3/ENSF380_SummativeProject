@@ -73,7 +73,12 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         try {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, supply.getType());
-            ps.setInt(2, supply.getLocationId());
+            if (supply.getLocationId() != -1)
+            {
+                ps.setInt(2, supply.getLocationId());
+            } else {
+                ps.setNull(2, Types.INTEGER);
+            }
             ps.setInt(3, supply.getVictimId());
             if (supply.getExpirationDate() != null)
             {
