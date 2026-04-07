@@ -11,6 +11,14 @@ public class FamilyRelation {
     private String relationshipTo;
     private DisasterVictim personTwo;
 
+    /**
+     * Constructs a new FamilyRelation object with the specified attributes
+     * 
+     * @param personOne A DisasterVictim that represents the first person in the relationship
+     * @param relationshipTo What the relationship between the two people are
+     * @param personTwo A DisasterVictim that represents the second person in the relationship
+     * @throws IllegalArgumentException
+     */
     public FamilyRelation(DisasterVictim personOne, String relationshipTo, DisasterVictim personTwo) 
             throws IllegalArgumentException {
         if (personOne == null || personTwo == null) {
@@ -21,10 +29,21 @@ public class FamilyRelation {
         this.personTwo = personTwo;
     }
 
+    /**
+     * Gets the first person in the relationship.
+     * 
+     * @return A DisasterVictim object representing the first person.
+     */
     public DisasterVictim getPersonOne() {
         return personOne;
     }
 
+    /**
+     * Sets the first person in the relationship.
+     * 
+     * @param personOne A DisasterVictim that represents the first person in the relationship
+     * @throws IllegalArgumentException if argument PersonOne is null
+     */
     public void setPersonOne(DisasterVictim personOne) throws IllegalArgumentException {
         if (personOne == null) {
             throw new IllegalArgumentException("PersonOne cannot be null");
@@ -32,18 +51,39 @@ public class FamilyRelation {
         this.personOne = personOne;
     }
 
+    /**
+     * Gets the relationship between the two people.
+     * 
+     * @return The nature of the relationship between the two.
+     */
     public String getRelationshipTo() {
         return relationshipTo;
     }
 
+    /**
+     * Sets the relationship between the two people.
+     * 
+     * @param relationshipTo The relationship between the two.
+     */
     public void setRelationshipTo(String relationshipTo) {
         this.relationshipTo = relationshipTo;
     }
-
+    
+    /**
+     * Gets the second person in the relationship.
+     * 
+     * @return A DisasterVictim object representing the second person.
+     */
     public DisasterVictim getPersonTwo() {
         return personTwo;
     }
 
+    /**
+     * Sets the second person in the relationship.
+     * 
+     * @param personOne A DisasterVictim that represents the second person in the relationship
+     * @throws IllegalArgumentException if argument PersonTwo is null
+     */
     public void setPersonTwo(DisasterVictim personTwo) throws IllegalArgumentException {
         if (personTwo == null) {
             throw new IllegalArgumentException("PersonTwo cannot be null");
