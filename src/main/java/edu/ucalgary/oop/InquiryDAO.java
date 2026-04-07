@@ -91,6 +91,11 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
             ps.setString(3, inquiry.getLogDetails());
             ps.executeUpdate();
 
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                inquiry.setId(rs.getInt(1));
+            }
+    
             ps.close();
             ActionLogger.getInstance().log("INSERTED", "inquiry " + inquiry.getId()); 
             return true;
@@ -124,7 +129,7 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     @Override
     public boolean delete(Integer inquiryId)
     {
-        String sql = "DELETE FROM Location WHERE id = ?";
+        String sql = "DELETE FROM Inquiry WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1,inquiryId);
