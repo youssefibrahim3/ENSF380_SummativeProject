@@ -68,9 +68,9 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
             ps.setString(1, location.getName());
             ps.setString(2, location.getAddress());
             ps.executeUpdate();
-=
+
             ps.close();
-            ActionLogger.getInstance().log("INSERTED", "location " + supply.getId()); 
+            ActionLogger.getInstance().log("INSERTED", "location " + location.getId()); 
             return true;
         } catch (SQLException e) {
             System.out.println("Failed to insert location: " + e.getMessage());
@@ -86,7 +86,7 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, location.getName());
             ps.setString(2, location.getAddress());
-            ps.setInt(3, supply.getVictimId());
+            ps.setInt(3, location.getId());
 
             ps.executeUpdate();
             ps.close();

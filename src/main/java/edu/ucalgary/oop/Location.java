@@ -11,6 +11,7 @@ public class Location {
     private String address;
     private DisasterVictim[] occupants;
     private Supply[] supplies; 
+    private int id;
 
     // Constructor
     public Location(String name, String address) {
@@ -60,6 +61,15 @@ public class Location {
         this.supplies = supplies != null ? supplies.clone() : new Supply[0];
     }
 
+    public int getId()
+    {
+        return this.id;
+    }
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+    
     public void addOccupant(DisasterVictim occupant) {
         if (occupant == null) {
             throw new IllegalArgumentException("Occupant cannot be null");
