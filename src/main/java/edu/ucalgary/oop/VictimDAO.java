@@ -14,6 +14,79 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         this.connection = connection;
     }
 
+
+    private List<Skill> loadSkills(int victimId) throws SQLException {
+        List<Skill> skills = new ArrayList<>();
+        String sql = "SELECT s.skill_name, s.category, vs.proficiency_level, " +
+                    "vs.details, vs.language_capabilities, vs.certification_expiry " +
+                    "FROM VictimSkill vs JOIN Skill s ON vs.skill_id = s.id " +
+                    "WHERE vs.victim_id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, victimId);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            String category = rs.getString("category");
+            ProficiencyLevel level = ProficiencyLevel.valueOf(rs.getString("proficiency_level").toUpperCase());
+
+            if (category.equals("medical")) {
+                MedicalSkill.Certification cert = MedicalSkill.Certification.valueOf(
+                    rs.getString("details").toUpperCase().replace("-", "_"));
+                Date expiry = rs.getDate("certification_expiry");
+                skills.add(new MedicalSkill(level, cert, 
+                    expiry != null ? expiry.toLocalDate() : null));
+
+            } else if (category.equals("language")) {
+                String caps = rs.getString("language_capabilities");
+                List<LanguageSkill.Capabilities> capList = new ArrayList<>();
+                if (caps != null) {
+                    if (caps.contains("read/write")) capList.add(LanguageSkill.Capabilities.READ_WRITE);
+                    if (caps.contains("speak/listen")) capList.add(LanguageSkill.Capabilities.SPEAK_LISTEN);
+                }
+                skills.add(new LanguageSkill(level, rs.getString("skill_name"),
+                    capList.toArray(new LanguageSkill.Capabilities[0])));
+
+            } else {
+                TradeSkill.SkillType type = TradeSkill.SkillType.valueOf(
+                    rs.getString("skill_name").toUpperCase());
+                skills.add(new TradeSkill(level, type));
+            }
+        }
+        return skills;
+    }
+
+    private DisasterVictim build(ResultSet rs) throws SQLException 
+    {
+        int id = rs.getInt("id");
+        String firstName = rs.getString("first_name");
+        String lastName = rs.getString("last_name");
+        String comments = rs.getString("comments");
+        String gender = rs.getString("gender");
+        LocalDate entryDate = rs.getDate("entry_date").toLocalDate();
+
+        Date dobSQL = rs.getDate("date_of_birth");
+        LocalDate dob = (dobSQL != null) ? dobSQL.toLocalDate() : null;
+        int approxAge = rs.getInt("approximate_age");
+
+        // Use the right constructor 
+        DisasterVictim v;
+        if (dob != null) {
+            v = new DisasterVictim(firstName, entryDate, dob);
+        } else if (approxAge > 0) {
+            v = new DisasterVictim(firstName, entryDate, approxAge);
+        } else {
+            v = new DisasterVictim(firstName, entryDate);
+        }
+
+        v.setId(id);
+        v.setLastName(lastName);
+        v.setComments(comments);
+        v.setSkills(loadSkills(id));
+
+        if (gender != null) v.setGender(gender);
+        return v;
+    }
+
     @Override
     public List<DisasterVictim> getAll() 
     {
@@ -26,7 +99,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                victims.add(buildVictim(rs));
+                victims.add(build(rs));
             }
         } catch (SQLException e) {
             System.out.println("Error getting victims: " + e.getMessage());
@@ -45,7 +118,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, personId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) return buildVictim(rs);
+            if (rs.next()) return build(rs);
         } catch (SQLException e) {
             System.out.println("Error finding victim: " + e.getMessage());
         }
@@ -201,36 +274,6 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
-    private DisasterVictim buildVictim(ResultSet rs) throws SQLException 
-    {
-        int id = rs.getInt("id");
-        String firstName = rs.getString("first_name");
-        String lastName = rs.getString("last_name");
-        String comments = rs.getString("comments");
-        String gender = rs.getString("gender");
-        LocalDate entryDate = rs.getDate("entry_date").toLocalDate();
-
-        Date dobSQL = rs.getDate("date_of_birth");
-        LocalDate dob = (dobSQL != null) ? dobSQL.toLocalDate() : null;
-        int approxAge = rs.getInt("approximate_age");
-
-        // Use the right constructor 
-        DisasterVictim v;
-        if (dob != null) {
-            v = new DisasterVictim(firstName, entryDate, dob);
-        } else if (approxAge > 0) {
-            v = new DisasterVictim(firstName, entryDate, approxAge);
-        } else {
-            v = new DisasterVictim(firstName, entryDate);
-        }
-
-        v.setId(id);
-        v.setLastName(lastName);
-        v.setComments(comments);
-        if (gender != null) v.setGender(gender);
-        return v;
-    }
-
     //Feature 8
     // Add a skill to a victim in the DB
     public boolean insertSkill(int victimId, Skill skill) {
@@ -339,7 +382,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             ps.setString(1, category.toLowerCase());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                results.add(buildVictim(rs));
+                results.add(build(rs));
             }
         } catch (SQLException e) {
             System.out.println("Error searching skills: " + e.getMessage());
