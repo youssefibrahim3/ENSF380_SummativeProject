@@ -8,12 +8,14 @@ package edu.ucalgary.oop;
 import java.time.LocalDate;
 // REMOVED: import java.time.format.DateTimeFormatter; // No longer needed
 
+// Treating this as more of an individual "inquiry" 
 public class ReliefService {
     private Inquirer inquirer;
     private DisasterVictim missingPerson;
     private LocalDate dateOfInquiry; 
     private String infoProvided;
     private Location lastKnownLocation;
+    private int id;
 
     public ReliefService(Inquirer inquirer, DisasterVictim missingPerson, LocalDate dateOfInquiry, String infoProvided, Location lastKnownLocation) {
         this.inquirer = inquirer;
@@ -86,4 +88,6 @@ public class ReliefService {
            ", Last Known Location: " + lastKnownLocation.getName();
     }
 
+    public int getId() { return this.id; }
+    public void setId(int id) { this.id = id; }
 }

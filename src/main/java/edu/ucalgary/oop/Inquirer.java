@@ -11,6 +11,7 @@ public class Inquirer {
     private final String LAST_NAME;
     private final String INFO;
     private final String SERVICES_PHONE;
+    private int id;
 
     public Inquirer(String firstName, String lastName, String phone, String info) {
         this.FIRST_NAME = firstName;
@@ -20,6 +21,8 @@ public class Inquirer {
 
     }
 
+    public int getId() { return this.id; }
+    public void setId(int id) { this.id = id; }
     public String getFirstName() { return this.FIRST_NAME; }
     public String getLastName() { return this.LAST_NAME; }
     public String getServicesPhoneNum() { return this.SERVICES_PHONE; }
