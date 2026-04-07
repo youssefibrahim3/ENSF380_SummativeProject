@@ -79,7 +79,12 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
             } else {
                 ps.setNull(2, Types.INTEGER);
             }
-            ps.setInt(3, supply.getVictimId());
+            if (supply.getVictimId() != -1)
+            {
+                ps.setInt(3, supply.getVictimId());
+            } else {
+                ps.setNull(3, Types.INTEGER);
+            }
             if (supply.getExpirationDate() != null)
             {
                 ps.setDate(4, Date.valueOf(supply.getExpirationDate()));
