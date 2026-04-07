@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 //singleton
 public class ActionLogger {
-    private static final String FILE_NAME = "src/data/action_log.txt";
+    private static final String FILE_NAME = "data/action_log.txt";
     private static ActionLogger instance = null;
     
     private ActionLogger() {}
