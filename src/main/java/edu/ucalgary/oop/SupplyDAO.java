@@ -9,66 +9,84 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
 
     private Supply build(ResultSet rs) throws SQLException 
     {
-        int id = rs.getInt("id");
-        String firstName = rs.getString("first_name");
-        String lastName = rs.getString("last_name");
-        String comments = rs.getString("comments");
-        String gender = rs.getString("gender");
-        LocalDate entryDate = rs.getDate("entry_date").toLocalDate();
-
-        Date dobSQL = rs.getDate("date_of_birth");
-        LocalDate dob = (dobSQL != null) ? dobSQL.toLocalDate() : null;
-        int approxAge = rs.getInt("approximate_age");
-
-        // Use the right constructor based on what data we have
-        Supply s;
-        if (dob != null) {
-            v = new DisasterVictim(firstName, entryDate, dob);
-        } else if (approxAge > 0) {
-            v = new DisasterVictim(firstName, entryDate, approxAge);
-        } else {
-            v = new DisasterVictim(firstName, entryDate);
-        }
-
-        v.setId(id);
-        v.setLastName(lastName);
-        v.setComments(comments);
-        if (gender != null) v.setGender(gender);
-        return v;
+        Supply s = new Supply(
+            rs.getString("supply_type"),
+            0,
+            rs.getDate("expiry_date") != null,
+            rs.getDate("expiry_date") != null ? rs.getDate("expiry_date").toLocalDate() : null,
+            rs.getInt("location_id"),
+            rs.getInt("victim_id"),
+            rs.getString("description")
+        );
+        
+        s.setId(rs.getInt("id"));
+        return s;
     }
 
     @Override
     public List<Supply> getAll()
     {
         List<Supply> supplies = new ArrayList<>();
-        String sql = "stuff";
+        String sql = "SELECT * FROM Supply";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                supplies.add(rs);
+                supplies.add(build(rs));
             }
+            ps.close();
         } catch (SQLException e) {
             System.out.println("Error getting supplies: " + e.getMessage());
         }
+        return supplies;
     }
 
     @Override
     public Supply getById(Integer supplyId)
     {
-        String sql = "stuff";
+        String sql = "SELECT * FROM Supply WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.SetInt(1,supplyId);
+            ps.setInt(1,supplyId);
+            ResultSet rs = ps.executeQuery();
+            ps.close();
+            return build(rs);
         } catch (SQLException e) {
             System.out.println("Error finding supply: " + e.getMessage());
+            return null;
         }
     }
 
     @Override 
     public boolean insert(Supply supply)
     {
-
+        String sql = "INSERT INTO Supply (supply_type, location_id, victim_id, expiry_date, allocation_date, description VALUES" +
+                    "(?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, supply.getType());
+            ps.setInt(2, supply.getLocationId());
+            ps.setInt(3, supply.getVictimId());
+            if (supply.getExpirationDate() != null)
+            {
+                ps.setDate(4, Date.valueOf(supply.getExpirationDate()));
+            } else {
+                ps.setNull(4, Types.DATE);
+            }
+            ps.setDate(5, Date.valueOf(LocalDate.now()));
+            ps.setString(6, supply.getDescription());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next())
+            {
+                supply.setId(rs.getInt(1));
+            }
+            ps.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Failed to insert supply: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -87,9 +105,14 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
                 ps.setNull(4, Types.DATE);
             }
             ps.setString(5, supply.getDescription());
+            ps.setInt(6, supply.getId());
             ps.executeUpdate();
-
-            ActionLogger.getInstance().log("UPDATED", "supply " + supply.getType()); //should this be ID? SHould I add a supplyID var
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                supply.setId(rs.getInt(1));
+            }
+            ps.close();
+            ActionLogger.getInstance().log("UPDATED", "supply " + supply.getId()); 
             return true;
         } catch (SQLException e) {
             System.out.println("Error updating supply: " + e.getMessage());
