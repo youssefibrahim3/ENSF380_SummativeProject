@@ -152,13 +152,11 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         }
     }
 
-}
-
     public List<Supply> getNonExpiredSupplies() 
     {
     List<Supply> supplies = new ArrayList<>();
     String sql = "SELECT * FROM Supply WHERE expiry_date IS NULL OR expiry_date > CURRENT_DATE";
-    
+
     try {
          PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();

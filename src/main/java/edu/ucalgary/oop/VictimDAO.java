@@ -274,7 +274,13 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+
+
+    //Feature 7
+
+
     //Feature 8
+
     // Add a skill to a victim in the DB
     public boolean insertSkill(int victimId, Skill skill) {
         // First get or create the skill in the Skill table
@@ -401,3 +407,4 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 }
+
