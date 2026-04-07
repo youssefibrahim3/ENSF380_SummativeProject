@@ -7,6 +7,11 @@ import java.util.List;
 public class SupplyDAO implements GenericDAO<Supply, Integer> {
     private final Connection connection;
 
+    public SupplyDAO(Connection connection)
+    {
+        this.connection = connection;
+    }
+
     private Supply build(ResultSet rs) throws SQLException 
     {
         Supply s = new Supply(
@@ -49,8 +54,11 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1,supplyId);
             ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return build(rs);
+            }
             ps.close();
-            return build(rs);
+            return null;
         } catch (SQLException e) {
             System.out.println("Error finding supply: " + e.getMessage());
             return null;
@@ -60,7 +68,7 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
     @Override 
     public boolean insert(Supply supply)
     {
-        String sql = "INSERT INTO Supply (supply_type, location_id, victim_id, expiry_date, allocation_date, description VALUES" +
+        String sql = "INSERT INTO Supply (supply_type, location_id, victim_id, expiry_date, allocation_date, description) VALUES" +
                     "(?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -82,6 +90,7 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
                 supply.setId(rs.getInt(1));
             }
             ps.close();
+            ActionLogger.getInstance().log("INSERTED", "supply " + supply.getId()); 
             return true;
         } catch (SQLException e) {
             System.out.println("Failed to insert supply: " + e.getMessage());
@@ -107,10 +116,6 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
             ps.setString(5, supply.getDescription());
             ps.setInt(6, supply.getId());
             ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                supply.setId(rs.getInt(1));
-            }
             ps.close();
             ActionLogger.getInstance().log("UPDATED", "supply " + supply.getId()); 
             return true;
