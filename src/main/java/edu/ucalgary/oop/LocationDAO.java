@@ -14,17 +14,11 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
 
     private Location build(ResultSet rs) throws SQLException 
     {
-        Supply s = new Supply(
-            rs.getString("supply_type"),
-            0,
-            rs.getDate("expiry_date") != null,
-            rs.getDate("expiry_date") != null ? rs.getDate("expiry_date").toLocalDate() : null,
-            rs.getInt("location_id"),
-            rs.getInt("victim_id"),
-            rs.getString("description")
+        Location s = new Location(
+            rs.getString("name"),
+            rs.getString("address")
         );
         
-        s.setId(rs.getInt("id"));
         return s;
     }
 
@@ -47,12 +41,12 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     @Override
-    public Location getById(Integer supplyId)
+    public Location getById(Integer locationId)
     {
-        String sql = "SELECT * FROM Supply WHERE id = ?";
+        String sql = "SELECT * FROM Location WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1,supplyId);
+            ps.setInt(1,locationId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return build(rs);
@@ -60,64 +54,43 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
             ps.close();
             return null;
         } catch (SQLException e) {
-            System.out.println("Error finding supply: " + e.getMessage());
+            System.out.println("Error finding location: " + e.getMessage());
             return null;
         }
     }
 
     @Override 
-    public boolean insert(Supply supply)
+    public boolean insert(Location location)
     {
-        String sql = "INSERT INTO Supply (supply_type, location_id, victim_id, expiry_date, allocation_date, description) VALUES" +
-                    "(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Location (name, address) VALUES (?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, supply.getType());
-            ps.setInt(2, supply.getLocationId());
-            ps.setInt(3, supply.getVictimId());
-            if (supply.getExpirationDate() != null)
-            {
-                ps.setDate(4, Date.valueOf(supply.getExpirationDate()));
-            } else {
-                ps.setNull(4, Types.DATE);
-            }
-            ps.setDate(5, Date.valueOf(LocalDate.now()));
-            ps.setString(6, supply.getDescription());
+            ps.setString(1, location.getName());
+            ps.setString(2, location.getAddress());
             ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next())
-            {
-                supply.setId(rs.getInt(1));
-            }
+=
             ps.close();
-            ActionLogger.getInstance().log("INSERTED", "supply " + supply.getId()); 
+            ActionLogger.getInstance().log("INSERTED", "location " + supply.getId()); 
             return true;
         } catch (SQLException e) {
-            System.out.println("Failed to insert supply: " + e.getMessage());
+            System.out.println("Failed to insert location: " + e.getMessage());
             return false;
         }
     }
 
     @Override
-    public boolean update(Supply supply)
+    public boolean update(Location location)
     {
-        String sql = "UPDATE Supply SET supply_type = ?, location_id = ?, victim_id = ?, expiry_date = ?, description = ? WHERE id = ?";
+        String sql = "UPDATE Location SET name = ?, address = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, supply.getType());
-            ps.setInt(2, supply.getLocationId());
+            ps.setString(1, location.getName());
+            ps.setString(2, location.getAddress());
             ps.setInt(3, supply.getVictimId());
-            if (supply.getExpirationDate() != null)
-            {
-                ps.setDate(4, Date.valueOf(supply.getExpirationDate()));
-            } else {
-                ps.setNull(4, Types.DATE);
-            }
-            ps.setString(5, supply.getDescription());
-            ps.setInt(6, supply.getId());
+
             ps.executeUpdate();
             ps.close();
-            ActionLogger.getInstance().log("UPDATED", "supply " + supply.getId()); 
+            ActionLogger.getInstance().log("UPDATED", "location " + location.getId()); 
             return true;
         } catch (SQLException e) {
             System.out.println("Error updating supply: " + e.getMessage());
@@ -126,14 +99,14 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     @Override
-    public boolean delete(Integer supplyId)
+    public boolean delete(Integer locationId)
     {
-        String sql = "DELETE FROM Supply WHERE id = ?";
+        String sql = "DELETE FROM Location WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1,supplyId);
+            ps.setInt(1,locationId);
             ps.executeUpdate();
-            ActionLogger.getInstance().log("DELETED", "supply " + supplyId);
+            ActionLogger.getInstance().log("DELETED", "location " + locationId);
             ps.close();
             return true;
         } catch (SQLException e) {
