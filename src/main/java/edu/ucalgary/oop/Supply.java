@@ -16,7 +16,7 @@ public class Supply {
     private LocalDate expirationDate;
 
     private int id;
-    
+
     private int location_id;
     private int victim_id;
     private String description;
@@ -42,9 +42,13 @@ public class Supply {
     
     public void setExpirationDate(LocalDate expirationDate)
     {
-        if (this.expirationDate != null && !this.isPerishable())
+        if (this.expirationDate != null && !this.perishable)
         {
             throw new IllegalArgumentException("Non-perishable item cannot have expiration date");
+        }
+        if (this.perishable && expirationDate == null)
+        {
+            throw new IllegalArgumentException("Perishable items must have an expiration date");
         }
         this.expirationDate = expirationDate;
     }
