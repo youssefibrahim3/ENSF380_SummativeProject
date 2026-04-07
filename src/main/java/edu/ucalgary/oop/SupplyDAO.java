@@ -74,7 +74,27 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
     @Override
     public boolean update(Supply supply)
     {
+        String sql = "UPDATE Supply SET supply_type = ?, location_id = ?, victim_id = ?, expiry_date = ?, description = ? WHERE id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, supply.getType());
+            ps.setInt(2, supply.getLocationId());
+            ps.setInt(3, supply.getVictimId());
+            if (supply.getExpirationDate() != null)
+            {
+                ps.setDate(4, Date.valueOf(supply.getExpirationDate()));
+            } else {
+                ps.setNull(4, Types.DATE);
+            }
+            ps.setString(5, supply.getDescription());
+            ps.executeUpdate();
 
+            ActionLogger.getInstance().log("UPDATED", "supply " + supply.getType()); //should this be ID? SHould I add a supplyID var
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error updating supply: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -86,6 +106,7 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
             ps.setInt(1,supplyId);
             ps.executeUpdate();
             ActionLogger.getInstance().log("DELETED", "supply " + supplyId);
+            ps.close();
             return true;
         } catch (SQLException e) {
             System.out.println("Error deleting supply: " + e.getMessage());

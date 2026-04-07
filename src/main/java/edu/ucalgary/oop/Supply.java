@@ -15,16 +15,20 @@ public class Supply {
     private boolean perishable;
     private LocalDate expirationDate;
 
+    private int id;
+    
     private int location_id;
     private int victim_id;
+    private String description;
 
-    public Supply(String type, int quantity, boolean perishable, LocalDate expirationDate, int location_id, int victim_id) throws IllegalArgumentException {
+    public Supply(String type, int quantity, boolean perishable, LocalDate expirationDate, int location_id, int victim_id, String description) throws IllegalArgumentException {
         this.type = type;
         setQuantity(quantity); // Use setter for validation
         this.perishable = perishable;
         setExpirationDate(expirationDate);
         this.location_id = location_id;
         this.victim_id = victim_id;
+        this.description = description;
     }
 
     public void setType(String type) { this.type = type; }
@@ -48,7 +52,8 @@ public class Supply {
     public LocalDate getExpirationDate() { return this.expirationDate; }
     public String getType() { return this.type; }
     public int getQuantity() { return this.quantity; }
-
+    public int getId() { return this.id; }
+    public void setId(int id) { this.id = id; }
     public int getLocationId()
     {
         return this.location_id;
@@ -67,13 +72,17 @@ public class Supply {
         this.victim_id = victim_id;
     }
 
-    public boolean isExpired()
+    public String getDescription()
     {
-        if (this.expirationDate.isBefore(LocalDate.now()) && this.perishable == true)
-        {
-            return true;
-        } else {
-            return false;
-        }
+        return this.description;
+    }
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public boolean isExpired() {
+        if (!this.perishable || this.expirationDate == null) return false;
+        return this.expirationDate.isBefore(LocalDate.now());
     }
 }
