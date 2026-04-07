@@ -13,12 +13,19 @@ public class Inquirer {
     private final String SERVICES_PHONE;
     private int id;
 
+    /**
+     * Constructs a new Inquirer object with the specified attributes.
+     * 
+     * @param firstName The first name of the inquirer
+     * @param lastName The last name of the inquirer
+     * @param phone The phone number of the inquirer
+     * @param info Information regarding the inquirer
+     */
     public Inquirer(String firstName, String lastName, String phone, String info) {
         this.FIRST_NAME = firstName;
         this.LAST_NAME = lastName;
         this.SERVICES_PHONE = phone;
         this.INFO = info;
-
     }
 
     public int getId() { return this.id; }

@@ -8,6 +8,13 @@ import java.util.Properties;
 public class DatabaseManager {
     private static Connection connection = null;
 
+    /**
+     * If there is no current open connection yet, reads from db.properties and creates a new connection using these
+     * credentials.
+     * 
+     * @return The Connection object that represents the connection to the database. 
+     * @throws SQLException if an error is occured when loading from db.properties
+     */
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             try {
