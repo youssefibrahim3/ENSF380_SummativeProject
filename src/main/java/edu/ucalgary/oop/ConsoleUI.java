@@ -3,8 +3,8 @@ package edu.ucalgary.oop;
 import java.util.Scanner;
 
 public class ConsoleUI {
-    //private SupplyController supplyController;
-    //put the DAO calls inside of the controllers!
+    //Should I create a DAO object directly, or use stuff like "SupplyController" that interact with the DAO within them?
+
     private Scanner scanner = new Scanner(System.in);
 
     /**
@@ -44,10 +44,13 @@ public class ConsoleUI {
                     manageLocations();
                     break;
                 case 4:
+                    manageInquiries();
                     break;
                 case 5:
+                    manageMedicalRecords();
                     break;
                 case 6:
+                    manageRelationships();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.\n");
