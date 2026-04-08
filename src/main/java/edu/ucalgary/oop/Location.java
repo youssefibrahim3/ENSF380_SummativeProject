@@ -1,9 +1,3 @@
-/*
-Copyright Ann Barcomb and Khawla Shnaikat, 2024-2025
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
-
 package edu.ucalgary.oop;
 
 public class Location {
@@ -13,7 +7,12 @@ public class Location {
     private Supply[] supplies; 
     private int id;
 
-    // Constructor
+    /**
+     * Constructs a new Location object with the given name and address
+     * 
+     * @param name The name of the location.
+     * @param address The address of the location.
+     */
     public Location(String name, String address) {
         this.name = name;
         this.address = address;
@@ -22,44 +21,54 @@ public class Location {
     }
 
     /** 
-     * @return String
+     * Gets the name of the location.
+     * 
+     * @return The location's name
      */
-    // Getter and setter for name
     public String getName() {
         return name;
     }
 
     /** 
-     * @param name
+     * Sets the name of the location
+     * 
+     * @param name The new name for the location
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /** 
-     * @return String
+     * Gets the address of the location
+     * 
+     * @return The address of the location
      */
-    // Getter and setter for address
     public String getAddress() {
         return address;
     }
 
     /** 
-     * @param address
+     * Sets the address of the location
+     * 
+     * @param address The new address for the location
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
     /** 
-     * @return DisasterVictim[]
+     * Gets an array of the occupants at this location
+     * 
+     * @return An array of occupants at this location
      */
     public DisasterVictim[] getOccupants() {
         return occupants; 
     }
 
     /** 
-     * @param occupants
+     * Sets the array of occupants in this location.
+     * 
+     * @param occupants The new array of occupants for this location
      */
     public void setOccupants(DisasterVictim[] occupants) {
         // Using clone() for defensive copying: creates a new array with the same elements
@@ -69,14 +78,18 @@ public class Location {
     }
 
     /** 
-     * @return Supply[]
+     * Gets an array of all current supplies at this location.
+     * 
+     * @return An array of all supplies at this location
      */
     public Supply[] getSupplies() {
         return supplies; 
     }
 
     /** 
-     * @param supplies
+     * Sets the array of all current supplies at this location.
+     * 
+     * @param supplies An array of supplies to set to this location
      */
     public void setSupplies(Supply[] supplies) {
         // Using clone() for defensive copying: creates a new array with the same elements
@@ -86,14 +99,18 @@ public class Location {
     }
 
     /** 
-     * @return int
+     * Gets the associated ID of this location.
+     * 
+     * @return The location's ID
      */
     public int getId()
     {
         return this.id;
     }
     /** 
-     * @param id
+     * Sets the associated ID of this location.
+     * 
+     * @param id The location's new ID
      */
     public void setId(int id)
     {
@@ -101,7 +118,10 @@ public class Location {
     }
     
     /** 
-     * @param occupant
+     * Adds a new occupant to this location.
+     * 
+     * @param occupant A DisasterVictim representing a single occupant.
+     * @throws IllegalArgumentException if occupant parameter is null
      */
     public void addOccupant(DisasterVictim occupant) {
         if (occupant == null) {
@@ -122,15 +142,16 @@ public class Location {
     }
 
     /** 
-     * @param occupant
-     * @throws IllegalArgumentException
+     * Removes an occupant from this location.
+     * 
+     * @param occupant A DisasterVictim representing a single occupant.
+     * @throws IllegalArgumentException if the provided occupant parameter is null or not found in this location.
      */
     public void removeOccupant(DisasterVictim occupant) throws IllegalArgumentException {
         if (occupant == null) {
             throw new IllegalArgumentException("Occupant cannot be null");
         }
         
-        // Find the occupant
         int index = -1;
         for (int i = 0; i < occupants.length; i++) {
             if (occupants[i].equals(occupant)) {
@@ -139,55 +160,47 @@ public class Location {
             }
         }
         
-        // If not found, throw exception
         if (index == -1) {
             throw new IllegalArgumentException("Occupant not found in location");
         }
         
-        // Create new array with size - 1
         DisasterVictim[] newOccupants = new DisasterVictim[occupants.length - 1];
         
-        // Copy elements before the index
         System.arraycopy(occupants, 0, newOccupants, 0, index);
-        
-        // Copy elements after the index
         System.arraycopy(occupants, index + 1, newOccupants, index, occupants.length - index - 1);
         
-        // Replace old array
         this.occupants = newOccupants;
     }
 
     /** 
-     * @param supply
+     * Adds a new supply to this location.
+     * 
+     * @param supply The Supply to add to this location's supplies.
+     * @throws IllegalArgumentException if supply parameter is null
      */
     public void addSupply(Supply supply) {
         if (supply == null) {
             throw new IllegalArgumentException("Supply cannot be null");
         }
         
-        // Create new array with size + 1
         Supply[] newSupplies = new Supply[supplies.length + 1];
-        
-        // Copy existing supplies
         System.arraycopy(supplies, 0, newSupplies, 0, supplies.length);
         
-        // Add new supply
         newSupplies[supplies.length] = supply;
-        
-        // Replace old array
         this.supplies = newSupplies;
     }
 
     /** 
-     * @param supply
-     * @throws IllegalArgumentException
+     * Removes a supply from this location.
+     * 
+     * @param supply The Supply to remove from this location's supplies.
+     * @throws IllegalArgumentException If provided supply is null or not found in this location.
      */
     public void removeSupply(Supply supply) throws IllegalArgumentException {
         if (supply == null) {
             throw new IllegalArgumentException("Supply cannot be null");
         }
         
-        // Find the supply
         int index = -1;
         for (int i = 0; i < supplies.length; i++) {
             if (supplies[i].equals(supply)) {
@@ -196,21 +209,14 @@ public class Location {
             }
         }
         
-        // If not found, throw exception
         if (index == -1) {
             throw new IllegalArgumentException("Supply not found in location");
         }
         
-        // Create new array with size - 1
         Supply[] newSupplies = new Supply[supplies.length - 1];
-        
-        // Copy elements before the index
         System.arraycopy(supplies, 0, newSupplies, 0, index);
-        
-        // Copy elements after the index
         System.arraycopy(supplies, index + 1, newSupplies, index, supplies.length - index - 1);
         
-        // Replace old array
         this.supplies = newSupplies;
     }
 }

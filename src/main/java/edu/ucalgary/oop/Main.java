@@ -15,7 +15,7 @@ public class Main {
             InquiryDAO inquiryDAO = new InquiryDAO(conn);
 
             ConsoleUI consoleUI = new ConsoleUI(victimDAO, supplyDAO, locationDAO, inquiryDAO, loader);
-            consoleUI.start();
+            consoleUI.start(); //MVC
         } catch (SQLException e) {
             System.out.println("Failed to connect to database: " + e.getMessage());
         }
