@@ -1,14 +1,14 @@
 package edu.ucalgary.oop;
 
-// Note to self: ACCESS MODIFIERS
 abstract class Skill {
     private SkillCategory category;
     private ProficiencyLevel level;
 
     /**
+     * Constructs a new Skill object with the specified parameters
      * 
-     * @param category
-     * @param level
+     * @param category The category of skill from SkillCategory (MEDICAL, LANGUAGE, TRADE)
+     * @param level The proficiency level that the victim has with the skill (BEGINNER, INTERMEDIATE, ADVANCED)
      */
     public Skill(SkillCategory category, ProficiencyLevel level)
     {
@@ -17,7 +17,9 @@ abstract class Skill {
     }
 
     /** 
-     * @return SkillCategory
+     * Gets the category of this skill
+     * 
+     * @return The SkillCategory corresponding to the Skill object
      */
     public SkillCategory getSkillCategory()
     {
@@ -25,7 +27,9 @@ abstract class Skill {
     }
 
     /** 
-     * @param category
+     * Sets the category of this skill
+     * 
+     * @param category a SkillCategory (MEDICAL, LANGUAGE, TRADE)
      */
     public void setSkillCategory(SkillCategory category)
     {
@@ -33,7 +37,9 @@ abstract class Skill {
     }
 
     /** 
-     * @return ProficiencyLevel
+     * Gets the proficiency level in this skill
+     * 
+     * @return The ProficiencyLevel corresponding to this skill
      */
     public ProficiencyLevel getProficiencyLevel()
     {
@@ -41,7 +47,9 @@ abstract class Skill {
     }
 
     /** 
-     * @param level
+     * Sets the proficiency level in this skill
+     * 
+     * @param level a ProficiencyLevel (BEGINNER, INTERMEDIATE, ADVANCED)
      */
     public void setProficiencyLevel(ProficiencyLevel level)
     {

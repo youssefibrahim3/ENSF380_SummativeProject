@@ -6,6 +6,6 @@ package edu.ucalgary.oop;
  */
 public enum ProficiencyLevel {
     BEGINNER,
-     INTERMEDIATE,
+    INTERMEDIATE,
     ADVANCED
 }

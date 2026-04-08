@@ -10,7 +10,7 @@ public class TradeSkill extends Skill {
     private SkillType skillType;
 
     /**
-     * Constructs a new TradeSkill object with the specified proficiency level and skill type
+     * Constructs a new TradeSkill object with the specified parameters
      * 
      * @param level The proficiency level the person has in the skill
      * @param skillType The type of TradeSkill
