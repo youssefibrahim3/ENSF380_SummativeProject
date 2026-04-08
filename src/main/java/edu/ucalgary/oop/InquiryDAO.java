@@ -7,6 +7,11 @@ import java.util.List;
 public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     private final Connection connection;
 
+    /**
+     * Constructs a new InquiryDAO object with the specified connection
+     * 
+     * @param connection The Connection to the database
+     */
     public InquiryDAO(Connection connection)
     {
         this.connection = connection;
@@ -68,6 +73,7 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
             while (rs.next()) {
                 inquiries.add(build(rs));
             }
+            rs.close();
             ps.close();
         } catch (SQLException e) {
             System.out.println("Error getting inquiries: " + e.getMessage());
@@ -93,6 +99,7 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
                 return build(rs);
             }
             ps.close();
+            rs.close();
             return null;
         } catch (SQLException e) {
             System.out.println("Error finding inquiry: " + e.getMessage());
@@ -123,6 +130,7 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
             }
     
             ps.close();
+            rs.close();
             ActionLogger.getInstance().log("INSERTED", "inquiry " + inquiry.getId()); 
             return true;
         } catch (SQLException e) {

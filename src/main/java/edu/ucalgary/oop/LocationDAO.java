@@ -6,11 +6,21 @@ import java.util.List;
 public class LocationDAO implements GenericDAO<Location, Integer> {
     private final Connection connection;
 
+    /**
+     * Constructs a new LocationDAO object with the specified connection
+     * 
+     * @param connection The Connection to the database
+     */
     public LocationDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /** 
+     * @param rs
+     * @return Location
+     * @throws SQLException
+     */
     private Location build(ResultSet rs) throws SQLException 
     {
         Location s = new Location(
@@ -21,6 +31,9 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
         return s;
     }
 
+    /** 
+     * @return List<Location>
+     */
     @Override
     public List<Location> getAll()
     {
@@ -32,6 +45,7 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
             while (rs.next()) {
                 locations.add(build(rs));
             }
+            rs.close();
             ps.close();
         } catch (SQLException e) {
             System.out.println("Error getting locations: " + e.getMessage());
@@ -39,6 +53,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
         return locations;
     }
 
+    /** 
+     * @param locationId
+     * @return Location
+     */
     @Override
     public Location getById(Integer locationId)
     {
@@ -50,6 +68,7 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
             if (rs.next()) {
                 return build(rs);
             }
+            rs.close();
             ps.close();
             return null;
         } catch (SQLException e) {
@@ -58,6 +77,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
         }
     }
 
+    /** 
+     * @param location
+     * @return boolean
+     */
     @Override 
     public boolean insert(Location location)
     {
@@ -72,7 +95,7 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
             if (rs.next()) {
                 location.setId(rs.getInt(1));
             }
-
+            rs.close();
             ps.close();
             ActionLogger.getInstance().log("INSERTED", "location " + location.getName()); 
             return true;
@@ -82,6 +105,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
         }
     }
 
+    /** 
+     * @param location
+     * @return boolean
+     */
     @Override
     public boolean update(Location location)
     {
@@ -102,6 +129,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
         }
     }
 
+    /** 
+     * @param locationId
+     * @return boolean
+     */
     @Override
     public boolean delete(Integer locationId)
     {
