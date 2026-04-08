@@ -22,7 +22,7 @@ public class DatabaseManager {
                 Properties props = new Properties();
                 InputStream input = DatabaseManager.class
                     .getClassLoader()
-                    .getResourceAsStream("db.properties");
+                    .getResourceAsStream("app.properties");
                 props.load(input);
 
                 String url  = props.getProperty("db.url");
@@ -32,7 +32,7 @@ public class DatabaseManager {
                 connection = DriverManager.getConnection(url, user, pass);
 
             } catch (IOException e) {
-                throw new SQLException("Could not load db.properties: " + e.getMessage());
+                throw new SQLException("Could not load app.properties: " + e.getMessage());
             }
         }
         return connection;

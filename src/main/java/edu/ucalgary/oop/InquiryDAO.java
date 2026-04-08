@@ -12,6 +12,11 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         this.connection = connection;
     }
 
+    /** 
+     * @param rs
+     * @return ReliefService
+     * @throws SQLException
+     */
     private ReliefService build(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         int inquirerId = rs.getInt("inquirer_id");
@@ -43,6 +48,9 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         return inquiry;
     }
 
+    /** 
+     * @return List<ReliefService>
+     */
     @Override
     public List<ReliefService> getAll()
     {
@@ -61,6 +69,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         return inquiries;
     }
 
+    /** 
+     * @param inquiryId
+     * @return ReliefService
+     */
     @Override
     public ReliefService getById(Integer inquiryId)
     {
@@ -80,6 +92,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         }
     }
 
+    /** 
+     * @param inquiry
+     * @return boolean
+     */
     @Override 
     public boolean insert(ReliefService inquiry)
     {
@@ -105,6 +121,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         }
     }
 
+    /** 
+     * @param inquiry
+     * @return boolean
+     */
     @Override
     public boolean update(ReliefService inquiry)
     {
@@ -126,6 +146,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         }
     }
 
+    /** 
+     * @param inquiryId
+     * @return boolean
+     */
     @Override
     public boolean delete(Integer inquiryId)
     {
