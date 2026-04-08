@@ -11,6 +11,12 @@ public class MedicalSkill extends Skill {
     private Certification certification;
     private LocalDate certificationExpiration;
 
+    /**
+     * Constructs a new MedicalSkill object with the specified proficiency level and skill type
+     * 
+     * @param level The proficiency level the person has in the skill
+     * @param skillType The type of MedicalSkill
+     */
     public MedicalSkill(ProficiencyLevel level, Certification certification, LocalDate certificationExpiration)
     {
         super(SkillCategory.MEDICAL, level);
@@ -18,19 +24,41 @@ public class MedicalSkill extends Skill {
         this.certificationExpiration = certificationExpiration;
     }
 
+    /** 
+     * Gets the certification type from the MedicalSkill
+     * 
+     * @return The certification type for this MedicalSkill
+     */
     public Certification getCertification()
     {
         return this.certification;
     }
+
+    /** 
+     * Sets the certification type in the MedicalSkill
+     * 
+     * @param certification The Certification to set it to
+     */
     public void setCertification(Certification certification)
     {
         this.certification = certification;
     }
 
+    /** 
+     * Gets the certification expiration date from the TradeSkill
+     * 
+     * @return A LocalDate representing the expiration date of the certification
+     */
     public LocalDate getCertificationExpiration()
     {
         return this.certificationExpiration;
     }
+
+    /** 
+     * Sets the expiration date for the certification in the medical skill
+     * 
+     * @param certificationExpiration A LocalDate representing the expiration date of the certification
+     */
     public void setCertificationExpiration(LocalDate certificationExpiration)
     {
         this.certificationExpiration = certificationExpiration;
