@@ -107,6 +107,7 @@ public class ConsoleUI {
                     scanner.nextLine();
 
                     //then build a victim, check if it returned null or smth yes
+                    //ENFORCE data validity
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
