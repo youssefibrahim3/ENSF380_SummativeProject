@@ -167,7 +167,9 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     }
 
     /** 
-     * @param inquiryId
+     * Deletes an inquiry on the database.
+     * 
+     * @param inquiryId The ID of the inquiry to delete
      * @return True if the operation was successful, false otherwise
      */
     @Override

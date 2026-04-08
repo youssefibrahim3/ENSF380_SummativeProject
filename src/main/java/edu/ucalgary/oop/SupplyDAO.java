@@ -7,11 +7,23 @@ import java.util.List;
 public class SupplyDAO implements GenericDAO<Supply, Integer> {
     private final Connection connection;
 
+    /**
+     * Constructs a new SupplyDAO object with the specified connection
+     * 
+     * @param connection The Connection to the database
+     */
     public SupplyDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Builds a Supply object from data obtained from the database
+     * 
+     * @param rs The ResultSet to take the parameters from
+     * @return A Supply created with the provided data
+     * @throws SQLException If there was an error with getting the ResultSet
+     */
     private Supply build(ResultSet rs) throws SQLException 
     {
         Supply s = new Supply(
@@ -28,6 +40,11 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         return s;
     }
 
+    /** 
+     * Gets all of the supplies inside of the database.
+     * 
+     * @return A list of all the found supplies
+     */
     @Override
     public List<Supply> getAll()
     {
@@ -46,6 +63,12 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         return supplies;
     }
 
+    /** 
+     * Gets a supply by ID from the database.
+     * 
+     * @param supplyId The ID of the supply to look for
+     * @return The Supply if one was found, null otherwise
+     */
     @Override
     public Supply getById(Integer supplyId)
     {
@@ -65,6 +88,12 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         }
     }
 
+    /** 
+     * Inserts a new supply into the database.
+     * 
+     * @param location The supply to insert to the database
+     * @return True if the operation was successful, false otherwise
+     */
     @Override 
     public boolean insert(Supply supply)
     {
@@ -108,6 +137,12 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         }
     }
 
+    /** 
+     * Updates a supply on the database.
+     * 
+     * @param location The Supply to update with. The updated supply corresponds to supply.getId()
+     * @return True if the operation was successful, false otherwise
+     */
     @Override
     public boolean update(Supply supply)
     {
@@ -135,6 +170,12 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         }
     }
 
+    /** 
+     * Deletes a supply on the database.
+     * 
+     * @param supplyId The ID of the supply to delete
+     * @return True if the operation was successful, false otherwise
+     */
     @Override
     public boolean delete(Integer supplyId)
     {
@@ -152,6 +193,11 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         }
     }
 
+    /** 
+     * Gets all of the non-expired supplies that are in the database.
+     * 
+     * @return A list of all non-expired supplies found
+     */
     public List<Supply> getNonExpiredSupplies() 
     {
     List<Supply> supplies = new ArrayList<>();

@@ -140,7 +140,9 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     /** 
-     * @param locationId
+     * Deletes a location on the database.
+     * 
+     * @param locationId The ID of the location to delete
      * @return True if the operation was successful, false otherwise
      */
     @Override
