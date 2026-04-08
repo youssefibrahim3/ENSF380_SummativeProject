@@ -28,7 +28,17 @@ public class Inquirer {
         this.INFO = info;
     }
 
+    /**
+     * Gets the id of the inquirer.
+     * 
+     * @return The id associated with the inquirer
+     */
     public int getId() { return this.id; }
+    /**
+     * Gets the id of the inquirer.
+     * 
+     * @return The id associated with the inquirer
+     */
     public void setId(int id) { this.id = id; }
     public String getFirstName() { return this.FIRST_NAME; }
     public String getLastName() { return this.LAST_NAME; }

@@ -13,9 +13,11 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     }
 
     /** 
-     * @param rs
-     * @return ReliefService
-     * @throws SQLException
+     * Builds a ReliefService object from data obtained from the database.
+     * 
+     * @param rs The ResultSet to take the parameters from
+     * @return A ReliefService created the provided data
+     * @throws SQLException If there was an error with getting the ResultSet
      */
     private ReliefService build(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -45,11 +47,15 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
 
         ReliefService inquiry = new ReliefService(inquirer, missingPerson, inquiryDate, details, null);
         inquiry.setId(id);
+        ps1.close();
+        rs.close();
         return inquiry;
     }
 
     /** 
-     * @return List<ReliefService>
+     * Gets all of the inquiries inside of the database.
+     * 
+     * @return A list of all of the found inquiries
      */
     @Override
     public List<ReliefService> getAll()
@@ -70,8 +76,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     }
 
     /** 
-     * @param inquiryId
-     * @return ReliefService
+     * Gets an inquiry by ID from the database.
+     * 
+     * @param inquiryId The ID of the inquiry to look for
+     * @return The Inquiry/ReliefService if one was found, null otherwise
      */
     @Override
     public ReliefService getById(Integer inquiryId)
@@ -93,8 +101,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     }
 
     /** 
-     * @param inquiry
-     * @return boolean
+     * Inserts a new inquiry into the database.
+     * 
+     * @param inquiry The inquiry (ReliefService) to insert to the database
+     * @return True if the operation was successful, false otherwise
      */
     @Override 
     public boolean insert(ReliefService inquiry)
