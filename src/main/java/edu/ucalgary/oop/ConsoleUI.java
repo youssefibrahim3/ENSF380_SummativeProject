@@ -94,6 +94,7 @@ public class ConsoleUI {
                     4. Delete Victim (Hard)
                     5. Manage Skills
                     6. View Victims
+                    7. Search Victims by Skill Category
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -105,12 +106,23 @@ public class ConsoleUI {
                 case 1:
                     System.out.println("");
                     scanner.nextLine();
-
                     //then build a victim, check if it returned null or smth yes
                     //ENFORCE data validity
                     break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
                 default:
-                    System.out.println("Unrecognized input. Please enter a valid input.");
+                    System.out.println("Unrecognized input. Please enter a valid input (0-7).");
             }
         }
     }
@@ -125,7 +137,7 @@ public class ConsoleUI {
         {
             if (s.isExpired())
             {
-                System.out.println("Warning: " + s.getType() + " is expired.");
+                System.out.println("WARNING: " + s.getType() + " is expired. (expired: " + s.getExpirationDate() + ")");
             }
         }
         
@@ -133,14 +145,12 @@ public class ConsoleUI {
         while (using)
         {
             System.out.println("""
-                    -- VICTIM MENU --
+                    -- SUPPLIES MENU --
                     0. Back
-                    1. Add Victim 
-                    2. Modify Victim
-                    3. Delete Victim (Soft)
-                    4. Delete Victim (Hard)
-                    5. Manage Skills
-                    6. View Victims
+                    1. Add Supply 
+                    2. Allocate Supply to Victim
+                    3. View Suplies
+                    4. Delete Supply
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -150,6 +160,12 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -166,14 +182,11 @@ public class ConsoleUI {
         while (using)
         {
             System.out.println("""
-                    -- VICTIM MENU --
+                    -- LOCATION MENU --
                     0. Back
-                    1. Add Victim 
-                    2. Modify Victim
-                    3. Delete Victim (Soft)
-                    4. Delete Victim (Hard)
-                    5. Manage Skills
-                    6. View Victims
+                    1. Add Location
+                    2. View Locations
+                    3. Modify Location
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -183,6 +196,10 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -199,14 +216,11 @@ public class ConsoleUI {
         while (using)
         {
             System.out.println("""
-                    -- VICTIM MENU --
+                    -- INQUIRIES MENU --
                     0. Back
-                    1. Add Victim 
-                    2. Modify Victim
-                    3. Delete Victim (Soft)
-                    4. Delete Victim (Hard)
-                    5. Manage Skills
-                    6. View Victims
+                    1. Add Inquiry
+                    2. View Inquiries
+                    3. Modify Inquiry
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -216,6 +230,10 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -232,14 +250,10 @@ public class ConsoleUI {
         while (using)
         {
             System.out.println("""
-                    -- VICTIM MENU --
+                    -- MEDICAL RECORDS MENU --
                     0. Back
-                    1. Add Victim 
-                    2. Modify Victim
-                    3. Delete Victim (Soft)
-                    4. Delete Victim (Hard)
-                    5. Manage Skills
-                    6. View Victims
+                    1. Add Medical Record
+                    2. View Medical Records for Victim
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -249,6 +263,8 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    break;
+                case 2:
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -265,14 +281,10 @@ public class ConsoleUI {
         while (using)
         {
             System.out.println("""
-                    -- VICTIM MENU --
+                    -- RELATIONSHIPS MENU --
                     0. Back
-                    1. Add Victim 
-                    2. Modify Victim
-                    3. Delete Victim (Soft)
-                    4. Delete Victim (Hard)
-                    5. Manage Skills
-                    6. View Victims
+                    1. Add Relationship
+                    2. View Relationships for Victim
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -282,6 +294,8 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    break;
+                case 2:
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
