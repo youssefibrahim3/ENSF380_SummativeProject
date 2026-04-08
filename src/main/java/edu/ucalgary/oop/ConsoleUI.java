@@ -103,6 +103,10 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    System.out.println("");
+                    scanner.nextLine();
+
+                    //then build a victim, check if it returned null or smth yes
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
