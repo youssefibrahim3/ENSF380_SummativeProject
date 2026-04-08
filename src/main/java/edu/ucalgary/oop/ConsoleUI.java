@@ -77,6 +77,9 @@ public class ConsoleUI {
         scanner.close();
     }
 
+    /**
+     * Provides options regarding managing victims in the database.
+     */
     private void manageVictims()
     {
         boolean using = true;
@@ -107,6 +110,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Provides options regarding managing supplies in the database.
+     */
     private void manageSupplies()
     {
         List<Supply> supplysList = supplyDAO.getAll();
@@ -146,6 +152,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Provides options regarding managing locations in the database.
+     */
     private void manageLocations()
     {
         boolean using = true;
@@ -176,6 +185,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Provides options regarding managing inquiries in the database.
+     */
     private void manageInquiries()
     {
         boolean using = true;
@@ -206,6 +218,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Provides options regarding managing medical records in the database.
+     */
     private void manageMedicalRecords()
     {
         boolean using = true;
@@ -236,6 +251,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Provides options regarding managing relationships in the database.
+     */
     private void manageRelationships()
     {
         boolean using = true;
@@ -265,6 +283,4 @@ public class ConsoleUI {
             }
         }
     }
-
-
 }
