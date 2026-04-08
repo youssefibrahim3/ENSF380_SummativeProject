@@ -8,7 +8,9 @@ public class RequirementLoader {
     private static final String FILE_PATH = "src/main/resources/available_requirements.ser";
     private CulturalOptions options;
 
-    // Call this at program startup — exits if file not found (as required)
+    /**
+     * Constructs a new RequirementLoader. Exits the program if the file to load was not found
+     */
     public RequirementLoader() {
         try {
             FileInputStream fileIn = new FileInputStream(FILE_PATH);
@@ -19,7 +21,7 @@ public class RequirementLoader {
             System.out.println("Cultural requirements loaded successfully.");
         } catch (FileNotFoundException e) {
             System.out.println("Error: available_requirements.ser not found in resources folder.");
-            System.exit(1);  // features doc says exit if file not found
+            System.exit(1);  // exit if file not found
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error reading available_requirements.ser: " + e.getMessage());
             System.exit(1);
@@ -27,17 +29,19 @@ public class RequirementLoader {
     }
 
     /** 
-     * @return HashMap<String, Set<String>>
+     * Gets all requirement types and their options.
+     * 
+     * @return A HashMap<String, Set<String>> containing the requirement types and their options
      */
-    // Returns all requirement types and their options
-    // e.g. "dietary restrictions" -> {"halal", "kosher", "vegetarian"}
     public HashMap<String, Set<String>> getAccommodations() {
         return options.getAccommodations();
     }
 
     /** 
-     * @param requirementType
-     * @return Set<String>
+     * Gets the valid options for a specific requirement type.
+     * 
+     * @param requirementType The requirement type to view options for
+     * @return A Set<String> containing all of the options
      */
     // Returns the valid options for a specific requirement type
     public Set<String> getOptionsForType(String requirementType) {
@@ -45,9 +49,10 @@ public class RequirementLoader {
     }
 
     /** 
-     * @return Set<String>
+     * Gets all requirement type names.
+     * 
+     * @return A Set<String> containing names of all of the requirement types
      */
-    // Returns all requirement type names (e.g. "dietary restrictions", "safe-space requirements")
     public Set<String> getRequirementTypes() {
         return options.getAccommodations().keySet();
     }
