@@ -319,16 +319,66 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
 
 
+
+    /** 
+     * @param victim
+     */
+    //Feature 7
+
+    // Load cultural requirements for a victim from DB into their object
+    public void loadCulturalRequirements(DisasterVictim victim) {
+        String sql = "SELECT requirement_category, requirement_option " +
+                    "FROM CulturalRequirement WHERE victim_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, victim.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                victim.setRequirement(
+                    rs.getString("requirement_category"),
+                    rs.getString("requirement_option")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error loading cultural requirements: " + e.getMessage());
+        }
+    }
+
+    /** 
+     * @param victimId
+     * @param category
+     * @param option
+     * @return boolean
+     */
+    // Save a cultural requirement for a victim to DB
+    public boolean insertCulturalRequirement(int victimId, String category, String option) {
+        // Use INSERT ... ON CONFLICT to handle updating existing category
+        String sql = "INSERT INTO CulturalRequirement (victim_id, requirement_category, requirement_option) " +
+                    "VALUES (?, ?, ?) " +
+                    "ON CONFLICT (victim_id, requirement_category) DO UPDATE SET requirement_option = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, victimId);
+            ps.setString(2, category);
+            ps.setString(3, option);
+            ps.setString(4, option);
+            ps.executeUpdate();
+            ActionLogger.getInstance().log("UPDATED", "cultural requirement for victim " + victimId +
+                " | " + category + ": " + option);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error saving cultural requirement: " + e.getMessage());
+            return false;
+        }
+    }
+
+    //Feature 8
+
     /** 
      * @param victimId
      * @param skill
      * @return boolean
      */
-    //Feature 7
-
-
-    //Feature 8
-
     // Add a skill to a victim in the DB
     public boolean insertSkill(int victimId, Skill skill) {
         // First get or create the skill in the Skill table
@@ -465,7 +515,114 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             return ((LanguageSkill) skill).getLanguage();
         } else {
             return ((TradeSkill) skill).getSkillType().name().toLowerCase();
+        }  
+    }
+
+    /** 
+     * @param victimId
+     * @param record
+     * @return boolean
+     */
+    // ── MEDICAL RECORDS ──────────────────────────────────────────────────────────
+
+    public boolean insertMedicalRecord(int victimId, MedicalRecord record) {
+        String sql = "INSERT INTO MedicalRecord (victim_id, treatment_details, treatment_date, location_id) " +
+                    "VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, victimId);
+            ps.setString(2, record.getTreatmentDetails());
+            ps.setDate(3, Date.valueOf(record.getDateOfTreatment()));
+            ps.setInt(4, record.getLocation().getId());
+            ps.executeUpdate();
+            ActionLogger.getInstance().log("ADDED", "medical record for victim " + victimId);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error inserting medical record: " + e.getMessage());
+            return false;
         }
     }
+
+    /** 
+     * @param victim
+     * @param locationDAO
+     */
+    public void loadMedicalRecords(DisasterVictim victim, LocationDAO locationDAO) {
+        String sql = "SELECT * FROM MedicalRecord WHERE victim_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, victim.getId());
+            ResultSet rs = ps.executeQuery();
+            List<MedicalRecord> records = new ArrayList<>();
+            while (rs.next()) {
+                Location loc = locationDAO.getById(rs.getInt("location_id"));
+                MedicalRecord record = new MedicalRecord(
+                    loc,
+                    rs.getString("treatment_details"),
+                    rs.getDate("treatment_date").toLocalDate()
+                );
+                records.add(record);
+            }
+            victim.setMedicalRecords(records.toArray(new MedicalRecord[0]));
+        } catch (SQLException e) {
+            System.out.println("Error loading medical records: " + e.getMessage());
+        }
+    }
+
+    /** 
+     * @param personOneId
+     * @param personTwoId
+     * @param relationshipType
+     * @return boolean
+     */
+    // ── FAMILY RELATIONSHIPS ──────────────────────────────────────────────────────
+
+    public boolean insertFamilyRelationship(int personOneId, int personTwoId, String relationshipType) {
+        String sql = "INSERT INTO FamilyRelationship (person_one_id, person_two_id, relationship_type) " +
+                    "VALUES (?, ?, ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, personOneId);
+            ps.setInt(2, personTwoId);
+            ps.setString(3, relationshipType);
+            ps.executeUpdate();
+            ActionLogger.getInstance().log("ADDED", "family relationship between victim " +
+                personOneId + " and " + personTwoId + " | " + relationshipType);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error inserting family relationship: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /** 
+     * @param victim
+     */
+    public void loadFamilyRelationships(DisasterVictim victim) {
+        String sql = "SELECT * FROM FamilyRelationship WHERE person_one_id = ? OR person_two_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, victim.getId());
+            ps.setInt(2, victim.getId());
+            ResultSet rs = ps.executeQuery();
+            List<FamilyRelation> relations = new ArrayList<>();
+            while (rs.next()) {
+                int personOneId = rs.getInt("person_one_id");
+                int personTwoId = rs.getInt("person_two_id");
+                String type = rs.getString("relationship_type");
+
+                DisasterVictim personOne = getById(personOneId);
+                DisasterVictim personTwo = getById(personTwoId);
+
+                if (personOne != null && personTwo != null) {
+                    relations.add(new FamilyRelation(personOne, type, personTwo));
+                }
+            }
+            victim.setFamilyConnections(relations.toArray(new FamilyRelation[0]));
+        } catch (SQLException e) {
+            System.out.println("Error loading family relationships: " + e.getMessage());
+        }
+    }
+
 }
 
