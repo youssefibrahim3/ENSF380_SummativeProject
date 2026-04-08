@@ -6,6 +6,21 @@ public class ConsoleUI {
     //Should I create a DAO object directly, or use stuff like "SupplyController" that interact with the DAO within them?
 
     private Scanner scanner = new Scanner(System.in);
+    private final VictimDAO victimDAO;
+    private final SupplyDAO supplyDAO;
+    private final LocationDAO locationDAO;
+    private final InquiryDAO inquiryDAO;
+    private final RequirementLoader requirementLoader;
+
+    public ConsoleUI(VictimDAO victimDAO, SupplyDAO supplyDAO, LocationDAO locationDAO,
+                    InquiryDAO inquiryDAO, RequirementLoader requirementLoader)
+    {
+        this.victimDAO = victimDAO;
+        this.supplyDAO = supplyDAO;
+        this.locationDAO = locationDAO;
+        this.inquiryDAO = inquiryDAO;
+        this.requirementLoader = requirementLoader;
+    }
 
     /**
      * Begins the console interface. 
