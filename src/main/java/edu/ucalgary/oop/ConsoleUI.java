@@ -60,32 +60,182 @@ public class ConsoleUI {
 
     private void manageVictims()
     {
+        boolean using = true;
+        while (using)
+        {
+            System.out.println("""
+                    -- VICTIM MENU --
+                    0. Back
+                    1. Add Victim 
+                    2. Modify Victim
+                    3. Delete Victim (Soft)
+                    4. Delete Victim (Hard)
+                    5. Manage Skills
+                    6. View Victims
+                    """);
 
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter a valid input.");
+            }
+        }
     }
 
     private void manageSupplies()
     {
+        boolean using = true;
+        while (using)
+        {
+            System.out.println("""
+                    -- VICTIM MENU --
+                    0. Back
+                    1. Add Victim 
+                    2. Modify Victim
+                    3. Delete Victim (Soft)
+                    4. Delete Victim (Hard)
+                    5. Manage Skills
+                    6. View Victims
+                    """);
 
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter a valid input.");
+            }
+        }
     }
 
     private void manageLocations()
     {
+        boolean using = true;
+        while (using)
+        {
+            System.out.println("""
+                    -- VICTIM MENU --
+                    0. Back
+                    1. Add Victim 
+                    2. Modify Victim
+                    3. Delete Victim (Soft)
+                    4. Delete Victim (Hard)
+                    5. Manage Skills
+                    6. View Victims
+                    """);
 
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter a valid input.");
+            }
+        }
     }
 
     private void manageInquiries()
     {
-        
+        boolean using = true;
+        while (using)
+        {
+            System.out.println("""
+                    -- VICTIM MENU --
+                    0. Back
+                    1. Add Victim 
+                    2. Modify Victim
+                    3. Delete Victim (Soft)
+                    4. Delete Victim (Hard)
+                    5. Manage Skills
+                    6. View Victims
+                    """);
+
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter a valid input.");
+            }
+        }
     }
 
     private void manageMedicalRecords()
     {
+        boolean using = true;
+        while (using)
+        {
+            System.out.println("""
+                    -- VICTIM MENU --
+                    0. Back
+                    1. Add Victim 
+                    2. Modify Victim
+                    3. Delete Victim (Soft)
+                    4. Delete Victim (Hard)
+                    5. Manage Skills
+                    6. View Victims
+                    """);
 
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter a valid input.");
+            }
+        }
     }
 
     private void manageRelationships()
     {
+        boolean using = true;
+        while (using)
+        {
+            System.out.println("""
+                    -- VICTIM MENU --
+                    0. Back
+                    1. Add Victim 
+                    2. Modify Victim
+                    3. Delete Victim (Soft)
+                    4. Delete Victim (Hard)
+                    5. Manage Skills
+                    6. View Victims
+                    """);
 
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice)
+            {
+                case 0:
+                    using = false;
+                    break;
+                case 1:
+                    break;
+                default:
+                    System.out.println("Unrecognized input. Please enter a valid input.");
+            }
+        }
     }
 
 
