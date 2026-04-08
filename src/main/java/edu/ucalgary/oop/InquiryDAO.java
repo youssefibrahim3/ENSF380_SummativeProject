@@ -132,8 +132,10 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     }
 
     /** 
-     * @param inquiry
-     * @return boolean
+     * Updates an inquiry on the database.
+     * 
+     * @param inquiry The ReliefService to update with. The updated inquiry corresponds to inquiry.getId()
+     * @return True if the operation was successful, false otherwise
      */
     @Override
     public boolean update(ReliefService inquiry)
@@ -158,7 +160,7 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
 
     /** 
      * @param inquiryId
-     * @return boolean
+     * @return True if the operation was successful, false otherwise
      */
     @Override
     public boolean delete(Integer inquiryId)
