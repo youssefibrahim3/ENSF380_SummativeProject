@@ -23,13 +23,12 @@ public class ConsoleUI {
                 1 - Manage Victims
                 2 - Manage Supplies
                 3 - Manage Locations
-                4 - Manage Medical Records
-                5 - Manage Relationships
-                6 - Manage Inquiries
+                4 - Manage Inquiries
+                5 - Manage Medical Records
+                6 - Manage Relationships
                     """);
             int choice = Integer.parseInt(scanner.nextLine());
 
-            //add/modify everythang
             switch (choice) {
                 case 0:
                     System.out.println("Exiting...\n");
@@ -78,4 +77,16 @@ public class ConsoleUI {
     {
         
     }
+
+    private void manageMedicalRecords()
+    {
+
+    }
+
+    private void manageRelationships()
+    {
+
+    }
+
+
 }
