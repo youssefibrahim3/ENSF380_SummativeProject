@@ -43,7 +43,6 @@ public class RequirementLoader {
      * @param requirementType The requirement type to view options for
      * @return A Set<String> containing all of the options
      */
-    // Returns the valid options for a specific requirement type
     public Set<String> getOptionsForType(String requirementType) {
         return options.getAccommodations().get(requirementType);
     }
