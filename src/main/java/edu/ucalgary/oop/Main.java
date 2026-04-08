@@ -17,6 +17,7 @@ public class Main {
             ConsoleUI consoleUI = new ConsoleUI(victimDAO, supplyDAO, locationDAO, inquiryDAO, loader);
             consoleUI.start(); //MVC
         } catch (SQLException e) {
+            ErrorLogger.log(e);
             System.out.println("Failed to connect to database: " + e.getMessage());
         }
     }

@@ -2,6 +2,14 @@ package edu.ucalgary.oop;
 
 import java.time.LocalDate;
 
+/**
+ * Class representing a single medical record
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-06
+ */
+
 public class MedicalRecord {
     private Location location;
     private String treatmentDetails;
