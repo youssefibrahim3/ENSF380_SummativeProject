@@ -1,9 +1,3 @@
-/*
-Copyright Ann Barcomb and Khawla Shnaikat, 2024-2025
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
-
 package edu.ucalgary.oop;
 
 import java.time.LocalDate;
@@ -13,6 +7,14 @@ public class MedicalRecord {
     private String treatmentDetails;
     private LocalDate dateOfTreatment; 
 
+    /**
+     * Constructs a new MedicalRecord object with the provided parameters.
+     * 
+     * @param location The location this medicalrecord was at
+     * @param treatmentDetails Details of treatment
+     * @param dateOfTreatment A LocalDate representing the date this treatment occured
+     * @throws IllegalArgumentException if dateOfTreatement is null or is after the current day
+     */
     public MedicalRecord(Location location, String treatmentDetails, LocalDate dateOfTreatment) throws IllegalArgumentException {
         setLocation(location);
         this.treatmentDetails = treatmentDetails;
@@ -27,47 +29,56 @@ public class MedicalRecord {
     }
 
     /** 
-     * @return Location
+     * Gets the location associated with this MedicalRecord.
+     * 
+     * @return The location associated with this MedicalRecord
      */
-    // Getter and setter for location
     public Location getLocation() {
         return location;
     }
 
     /** 
-     * @param location
+     * Sets the location associated with this MedicalRecord.
+     * 
+     * @param location The new location to be associated with this MedicalRecord
      */
     public void setLocation(Location location) {
         this.location = location;
     }
 
     /** 
-     * @return String
+     * Gets the details of treatment from this MedicalRecord.
+     * 
+     * @return A String containing the treatment details
      */
-    // Getter for treatmentDetails
     public String getTreatmentDetails() {
         return treatmentDetails;
     }
 
     /** 
-     * @param treatmentDetails
+     * Sets the details of the treatment for this MedicalRecord.
+     * 
+     * @param treatmentDetails A String containing the new treatment details
      * @throws IllegalArgumentException
      */
-    // Setter for treatmentDetails
     public void setTreatmentDetails(String treatmentDetails) throws IllegalArgumentException {
         this.treatmentDetails = treatmentDetails;
     }
 
     /** 
-     * @return LocalDate
+     * Gets the date of treatment associated with this MedicalRecord.
+     * 
+     * @return A LocalDate representing the date of treatment
      */
     public LocalDate getDateOfTreatment() {
         return dateOfTreatment;
     }
 
     /** 
-     * @param dateOfTreatment
-     * @throws IllegalArgumentException
+     * Sets the date of treatment associated with this MedicalRecord.
+     * 
+     * @param dateOfTreatment A LocalDate representing the new date of treatment
+     * @throws IllegalArgumentException if dateOfTreatment is null or is after the current day
      */
     public void setDateOfTreatment(LocalDate dateOfTreatment) throws IllegalArgumentException {
         if (dateOfTreatment == null) {
