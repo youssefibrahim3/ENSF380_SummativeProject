@@ -1,5 +1,6 @@
 package edu.ucalgary.oop;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -108,6 +109,15 @@ public class ConsoleUI {
 
     private void manageSupplies()
     {
+        List<Supply> supplysList = supplyDAO.getAll();
+        for (Supply s : supplysList)
+        {
+            if (s.isExpired())
+            {
+                System.out.println("Warning: " + s.getType() + " is expired.");
+            }
+        }
+        
         boolean using = true;
         while (using)
         {
