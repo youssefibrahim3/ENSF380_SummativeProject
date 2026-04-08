@@ -1,13 +1,14 @@
-/*
-Copyright Ann Barcomb and Khawla Shnaikat, 2024-2025
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
-
 package edu.ucalgary.oop;
 
 import java.time.LocalDate;
 
+/**
+ * Class representing a single supply
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-02
+ */
 public class Supply {
     private String type;
     private int quantity;

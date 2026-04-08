@@ -1,5 +1,12 @@
 package edu.ucalgary.oop;
 
+/**
+ * Class representing a single location
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-02
+ */
 public class Location {
     private String name;
     private String address;
