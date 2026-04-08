@@ -30,28 +30,47 @@ public class ReliefService {
 
     }
 
+    /** 
+     * @return Inquirer
+     */
     // Getter and setter for inquirer
     public Inquirer getInquirer() {
         return inquirer;
     }
 
+    /** 
+     * @param inquirer
+     */
     public void setInquirer(Inquirer inquirer) {
         this.inquirer = inquirer;
     }
 
+    /** 
+     * @return DisasterVictim
+     */
     // Getter and setter for missingPerson
     public DisasterVictim getMissingPerson() {
         return missingPerson;
     }
 
+    /** 
+     * @param missingPerson
+     */
     public void setMissingPerson(DisasterVictim missingPerson) {
         this.missingPerson = missingPerson;
     }
 
+    /** 
+     * @return LocalDate
+     */
     public LocalDate getDateOfInquiry() {
         return dateOfInquiry;
     }
 
+    /** 
+     * @param dateOfInquiry
+     * @throws IllegalArgumentException
+     */
     public void setDateOfInquiry(LocalDate dateOfInquiry) throws IllegalArgumentException {
         if (dateOfInquiry == null) {
             throw new IllegalArgumentException("Date of inquiry cannot be null");
@@ -62,24 +81,39 @@ public class ReliefService {
         this.dateOfInquiry = dateOfInquiry;
     }
 
+    /** 
+     * @return String
+     */
     // Getter and setter for infoProvided
     public String getInfoProvided() {
         return infoProvided;
     }
 
+    /** 
+     * @param infoProvided
+     */
     public void setInfoProvided(String infoProvided) {
         this.infoProvided = infoProvided;
     }
 
+    /** 
+     * @return Location
+     */
     // Getter and setter for lastKnownLocation
     public Location getLastKnownLocation() {
         return lastKnownLocation;
     }
 
+    /** 
+     * @param lastKnownLocation
+     */
     public void setLastKnownLocation(Location lastKnownLocation) {
         this.lastKnownLocation = lastKnownLocation;
     }
     
+    /** 
+     * @return String
+     */
     public String getLogDetails() {
        return "Inquirer: " + inquirer.getFirstName() + 
            ", Missing Person: " + missingPerson.getFirstName() + 

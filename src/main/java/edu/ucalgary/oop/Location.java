@@ -21,28 +21,46 @@ public class Location {
         this.supplies = new Supply[0]; 
     }
 
+    /** 
+     * @return String
+     */
     // Getter and setter for name
     public String getName() {
         return name;
     }
 
+    /** 
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /** 
+     * @return String
+     */
     // Getter and setter for address
     public String getAddress() {
         return address;
     }
 
+    /** 
+     * @param address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /** 
+     * @return DisasterVictim[]
+     */
     public DisasterVictim[] getOccupants() {
         return occupants; 
     }
 
+    /** 
+     * @param occupants
+     */
     public void setOccupants(DisasterVictim[] occupants) {
         // Using clone() for defensive copying: creates a new array with the same elements
         // This prevents external code from modifying the internal array structure
@@ -50,10 +68,16 @@ public class Location {
         this.occupants = occupants != null ? occupants.clone() : new DisasterVictim[0];
     }
 
+    /** 
+     * @return Supply[]
+     */
     public Supply[] getSupplies() {
         return supplies; 
     }
 
+    /** 
+     * @param supplies
+     */
     public void setSupplies(Supply[] supplies) {
         // Using clone() for defensive copying: creates a new array with the same elements
         // This prevents external code from modifying the internal array structure
@@ -61,15 +85,24 @@ public class Location {
         this.supplies = supplies != null ? supplies.clone() : new Supply[0];
     }
 
+    /** 
+     * @return int
+     */
     public int getId()
     {
         return this.id;
     }
+    /** 
+     * @param id
+     */
     public void setId(int id)
     {
         this.id = id;
     }
     
+    /** 
+     * @param occupant
+     */
     public void addOccupant(DisasterVictim occupant) {
         if (occupant == null) {
             throw new IllegalArgumentException("Occupant cannot be null");
@@ -88,6 +121,10 @@ public class Location {
         this.occupants = newOccupants;
     }
 
+    /** 
+     * @param occupant
+     * @throws IllegalArgumentException
+     */
     public void removeOccupant(DisasterVictim occupant) throws IllegalArgumentException {
         if (occupant == null) {
             throw new IllegalArgumentException("Occupant cannot be null");
@@ -120,6 +157,9 @@ public class Location {
         this.occupants = newOccupants;
     }
 
+    /** 
+     * @param supply
+     */
     public void addSupply(Supply supply) {
         if (supply == null) {
             throw new IllegalArgumentException("Supply cannot be null");
@@ -138,6 +178,10 @@ public class Location {
         this.supplies = newSupplies;
     }
 
+    /** 
+     * @param supply
+     * @throws IllegalArgumentException
+     */
     public void removeSupply(Supply supply) throws IllegalArgumentException {
         if (supply == null) {
             throw new IllegalArgumentException("Supply cannot be null");

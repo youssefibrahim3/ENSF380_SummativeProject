@@ -33,6 +33,10 @@ public class Supply {
 
     public void setType(String type) { this.type = type; }
     
+    /** 
+     * @param quantity
+     * @throws IllegalArgumentException
+     */
     public void setQuantity(int quantity) throws IllegalArgumentException {
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity cannot be negative");
@@ -40,6 +44,9 @@ public class Supply {
         this.quantity = quantity;
     }
     
+    /** 
+     * @param expirationDate
+     */
     public void setExpirationDate(LocalDate expirationDate)
     {
         if (!this.perishable && expirationDate != null) 
@@ -58,10 +65,16 @@ public class Supply {
     public int getQuantity() { return this.quantity; }
     public int getId() { return this.id; }
     public void setId(int id) { this.id = id; }
+    /** 
+     * @return int
+     */
     public int getLocationId()
     {
         return this.location_id;
     }
+    /** 
+     * @param location_id
+     */
     public void setLocationId(int location_id)
     {
         if (location_id < 0)
@@ -71,10 +84,16 @@ public class Supply {
         this.location_id = location_id;
     }
 
+    /** 
+     * @return int
+     */
     public int getVictimId()
     {
         return this.victim_id;
     }
+    /** 
+     * @param victim_id
+     */
     public void setVictimId(int victim_id)
     {
         if (victim_id < 0)
@@ -84,15 +103,24 @@ public class Supply {
         this.victim_id = victim_id;
     }
 
+    /** 
+     * @return String
+     */
     public String getDescription()
     {
         return this.description;
     }
+    /** 
+     * @param description
+     */
     public void setDescription(String description)
     {
         this.description = description;
     }
 
+    /** 
+     * @return boolean
+     */
     public boolean isExpired() {
         if (!this.perishable || this.expirationDate == null) return false;
         return this.expirationDate.isBefore(LocalDate.now());

@@ -15,6 +15,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
 
+    /** 
+     * @param victimId
+     * @return List<Skill>
+     * @throws SQLException
+     */
     private List<Skill> loadSkills(int victimId) throws SQLException {
         List<Skill> skills = new ArrayList<>();
         String sql = "SELECT s.skill_name, s.category, vs.proficiency_level, " +
@@ -55,6 +60,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         return skills;
     }
 
+    /** 
+     * @param rs
+     * @return DisasterVictim
+     * @throws SQLException
+     */
     private DisasterVictim build(ResultSet rs) throws SQLException 
     {
         int id = rs.getInt("id");
@@ -87,6 +97,9 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         return v;
     }
 
+    /** 
+     * @return List<DisasterVictim>
+     */
     @Override
     public List<DisasterVictim> getAll() 
     {
@@ -107,6 +120,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         return victims;
     }
 
+    /** 
+     * @param personId
+     * @return DisasterVictim
+     */
     @Override
     public DisasterVictim getById(Integer personId) 
     {
@@ -125,6 +142,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         return null;
     }
 
+    /** 
+     * @param victim
+     * @return boolean
+     */
     @Override
     public boolean insert(DisasterVictim victim) 
     {
@@ -168,6 +189,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /** 
+     * @param victim
+     * @return boolean
+     */
     @Override
     public boolean update(DisasterVictim victim) 
     {
@@ -197,6 +222,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
 
+    /** 
+     * @param personId
+     * @return boolean
+     */
     //Feature 4
     @Override
     public boolean delete(Integer personId) 
@@ -214,6 +243,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /** 
+     * @param personId
+     * @return boolean
+     */
     public boolean softDelete(Integer personId) 
     {
         String sql = "UPDATE DisasterVictim SET is_soft_deleted = TRUE WHERE person_id = ?";
@@ -229,6 +262,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /** 
+     * @param personId
+     * @param newAge
+     * @return boolean
+     */
     //Feature 5
     public boolean updateApproximateAge(int personId, int newAge) 
     {
@@ -257,6 +295,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /** 
+     * @param personId
+     * @param dob
+     * @return boolean
+     */
     //Feature 5
     public boolean replaceAgeWithDOB(int personId, LocalDate dob) 
     {
@@ -276,6 +319,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
 
 
+    /** 
+     * @param victimId
+     * @param skill
+     * @return boolean
+     */
     //Feature 7
 
 
@@ -352,6 +400,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /** 
+     * @param victimId
+     * @param skill
+     * @return boolean
+     */
     // Remove a skill from a victim in the DB
     public boolean deleteSkill(int victimId, Skill skill) {
         String skillName = getSkillName(skill);
@@ -373,6 +426,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /** 
+     * @param category
+     * @return List<DisasterVictim>
+     */
     // Search all non-soft-deleted victims by skill category
     public List<DisasterVictim> getVictimsBySkillCategory(String category) {
         List<DisasterVictim> results = new ArrayList<>();
@@ -396,6 +453,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         return results;
     }
 
+    /** 
+     * @param skill
+     * @return String
+     */
     // Helper — gets the skill name string from any Skill subclass
     private String getSkillName(Skill skill) {
         if (skill instanceof MedicalSkill) {

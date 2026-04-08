@@ -26,17 +26,27 @@ public class RequirementLoader {
         }
     }
 
+    /** 
+     * @return HashMap<String, Set<String>>
+     */
     // Returns all requirement types and their options
     // e.g. "dietary restrictions" -> {"halal", "kosher", "vegetarian"}
     public HashMap<String, Set<String>> getAccommodations() {
         return options.getAccommodations();
     }
 
+    /** 
+     * @param requirementType
+     * @return Set<String>
+     */
     // Returns the valid options for a specific requirement type
     public Set<String> getOptionsForType(String requirementType) {
         return options.getAccommodations().get(requirementType);
     }
 
+    /** 
+     * @return Set<String>
+     */
     // Returns all requirement type names (e.g. "dietary restrictions", "safe-space requirements")
     public Set<String> getRequirementTypes() {
         return options.getAccommodations().keySet();
