@@ -1,12 +1,5 @@
-/*
-Copyright Ann Barcomb and Khawla Shnaikat, 2024-2025
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
-
 package edu.ucalgary.oop;
 import java.time.LocalDate;
-// REMOVED: import java.time.format.DateTimeFormatter; // No longer needed
 
 // Treating this as more of an individual "inquiry" 
 public class ReliefService {
@@ -17,6 +10,15 @@ public class ReliefService {
     private Location lastKnownLocation;
     private int id;
 
+    /**
+     * Constructs a new ReliefService object with the given parameters.
+     * 
+     * @param inquirer The inquirer associated with this service
+     * @param missingPerson The missing person associated with this service
+     * @param dateOfInquiry The date of inquiry
+     * @param infoProvided Info provided regarding this inquiry
+     * @param lastKnownLocation The last known location of the missing person
+     */
     public ReliefService(Inquirer inquirer, DisasterVictim missingPerson, LocalDate dateOfInquiry, String infoProvided, Location lastKnownLocation) {
         this.inquirer = inquirer;
         this.missingPerson = missingPerson;
@@ -31,45 +33,55 @@ public class ReliefService {
     }
 
     /** 
-     * @return Inquirer
+     * Gets the inquirer associated with this object.
+     * 
+     * @return The Inquirer associated with this inquiry.
      */
-    // Getter and setter for inquirer
     public Inquirer getInquirer() {
         return inquirer;
     }
 
     /** 
-     * @param inquirer
+     * Sets the inquirer associated with this object.
+     * 
+     * @param inquirer The new Inquirer to set to this ReliefService
      */
     public void setInquirer(Inquirer inquirer) {
         this.inquirer = inquirer;
     }
 
     /** 
-     * @return DisasterVictim
+     * Gets the associated missing person with this ReliefService.
+     * 
+     * @return A DisasterVictim represnting the missing person
      */
-    // Getter and setter for missingPerson
     public DisasterVictim getMissingPerson() {
         return missingPerson;
     }
 
     /** 
-     * @param missingPerson
+     * Sets the associated missing person with this ReliefService.
+     * 
+     * @param missingPerson A DisasterVictim representing the missing person
      */
     public void setMissingPerson(DisasterVictim missingPerson) {
         this.missingPerson = missingPerson;
     }
 
     /** 
-     * @return LocalDate
+     * Gets the date of inquiry.
+     * 
+     * @return A LocalDate representing the date of inquiry
      */
     public LocalDate getDateOfInquiry() {
         return dateOfInquiry;
     }
 
     /** 
-     * @param dateOfInquiry
-     * @throws IllegalArgumentException
+     * Sets the date of inquiry.
+     * 
+     * @param dateOfInquiry A LocalDate representing the new date of inquiry.
+     * @throws IllegalArgumentException if dateOfInquiry is null or in the future
      */
     public void setDateOfInquiry(LocalDate dateOfInquiry) throws IllegalArgumentException {
         if (dateOfInquiry == null) {
@@ -82,37 +94,46 @@ public class ReliefService {
     }
 
     /** 
-     * @return String
+     * Gets the info provided associated with this relief service.
+     * 
+     * @return A String containing the info provided
      */
-    // Getter and setter for infoProvided
     public String getInfoProvided() {
         return infoProvided;
     }
 
     /** 
-     * @param infoProvided
+     * Sets the info provided associated with this relief service.
+     * 
+     * @param infoProvided A String representing the new info
      */
     public void setInfoProvided(String infoProvided) {
         this.infoProvided = infoProvided;
     }
 
     /** 
-     * @return Location
+     * Gets the last known location of the missing person.
+     * 
+     * @return A Location representing the last known location.
      */
-    // Getter and setter for lastKnownLocation
     public Location getLastKnownLocation() {
         return lastKnownLocation;
     }
 
     /** 
-     * @param lastKnownLocation
+     * Sets the last known location of the missing person.
+     * 
+     * @param lastKnownLocation The new Location representing the last known location.
      */
     public void setLastKnownLocation(Location lastKnownLocation) {
         this.lastKnownLocation = lastKnownLocation;
     }
     
     /** 
-     * @return String
+     * Gets all of the details associated with this ReliefService.
+     * 
+     * @return A String detailing the inquirer, missing person, date of inquiry,
+     * info provided, and last known location
      */
     public String getLogDetails() {
        return "Inquirer: " + inquirer.getFirstName() + 
@@ -122,6 +143,17 @@ public class ReliefService {
            ", Last Known Location: " + lastKnownLocation.getName();
     }
 
+    /**
+     * Gets the ID of this ReliefService.
+     * 
+     * @return The ID of this ReliefService
+     */
     public int getId() { return this.id; }
+
+    /**
+     * Sets the ID of this ReliefService.
+     * 
+     * @param id The new ID for this ReliefService.
+     */
     public void setId(int id) { this.id = id; }
 }
