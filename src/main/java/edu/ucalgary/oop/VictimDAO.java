@@ -94,6 +94,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         v.setSkills(loadSkills(id));
 
         if (gender != null) v.setGender(gender);
+        loadCulturalRequirements(v);
         return v;
     }
 
@@ -345,6 +346,9 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
+     * Inserts a cultural requirement into the database.
+     * If one already exists, then it updates it.
+     * 
      * @param victimId
      * @param category
      * @param option
