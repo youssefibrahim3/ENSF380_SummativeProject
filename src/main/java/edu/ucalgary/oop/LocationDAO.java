@@ -16,10 +16,12 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
         this.connection = connection;
     }
 
-    /** 
-     * @param rs
-     * @return Location
-     * @throws SQLException
+    /**
+     * Builds a Location object from data obtained from the database
+     * 
+     * @param rs The ResultSet to take the parameters from
+     * @return A Location created with the provided data
+     * @throws SQLException If there was an error with getting the ResultSet
      */
     private Location build(ResultSet rs) throws SQLException 
     {
@@ -32,7 +34,9 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     /** 
-     * @return List<Location>
+     * Gets all of the locations inside of the database.
+     * 
+     * @return A list of all the found locations
      */
     @Override
     public List<Location> getAll()
@@ -54,8 +58,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     /** 
-     * @param locationId
-     * @return Location
+     * Gets a location by ID from the database.
+     * 
+     * @param locationId The ID of the location to look for
+     * @return The Location if one was found, null otherwise
      */
     @Override
     public Location getById(Integer locationId)
@@ -78,8 +84,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     /** 
-     * @param location
-     * @return boolean
+     * Inserts a new location into the database.
+     * 
+     * @param location The location to insert to the database
+     * @return True if the operation was successful, false otherwise
      */
     @Override 
     public boolean insert(Location location)
@@ -106,8 +114,10 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
     }
 
     /** 
-     * @param location
-     * @return boolean
+     * Updates a location on the database.
+     * 
+     * @param location The Location to update with. The updated location corresponds to location.getId()
+     * @return True if the operation was successful, false otherwise
      */
     @Override
     public boolean update(Location location)
@@ -131,7 +141,7 @@ public class LocationDAO implements GenericDAO<Location, Integer> {
 
     /** 
      * @param locationId
-     * @return boolean
+     * @return True if the operation was successful, false otherwise
      */
     @Override
     public boolean delete(Integer locationId)

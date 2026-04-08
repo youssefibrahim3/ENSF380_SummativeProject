@@ -21,7 +21,7 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
      * Builds a ReliefService object from data obtained from the database.
      * 
      * @param rs The ResultSet to take the parameters from
-     * @return A ReliefService created the provided data
+     * @return A ReliefService created with the provided data
      * @throws SQLException If there was an error with getting the ResultSet
      */
     private ReliefService build(ResultSet rs) throws SQLException {
