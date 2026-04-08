@@ -1,5 +1,6 @@
 package edu.ucalgary.oop;
 
+
 public class TradeSkill extends Skill {
     
     public enum SkillType {

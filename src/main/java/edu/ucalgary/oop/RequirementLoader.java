@@ -4,6 +4,14 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * Class for loading .ser files
+ *
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-05
+ */
 public class RequirementLoader {
     private static final String FILE_PATH = "data/available_requirements.ser";
     private CulturalOptions options;

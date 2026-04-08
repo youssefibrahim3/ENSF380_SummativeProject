@@ -3,6 +3,14 @@ package edu.ucalgary.oop;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Main entry point for the program. Accesses ConsoleUI
+ *
+ * 
+ * @author Youssef Ibrahim
+ * @version 2.0
+ * @since 2026-04-03
+ */
 public class Main {
     public static void main(String args[])
     {

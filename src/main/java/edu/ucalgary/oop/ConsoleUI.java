@@ -3,6 +3,14 @@ package edu.ucalgary.oop;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class handling main console UI interactions
+ *
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-04
+ */
 public class ConsoleUI {
     //Should I create a DAO object directly, or use stuff like "SupplyController" that interact with the DAO within them?
 

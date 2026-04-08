@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 /**
- * Class for logging actions to data/action_log.txt
+ * Class for logging database actions to action_log.txt
+ *
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-04
  */
 public class ActionLogger {
     private static final String FILE_NAME = "data/action_log.txt";
