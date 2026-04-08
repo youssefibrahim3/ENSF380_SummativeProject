@@ -5,6 +5,7 @@ See LICENSE.txt for more information.
 */
 
 package edu.ucalgary.oop;
+import java.io.Console;
 import java.util.Scanner;
 
 public class Main {
@@ -80,54 +81,8 @@ public class Main {
     
     public static void main(String args[])
     {
-        Scanner scanner = new Scanner(System.in);
-
-        boolean using = true;
-
-        System.out.println("-- Disaster Relief Management System --");
-        while (using)
-        { //inquiries, supplies, locations, medical records, relationships, etc
-            System.out.println("""
-                Please enter an option:
-                0 - Exit program
-                
-                1 - Manage Victims
-                2 - Manage Supplies
-                3 - Manage Locations
-                4 - Manage Medical Records
-                5 - Manage Relationships
-                6 - Manage Inquiries
-                    """);
-            int choice = Integer.parseInt(scanner.nextLine());
-
-            //add/modify everythang
-            switch (choice) {
-                case 0:
-                    System.out.println("Exiting...\n");
-                    using = false;
-                    break;
-                case 1:
-                    manageVictims(scanner, null);
-                    break;
-                case 2:
-                    manageSupplies(scanner, null);
-                    break;
-                case 3:
-                    manageLocations(scanner, null);
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                default:
-                    System.out.println("Unrecognized input. Please enter a valid input.\n");
-                    break;
-            }
-
-        }
-        scanner.close();
+        ConsoleUI consoleUI = new ConsoleUI();
+        consoleUI.start();
     }
 
 
