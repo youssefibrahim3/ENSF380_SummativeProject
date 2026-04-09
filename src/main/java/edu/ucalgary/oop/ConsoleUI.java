@@ -377,7 +377,7 @@ public class ConsoleUI {
     {
         DisasterVictim victim = pickVictim("Select victim to soft delete:");
         if (victim == null) return;
-        System.out.println("WARNING: This will hide " + victim.getFirstName() +
+        System.out.println("This will hide " + victim.getFirstName() +
             " " + victim.getLastName() + " from the system. Continue? (y/n)");
         if (scanner.nextLine().trim().equalsIgnoreCase("y")) {
             victimDAO.softDelete(victim.getId());
@@ -395,8 +395,8 @@ public class ConsoleUI {
     {
         DisasterVictim victim = pickVictim("Select victim to permanently delete:");
         if (victim == null) return;
-        System.out.println("WARNING: This will PERMANENTLY delete " + victim.getFirstName() +
-            " " + victim.getLastName() + " and ALL their records. This cannot be undone.");
+        System.out.println("This will PERMANENTLY delete " + victim.getFirstName() +
+            " " + victim.getLastName() + " and all their records. This cannot be undone.");
         System.out.println("Type 'DELETE' to confirm:");
         if (scanner.nextLine().trim().equals("DELETE")) {
             victimDAO.delete(victim.getId());
