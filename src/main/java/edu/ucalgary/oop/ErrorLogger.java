@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
- * Class for logging errors to error_log.txt
+ * Class for logging errors to errorlog.txt
  *
  * @author Youssef Ibrahim
  * @version 1.0
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 
 public class ErrorLogger {
-    private static final String FILE_NAME = "data/error_log.txt";
+    private static final String FILE_NAME = "data/errorlog.txt";
 
     /**
      * Writes an error log as text into action_log.txt.
