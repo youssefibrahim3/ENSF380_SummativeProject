@@ -613,7 +613,10 @@ public class ConsoleUI {
 
     private void deleteSupply() {
         List<Supply> supplies = supplyDAO.getAll();
-        if (supplies.isEmpty()) { System.out.println("No supplies."); return; }
+        if (supplies.isEmpty()) { 
+            System.out.println("No supplies."); 
+            return; 
+        }
         System.out.println("Select supply to delete:");
         for (int i = 0; i < supplies.size(); i++) {
             System.out.println((i+1) + ". " + supplies.get(i).getType());
@@ -623,8 +626,12 @@ public class ConsoleUI {
             if (choice >= 0 && choice < supplies.size()) {
                 supplyDAO.delete(supplies.get(choice).getId());
                 System.out.println("Supply deleted.");
-            } else System.out.println("Invalid selection.");
-        } catch (NumberFormatException e) { System.out.println("Please enter a number."); }
+            } else {
+                System.out.println("Invalid selection.");
+            }
+        } catch (NumberFormatException e) { 
+            System.out.println("Please enter a number."); 
+        }
     }
 
 
@@ -719,6 +726,7 @@ public class ConsoleUI {
         locationDAO.update(loc);
         System.out.println("Location updated.");
     }
+
 
     /**
      * Provides options regarding managing locations in the database.
