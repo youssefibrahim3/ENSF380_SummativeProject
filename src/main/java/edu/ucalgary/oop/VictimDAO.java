@@ -637,5 +637,20 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    public boolean deleteFamilyRelationship(int personOneId, int personTwoId) {
+        String sql = "DELETE FROM FamilyRelationship WHERE person_one_id = ? AND person_two_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, personOneId);
+            ps.setInt(2, personTwoId);
+            ps.executeUpdate();
+            ActionLogger.getInstance().log("DELETED", "family relationship between " + personOneId + " and " + personTwoId);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error deleting relationship: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
 
