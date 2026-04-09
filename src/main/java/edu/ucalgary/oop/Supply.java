@@ -6,7 +6,7 @@ import java.time.LocalDate;
  * Class representing a single supply
  * 
  * @author Youssef Ibrahim
- * @version 1.0
+ * @version 2.0
  * @since 2026-04-02
  */
 public class Supply {
@@ -18,8 +18,8 @@ public class Supply {
 
     private int id;
 
-    private int location_id = -1;
-    private int victim_id = -1;
+    private int location_id = 0;
+    private int victim_id = 0;
     private String description;
 
     public Supply(String type, int quantity, boolean perishable, LocalDate expirationDate, int location_id, int victim_id, String description) throws IllegalArgumentException {
