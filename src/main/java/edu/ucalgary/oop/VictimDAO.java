@@ -47,7 +47,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
             if (category.equals("medical")) {
                 MedicalSkill.Certification cert = MedicalSkill.Certification.valueOf(
-                    rs.getString("details").toUpperCase().replace("-", "_"));
+                    rs.getString("skill_name").toUpperCase().replace("-", "_"));
                 Date expiry = rs.getDate("certification_expiry");
                 skills.add(new MedicalSkill(level, cert, 
                     expiry != null ? expiry.toLocalDate() : null));
