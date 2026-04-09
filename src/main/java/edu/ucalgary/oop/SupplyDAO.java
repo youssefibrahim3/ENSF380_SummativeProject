@@ -111,13 +111,13 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         try {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, supply.getType());
-            if (supply.getLocationId() != -1)
+            if (supply.getLocationId() != 0)
             {
                 ps.setInt(2, supply.getLocationId());
             } else {
                 ps.setNull(2, Types.INTEGER);
             }
-            if (supply.getVictimId() != -1)
+            if (supply.getVictimId() != 0)
             {
                 ps.setInt(3, supply.getVictimId());
             } else {
@@ -159,8 +159,18 @@ public class SupplyDAO implements GenericDAO<Supply, Integer> {
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, supply.getType());
-            ps.setInt(2, supply.getLocationId());
-            ps.setInt(3, supply.getVictimId());
+            if (supply.getLocationId() != 0)
+            {
+                ps.setInt(2, supply.getLocationId());
+            } else {
+                ps.setNull(2, Types.INTEGER);
+            }
+            if (supply.getVictimId() != 0)
+            {
+                ps.setInt(3, supply.getVictimId());
+            } else {
+                ps.setNull(3, Types.INTEGER);
+            }
             if (supply.getExpirationDate() != null)
             {
                 ps.setDate(4, Date.valueOf(supply.getExpirationDate()));

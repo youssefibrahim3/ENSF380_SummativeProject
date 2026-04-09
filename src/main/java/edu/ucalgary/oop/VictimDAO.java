@@ -165,7 +165,6 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         String victimSQL = "INSERT INTO DisasterVictim (person_id, gender, entry_date, location_id, date_of_birth, approximate_age) " +
                            "VALUES (?, ?, CURRENT_DATE, ?, ?, ?)";
         try {
-            // Step 1: insert into Person, get the new ID
             PreparedStatement ps1 = connection.prepareStatement(personSQL);
             ps1.setString(1, victim.getFirstName());
             ps1.setString(2, victim.getLastName());
@@ -175,13 +174,12 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             int newId = rs.getInt("id");
             victim.setId(newId);
 
-            // Step 2: insert into DisasterVictim
             PreparedStatement ps2 = connection.prepareStatement(victimSQL);
             ps2.setInt(1, newId);
             ps2.setString(2, victim.getGender());
             ps2.setInt(3, victim.getLocationId());
 
-            // Feature 5: only one of dob or approxAge, never both
+            //Feature 5
             if (victim.getDateOfBirth() != null) {
                 ps2.setDate(4, Date.valueOf(victim.getDateOfBirth()));
                 ps2.setNull(5, Types.INTEGER);

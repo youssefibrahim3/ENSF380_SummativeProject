@@ -284,15 +284,18 @@ public class DisasterVictim {
             return;
         }
         
-        String[] adultOptions = {"man", "woman"};
+        String[] adultOptions = {"man", "woman", "non-binary person"};
         String[] childOptions = {"boy", "girl"};
         
-        // Check for "please specify" option
         if (lowerGender.equals("please specify")) {
-            this.gender = normalizedGender;  // Store "Please specify" as-is
+            this.gender = normalizedGender;
             return;
         }
-        
+        if (lowerGender.equals("non-binary person")) {
+            this.gender = "non-binary person";
+            return;
+        }
+            
         boolean isValidOption = false;
         String properCaseOption = null;
         

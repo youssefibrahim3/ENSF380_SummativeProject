@@ -62,7 +62,6 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
         ReliefService inquiry = new ReliefService(inquirer, missingPerson, inquiryDate, details, null);
         inquiry.setId(id);
         ps1.close();
-        rs.close();
         return inquiry;
     }
 
@@ -130,7 +129,11 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, inquiry.getInquirer().getId());
             ps.setInt(2, inquiry.getMissingPerson().getId());
-            ps.setString(3, inquiry.getLogDetails());
+            if (inquiry.getLastKnownLocation() != null) {
+                ps.setString(3, inquiry.getLogDetails());
+            } else {
+                ps.setString(3, inquiry.getInfoProvided());
+            }
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -163,7 +166,11 @@ public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
             ps.setInt(1, inquiry.getInquirer().getId());
             ps.setInt(2, inquiry.getMissingPerson().getId());
             ps.setDate(3, Date.valueOf(inquiry.getDateOfInquiry()));
-            ps.setString(4, inquiry.getLogDetails());
+            if (inquiry.getLastKnownLocation() != null) {
+                ps.setString(4, inquiry.getLogDetails());
+            } else {
+                ps.setString(4, inquiry.getInfoProvided());
+            }            
             ps.setInt(5, inquiry.getId());
             ps.executeUpdate();
             ps.close();
