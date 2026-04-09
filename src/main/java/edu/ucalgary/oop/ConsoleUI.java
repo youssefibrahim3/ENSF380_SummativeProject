@@ -53,8 +53,13 @@ public class ConsoleUI {
                     5 - Manage Medical Records
                     6 - Manage Relationships
                         """);
-                int choice = Integer.parseInt(scanner.nextLine());
-
+                int choice;
+                try {
+                    choice = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a number.");
+                    continue; //so loop continues
+                }
                 switch (choice) {
                     case 0:
                         System.out.println("Exiting...\n");
@@ -159,7 +164,7 @@ public class ConsoleUI {
         String lastName = scanner.nextLine().trim();
 
         // Gender
-        System.out.println("Gender: 1=Man, 2=Woman, 3=Boy, 4=Girl, 5=Non-binary person, 6=Please specify");
+        System.out.println("Gender: 1 - Man, 2 - Woman, 3 - Boy, 4 - Girl, 5 - Non-binary person, 6 - Please specify");
         String gender = null;
         String[] genderOptions = {"man", "woman", "boy", "girl", "non-binary person", "please specify"};
         try {
@@ -273,7 +278,7 @@ public class ConsoleUI {
                     victimDAO.update(victim);
                     break;
                 case 3:
-                    System.out.println("Gender: 1=Man, 2=Woman, 3=Boy, 4=Girl, 5=Non-binary person");
+                    System.out.println("Gender: 1 - Man, 2 - Woman, 3 - Boy, 4 - Girl, 5 - Non-binary person");
                     String[] genderOptions = {"man", "woman", "boy", "girl", "non-binary person"};
                     int g = Integer.parseInt(scanner.nextLine()) - 1;
                     if (g >= 0 && g < genderOptions.length) {
@@ -408,7 +413,7 @@ public class ConsoleUI {
 
             Skill skill = null;
             if (cat == 1) {
-                System.out.println("Certification: 1=First Aid, 2=Counseling, 3=Nursing, 4=Doctor");
+                System.out.println("Certification: 1 - First Aid, 2 - Counseling, 3 - Nursing, 4 - Doctor");
                 int certChoice = Integer.parseInt(scanner.nextLine());
                 MedicalSkill.Certification[] certs = MedicalSkill.Certification.values();
                 if (certChoice < 1 || certChoice > 4) { System.out.println("Invalid."); return; }
@@ -418,7 +423,7 @@ public class ConsoleUI {
             } else if (cat == 2) {
                 System.out.print("Language: ");
                 String lang = scanner.nextLine().trim();
-                System.out.println("Capabilities: 1=Read/Write, 2=Speak/Listen, 3=Both");
+                System.out.println("Capabilities: 1 - Read/Write, 2 - Speak/Listen, 3 - Both");
                 int capChoice = Integer.parseInt(scanner.nextLine());
                 LanguageSkill.Capabilities[] caps;
                 if (capChoice == 1) caps = new LanguageSkill.Capabilities[]{LanguageSkill.Capabilities.READ_WRITE};
@@ -426,7 +431,7 @@ public class ConsoleUI {
                 else caps = new LanguageSkill.Capabilities[]{LanguageSkill.Capabilities.READ_WRITE, LanguageSkill.Capabilities.SPEAK_LISTEN};
                 skill = new LanguageSkill(level, lang, caps);
             } else if (cat == 3) {
-                System.out.println("Trade type: 1=Carpentry, 2=Plumbing, 3=Electricity");
+                System.out.println("Trade type: 1 - Carpentry, 2 - Plumbing, 3 - Electricity");
                 int typeChoice = Integer.parseInt(scanner.nextLine());
                 TradeSkill.SkillType[] types = TradeSkill.SkillType.values();
                 if (typeChoice < 1 || typeChoice > 3) { System.out.println("Invalid."); return; }
@@ -471,7 +476,7 @@ public class ConsoleUI {
     }
 
     private void searchBySkillCategory() {
-        System.out.println("Category: 1=Medical, 2=Language, 3=Trade");
+        System.out.println("Category: 1 - Medical, 2 - Language, 3 - Trade");
         try {
             int choice = Integer.parseInt(scanner.nextLine());
             String[] categories = {"medical", "language", "trade"};
@@ -587,9 +592,16 @@ public class ConsoleUI {
             System.out.println((i+1) + ". " + available.get(i).getType());
         }
         int supplyChoice;
-        try { supplyChoice = Integer.parseInt(scanner.nextLine()) - 1; }
-        catch (NumberFormatException e) { System.out.println("Please enter a number."); return; }
-        if (supplyChoice < 0 || supplyChoice >= available.size()) { System.out.println("Invalid."); return; }
+        try { 
+            supplyChoice = Integer.parseInt(scanner.nextLine()) - 1; 
+        } catch (NumberFormatException e) { 
+            System.out.println("Please enter a number."); 
+            return; 
+        }
+        if (supplyChoice < 0 || supplyChoice >= available.size()) { 
+            System.out.println("Invalid."); 
+            return; 
+        }
 
         DisasterVictim victim = pickVictim("Select victim to allocate to:");
         if (victim == null) return;
@@ -602,7 +614,10 @@ public class ConsoleUI {
 
     private void viewSupplies() {
         List<Supply> supplies = supplyDAO.getAll();
-        if (supplies.isEmpty()) { System.out.println("No supplies."); return; }
+        if (supplies.isEmpty()) { 
+            System.out.println("No supplies."); 
+            return; 
+        }
         System.out.println("\n-- Supplies --");
         for (Supply s : supplies) {
             String status = s.isExpired() ? " [EXPIRED]" : "";
@@ -661,7 +676,13 @@ public class ConsoleUI {
                     4. Delete Supply
                     """);
 
-            int choice = Integer.parseInt(scanner.nextLine());
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+                continue; //so loop continues
+            }            
             switch(choice)
             {
                 case 0:
@@ -756,7 +777,13 @@ public class ConsoleUI {
                     4. Delete Location
                     """);
 
-            int choice = Integer.parseInt(scanner.nextLine());
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+                continue; //so loop continues
+            }            
             switch(choice)
             {
                 case 0:
@@ -833,7 +860,8 @@ public class ConsoleUI {
             System.out.println((i+1) + ". [ID:" + inq.getId() + "] " + inq.getInfoProvided());
         }
         try {
-            int choice = Integer.parseInt(scanner.nextLine()) - 1;
+            int choice = Integer.parseInt(scanner.nextLine()) - 1; 
+
             if (choice < 0 || choice >= inquiries.size()) { 
                 System.out.println("Invalid."); 
                 return; 
@@ -896,8 +924,15 @@ public class ConsoleUI {
                     3. Modify Inquiry
                     4. Delete Inquiry
                     """);
+            
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+                continue; //so loop continues
+            }
 
-            int choice = Integer.parseInt(scanner.nextLine());
             switch(choice)
             {
                 case 0:
@@ -977,7 +1012,13 @@ public class ConsoleUI {
                     2. View Medical Records for Victim
                     """);
 
-            int choice = Integer.parseInt(scanner.nextLine());
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+                continue; //so loop continues
+            }            
             switch(choice)
             {
                 case 0:
@@ -1076,7 +1117,13 @@ public class ConsoleUI {
                     3. Delete Relationship
                     """);
 
-            int choice = Integer.parseInt(scanner.nextLine());
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number.");
+                continue; //so loop continues
+            }            
             switch(choice)
             {
                 case 0:
