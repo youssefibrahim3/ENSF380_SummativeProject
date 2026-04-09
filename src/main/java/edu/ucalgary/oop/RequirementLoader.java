@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 public class RequirementLoader {
-    private static final String FILE_PATH = "data/available_requirements.ser";
+    private static final String FILE_PATH = "src/main/resources/available_requirements.ser";
     private CulturalOptions options;
 
     /**
