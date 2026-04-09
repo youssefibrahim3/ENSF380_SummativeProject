@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * Class for logging errors to data/errorlog.txt
  */
 public class ErrorLogger {
-    private static final String FILE_NAME = "data/errorlog.txt";
+    private static final String FILE_NAME = "data/error_log.txt";
 
     /**
      * Writes an error log as text into action_log.txt.

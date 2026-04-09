@@ -1,5 +1,6 @@
 package edu.ucalgary.oop;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -20,13 +21,7 @@ public class DatabaseManager {
             try {
                 // Read the properties file
                 Properties props = new Properties();
-                InputStream input = DatabaseManager.class
-                    .getClassLoader()
-                    .getResourceAsStream("app.properties");
-                if (input == null)
-                {
-                    System.out.println("app.properties NOT FOUND");
-                }
+                InputStream input = new FileInputStream("src/main/resources/app.properties");
                 props.load(input);
 
                 String url  = props.getProperty("db.url");
