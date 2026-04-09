@@ -20,6 +20,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
     private final Connection connection;
 
+    /**
+     * Constructs a new VictimDAO with the provided connection.
+     * 
+     * @param connection The database connection for the DAO
+     */
     public VictimDAO(Connection connection) 
     {
         this.connection = connection;
@@ -27,8 +32,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
 
     /** 
-     * @param victimId
-     * @return List<Skill>
+     * Loads a victim's skills.
+     * 
+     * @param victimId The ID of the victim
+     * @return A list of all of the victim's skills
      * @throws SQLException
      */
     private List<Skill> loadSkills(int victimId) throws SQLException {
@@ -72,8 +79,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param rs
-     * @return DisasterVictim
+     * Builds a DisasterVictimVictim object from a ResultSet
+     * 
+     * @param rs the ResultSet containing the victim's information
+     * @return A DisasterVictim made from the ResultSet
      * @throws SQLException
      */
     private DisasterVictim build(ResultSet rs) throws SQLException 
@@ -89,7 +98,6 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         LocalDate dob = (dobSQL != null) ? dobSQL.toLocalDate() : null;
         int approxAge = rs.getInt("approximate_age");
 
-        // Use the right constructor 
         DisasterVictim v;
         if (dob != null) {
             v = new DisasterVictim(firstName, entryDate, dob);
@@ -110,7 +118,9 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @return List<DisasterVictim>
+     * Gets a list of all victims.
+     * 
+     * @return A list of all DisasterVictims
      */
     @Override
     public List<DisasterVictim> getAll() 
@@ -133,8 +143,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param personId
-     * @return DisasterVictim
+     * Gets a victim by ID.
+     * 
+     * @param personId The ID of the victim
+     * @return The DisasterVictim at this ID, if found.
      */
     @Override
     public DisasterVictim getById(Integer personId) 
@@ -155,8 +167,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param victim
-     * @return boolean
+     * Inserts a new victim into the database.
+     * 
+     * @param victim The victim to insert.
+     * @return True if operation successful, false otherwise
      */
     @Override
     public boolean insert(DisasterVictim victim) 
@@ -200,8 +214,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param victim
-     * @return boolean
+     * Updates a victim in the database.
+     * 
+     * @param victim The victim to update
+     * @return True if operation successful, false otherwise
      */
     @Override
     public boolean update(DisasterVictim victim) 
@@ -233,8 +249,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
 
     /** 
-     * @param personId
-     * @return boolean
+     * Hard-deletes a victim.
+     * 
+     * @param personId The ID of the victim to delete.
+     * @return True if operation successful, false otherwise
      */
     //Feature 4
     @Override
@@ -254,8 +272,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
+     * Soft-deletes a victim. (so they are not removed from the database)
+     * 
      * @param personId
-     * @return boolean
+     * @return True if operation successful, false otherwise
      */
     public boolean softDelete(Integer personId) 
     {
@@ -273,9 +293,12 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param personId
-     * @param newAge
-     * @return boolean
+     * Updates the approximate age of a victim,
+     * if the victim does not already has a date of birth.
+     * 
+     * @param personId The ID of the victim
+     * @param newAge The new approximate age
+     * @return True if operation successful, false otherwise
      */
     //Feature 5
     public boolean updateApproximateAge(int personId, int newAge) 
@@ -283,7 +306,6 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         String checkSQL = "SELECT date_of_birth FROM DisasterVictim WHERE person_id = ?";
         String updateSQL = "UPDATE DisasterVictim SET approximate_age = ? WHERE person_id = ?";
         try {
-            // Don't allow if they already have a real DOB
             PreparedStatement check = connection.prepareStatement(checkSQL);
             check.setInt(1, personId);
             ResultSet rs = check.executeQuery();
@@ -306,9 +328,12 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param personId
-     * @param dob
-     * @return boolean
+     * Updates the date of birth of a victim.
+     * Sets the approximate age to NULL.
+     * 
+     * @param personId The victim's ID
+     * @param dob The date of birth for the victim
+     * @return True if operation successful, false otherwise
      */
     //Feature 5
     public boolean replaceAgeWithDOB(int personId, LocalDate dob) 
@@ -331,11 +356,12 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
 
     /** 
-     * @param victim
+     * Loads the cultural requirements for a victim.
+     * 
+     * @param victim The victim to load from
      */
     //Feature 7
 
-    // Load cultural requirements for a victim from DB into their object
     public void loadCulturalRequirements(DisasterVictim victim) {
         String sql = "SELECT requirement_category, requirement_option " +
                     "FROM CulturalRequirement WHERE victim_id = ?";
@@ -358,14 +384,12 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
      * Inserts a cultural requirement into the database.
      * If one already exists, then it updates it.
      * 
-     * @param victimId
-     * @param category
-     * @param option
-     * @return boolean
+     * @param victimId The ID of the victim
+     * @param category The requirement category
+     * @param option The requirement option
+     * @return True if operation successful, false otherwise
      */
-    // Save a cultural requirement for a victim to DB
     public boolean insertCulturalRequirement(int victimId, String category, String option) {
-        // Use INSERT ... ON CONFLICT to handle updating existing category
         String sql = "INSERT INTO CulturalRequirement (victim_id, requirement_category, requirement_option) " +
                     "VALUES (?, ?, ?) " +
                     "ON CONFLICT (victim_id, requirement_category) DO UPDATE SET requirement_option = ?";
@@ -388,13 +412,14 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     //Feature 8
 
     /** 
-     * @param victimId
-     * @param skill
-     * @return boolean
+     * Inserts a new skill to a victim in the database.
+     * 
+     * @param victimId The ID of the victim
+     * @param skill The Skill to insert
+     * @return True if operation successful, false otherwise
      */
-    // Add a skill to a victim in the DB
+
     public boolean insertSkill(int victimId, Skill skill) {
-        // First get or create the skill in the Skill table
         String skillName = getSkillName(skill);
         String category = skill.getSkillCategory().name().toLowerCase();
         String proficiency = skill.getProficiencyLevel().name().toLowerCase();
@@ -405,13 +430,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         String victimSkillSQL = "INSERT INTO VictimSkill (victim_id, skill_id, details, language_capabilities, " +
                                 "certification_expiry, proficiency_level) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-            // Ensure skill exists in Skill table
             PreparedStatement ps1 = connection.prepareStatement(skillSQL);
             ps1.setString(1, skillName);
             ps1.setString(2, category);
             ps1.executeUpdate();
 
-            // Get the skill id
             PreparedStatement ps2 = connection.prepareStatement(getSkillIdSQL);
             ps2.setString(1, skillName);
             ps2.setString(2, category);
@@ -419,7 +442,6 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             rs.next();
             int skillId = rs.getInt("id");
 
-            // Insert into VictimSkill with category-specific fields
             PreparedStatement ps3 = connection.prepareStatement(victimSkillSQL);
             ps3.setInt(1, victimId);
             ps3.setInt(2, skillId);
@@ -435,7 +457,7 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
             } else if (skill instanceof LanguageSkill) {
                 LanguageSkill ls = (LanguageSkill) skill;
                 ps3.setNull(3, Types.VARCHAR);
-                // Join capabilities into a string e.g. "read/write, speak/listen"
+
                 StringBuilder caps = new StringBuilder();
                 for (LanguageSkill.Capabilities c : ls.getCapabilities()) {
                     if (caps.length() > 0) caps.append(", ");
@@ -464,11 +486,13 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param victimId
-     * @param skill
-     * @return boolean
+     * Removes a skill from a victim in the database.
+     * 
+     * @param victimId The ID of the victim
+     * @param skill The Skill
+     * @return True if operation successful, false otherwise
      */
-    // Remove a skill from a victim in the DB
+
     public boolean deleteSkill(int victimId, Skill skill) {
         String skillName = getSkillName(skill);
         String category = skill.getSkillCategory().name().toLowerCase();
@@ -490,10 +514,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param category
-     * @return List<DisasterVictim>
+     * Search all victims by skill category
+     * 
+     * @param category The category of skills to search for
+     * @return A list of victims that fit the criteria
      */
-    // Search all non-soft-deleted victims by skill category
     public List<DisasterVictim> getVictimsBySkillCategory(String category) {
         List<DisasterVictim> results = new ArrayList<>();
         String sql = "SELECT DISTINCT p.id, p.first_name, p.last_name, p.comments, " +
@@ -517,10 +542,11 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param skill
-     * @return String
+     * Gets the skill name from any Skill type
+     * 
+     * @param skill The Skill to get the name of
+     * @return The name of the skill
      */
-    // Helper — gets the skill name string from any Skill subclass
     private String getSkillName(Skill skill) {
         if (skill instanceof MedicalSkill) {
             return ((MedicalSkill) skill).getCertification().name().toLowerCase().replace("_", "-");
@@ -532,11 +558,12 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param victimId
-     * @param record
-     * @return boolean
+     * Inserts a new medical record for a victim into the database
+     * 
+     * @param victimId The ID of the victim
+     * @param record The MedicalRecord to insert
+     * @return True if operation successful, false otherwise
      */
-    // ── MEDICAL RECORDS ──────────────────────────────────────────────────────────
 
     public boolean insertMedicalRecord(int victimId, MedicalRecord record) {
         String sql = "INSERT INTO MedicalRecord (victim_id, treatment_details, treatment_date, location_id) " +
@@ -557,8 +584,10 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param victim
-     * @param locationDAO
+     * Loads medical records for a victim.
+     * 
+     * @param victim The DisasterVictim to load from
+     * @param locationDAO The locationDAO (to load a LocationID into the medical record)
      */
     public void loadMedicalRecords(DisasterVictim victim, LocationDAO locationDAO) {
         String sql = "SELECT * FROM MedicalRecord WHERE victim_id = ?";
@@ -583,12 +612,13 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param personOneId
-     * @param personTwoId
-     * @param relationshipType
-     * @return boolean
+     * Inserts a new family relationship into the database.
+     * 
+     * @param personOneId The ID of the first person in the relationship
+     * @param personTwoId The ID of the second person in the relationship
+     * @param relationshipType The type of relationship
+     * @return True if operation successful, false otherwise
      */
-    // ── FAMILY RELATIONSHIPS ──────────────────────────────────────────────────────
 
     public boolean insertFamilyRelationship(int personOneId, int personTwoId, String relationshipType) {
         String sql = "INSERT INTO FamilyRelationship (person_one_id, person_two_id, relationship_type) " +
@@ -609,7 +639,9 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
     }
 
     /** 
-     * @param victim
+     * Loads all family relationships for a victim.
+     * 
+     * @param victim The DisasterVictim to load relationships from
      */
     public void loadFamilyRelationships(DisasterVictim victim) {
         String sql = "SELECT * FROM FamilyRelationship WHERE person_one_id = ? OR person_two_id = ?";
@@ -637,6 +669,13 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
         }
     }
 
+    /**
+     * Deletes the relationship between two people in the database.
+     * 
+     * @param personOneId The ID of the first person in the relationship
+     * @param personTwoId The ID of the second person in the relationship
+     * @return True if operation successful, false otherwise
+     */
     public boolean deleteFamilyRelationship(int personOneId, int personTwoId) {
         String sql = "DELETE FROM FamilyRelationship WHERE person_one_id = ? AND person_two_id = ?";
         try {
