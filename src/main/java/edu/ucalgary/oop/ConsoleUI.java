@@ -727,6 +727,17 @@ public class ConsoleUI {
         System.out.println("Location updated.");
     }
 
+    private void deleteLocation() {
+        Location loc = pickLocation("Select location to delete:");
+        if (loc == null) return;
+        System.out.println("WARNING: Deleting a location may affect victims assigned to it. Continue? (y/n)");
+        if (scanner.nextLine().trim().equalsIgnoreCase("y")) {
+            locationDAO.delete(loc.getId());
+            System.out.println("Location deleted.");
+        } else {
+            System.out.println("Cancelled.");
+        }
+    }
 
     /**
      * Provides options regarding managing locations in the database.
@@ -742,6 +753,7 @@ public class ConsoleUI {
                     1. Add Location
                     2. View Locations
                     3. Modify Location
+                    4. Delete Location
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -758,6 +770,9 @@ public class ConsoleUI {
                     break;
                 case 3:
                     modifyLocation();
+                    break;
+                case 4:
+                    deleteLocation();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -806,10 +821,65 @@ public class ConsoleUI {
         } 
     }
 
-    private void modifyInquiry()
-    {
-
+    private void modifyInquiry() {
+        List<ReliefService> inquiries = inquiryDAO.getAll();
+        if (inquiries.isEmpty()) { 
+            System.out.println("No inquiries."); 
+            return; 
+        }
+        System.out.println("Select inquiry to modify:");
+        for (int i = 0; i < inquiries.size(); i++) {
+            ReliefService inq = inquiries.get(i);
+            System.out.println((i+1) + ". [ID:" + inq.getId() + "] " + inq.getInfoProvided());
+        }
+        try {
+            int choice = Integer.parseInt(scanner.nextLine()) - 1;
+            if (choice < 0 || choice >= inquiries.size()) { 
+                System.out.println("Invalid."); 
+                return; 
+            }
+            ReliefService inquiry = inquiries.get(choice);
+            System.out.print("New details (current: " + inquiry.getInfoProvided() + "): ");
+            String newDetails = scanner.nextLine().trim();
+            if (newDetails.isEmpty()) { 
+                System.out.println("Details cannot be empty."); 
+                return; 
+            }
+            inquiry.setInfoProvided(newDetails);
+            inquiryDAO.update(inquiry);
+            System.out.println("Inquiry updated.");
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a number.");
+        }
     }
+
+    private void deleteInquiry() {
+        List<ReliefService> inquiries = inquiryDAO.getAll();
+        if (inquiries.isEmpty()) { 
+            System.out.println("No inquiries."); 
+            return; 
+        }
+        System.out.println("Select inquiry to delete:");
+        for (int i = 0; i < inquiries.size(); i++) {
+            ReliefService inq = inquiries.get(i);
+            System.out.println((i+1) + ". [ID:" + inq.getId() + "] " +
+                (inq.getInquirer() != null ? inq.getInquirer().getFirstName() : "?") +
+                " -> " +
+                (inq.getMissingPerson() != null ? inq.getMissingPerson().getFirstName() : "?"));
+        }
+        try {
+            int choice = Integer.parseInt(scanner.nextLine()) - 1;
+            if (choice >= 0 && choice < inquiries.size()) {
+                inquiryDAO.delete(inquiries.get(choice).getId());
+                System.out.println("Inquiry deleted.");
+            } else {
+                System.out.println("Invalid selection.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a number.");
+        }
+    }
+
     /**
      * Provides options regarding managing inquiries in the database.
      */
@@ -824,6 +894,7 @@ public class ConsoleUI {
                     1. Add Inquiry
                     2. View Inquiries
                     3. Modify Inquiry
+                    4. Delete Inquiry
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -840,6 +911,9 @@ public class ConsoleUI {
                     break;
                 case 3:
                     modifyInquiry();
+                    break;
+                case 4:
+                    deleteInquiry();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -939,6 +1013,37 @@ public class ConsoleUI {
         System.out.println("Relationship added.");
     }
 
+    private void deleteRelationship() {
+        DisasterVictim v = pickVictim("Select victim to view relationships:");
+        if (v == null) return;
+        victimDAO.loadFamilyRelationships(v);
+        FamilyRelation[] relations = v.getFamilyConnections();
+        if (relations.length == 0) { 
+            System.out.println("No relationships found."); 
+            return; 
+        }
+        System.out.println("Select relationship to delete:");
+        for (int i = 0; i < relations.length; i++) {
+            System.out.println((i+1) + ". " + relations[i].getPersonOne().getFirstName() +
+                " is " + relations[i].getRelationshipTo() + " of " +
+                relations[i].getPersonTwo().getFirstName());
+        }
+        try {
+            int choice = Integer.parseInt(scanner.nextLine()) - 1;
+            if (choice >= 0 && choice < relations.length) {
+                victimDAO.deleteFamilyRelationship(
+                    relations[choice].getPersonOne().getId(),
+                    relations[choice].getPersonTwo().getId()
+                );
+                System.out.println("Relationship deleted.");
+            } else {
+                System.out.println("Invalid selection.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a number.");
+        }
+    }
+
     private void viewRelationships()
     {
         DisasterVictim v = pickVictim("Select victim:");
@@ -968,6 +1073,7 @@ public class ConsoleUI {
                     0. Back
                     1. Add Relationship
                     2. View Relationships for Victim
+                    3. Delete Relationship
                     """);
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -981,6 +1087,9 @@ public class ConsoleUI {
                     break;
                 case 2:
                     viewRelationships();
+                    break;
+                case 3:
+                    deleteRelationship();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
