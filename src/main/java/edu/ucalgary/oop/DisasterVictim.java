@@ -40,6 +40,13 @@ public class DisasterVictim {
     private boolean isDeleted;
     private List<Skill> skills;
     
+    /**
+     * 
+     * 
+     * @param firstName
+     * @param ENTRY_DATE
+     * @throws IllegalArgumentException
+     */
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE) throws IllegalArgumentException {
         if (ENTRY_DATE == null) {
             throw new IllegalArgumentException("Entry date cannot be null");
@@ -54,11 +61,27 @@ public class DisasterVictim {
         this.requirements = new HashMap<>();
     }
 
+    /**
+     * 
+     * 
+     * @param firstName
+     * @param ENTRY_DATE
+     * @param dateOfBirth
+     * @throws IllegalArgumentException
+     */
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, LocalDate dateOfBirth) throws IllegalArgumentException {
         this(firstName, ENTRY_DATE);
         setDateOfBirth(dateOfBirth);
     }
 
+    /**
+     * 
+     * 
+     * @param firstName
+     * @param ENTRY_DATE
+     * @param approxAge
+     * @throws IllegalArgumentException
+     */
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, int approxAge) throws IllegalArgumentException {
         this(firstName, ENTRY_DATE);
         setApproxAge(approxAge);
