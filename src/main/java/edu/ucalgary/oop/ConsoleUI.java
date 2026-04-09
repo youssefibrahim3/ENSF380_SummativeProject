@@ -541,6 +541,93 @@ public class ConsoleUI {
     }
 
     //Supplies
+
+    private void addSupply() {
+        System.out.print("Supply type: ");
+        String type = scanner.nextLine().trim();
+        if (type.isEmpty()) { System.out.println("Type cannot be empty."); return; }
+
+        System.out.print("Description (or press Enter to skip): ");
+        String description = scanner.nextLine().trim();
+
+        System.out.println("Is this perishable? (y/n)");
+        boolean perishable = scanner.nextLine().trim().equalsIgnoreCase("y");
+
+        LocalDate expiry = null;
+        if (perishable) {
+            System.out.print("Expiry date (YYYY-MM-DD): ");
+            try { expiry = LocalDate.parse(scanner.nextLine().trim()); }
+            catch (Exception e) { System.out.println("Invalid date format."); return; }
+        }
+
+        Location loc = pickLocation("Select location:");
+        if (loc == null) return;
+
+        try {
+            Supply supply = new Supply(type, 0, perishable, expiry, loc.getId(), 0,
+                description.isEmpty() ? null : description);
+            supplyDAO.insert(supply);
+            System.out.println("Supply added.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid supply data: " + e.getMessage());
+        }
+    }
+
+    private void allocateSupply() {
+        // Feature 6 — only show non-expired supplies
+        List<Supply> allSupplies = supplyDAO.getAll();
+        List<Supply> available = new java.util.ArrayList<>();
+        for (Supply s : allSupplies) {
+            if (!s.isExpired() && s.getVictimId() == 0) available.add(s);
+        }
+        if (available.isEmpty()) { System.out.println("No available supplies."); return; }
+
+        System.out.println("Select supply:");
+        for (int i = 0; i < available.size(); i++) {
+            System.out.println((i+1) + ". " + available.get(i).getType());
+        }
+        int supplyChoice;
+        try { supplyChoice = Integer.parseInt(scanner.nextLine()) - 1; }
+        catch (NumberFormatException e) { System.out.println("Please enter a number."); return; }
+        if (supplyChoice < 0 || supplyChoice >= available.size()) { System.out.println("Invalid."); return; }
+
+        DisasterVictim victim = pickVictim("Select victim to allocate to:");
+        if (victim == null) return;
+
+        Supply supply = available.get(supplyChoice);
+        supply.setVictimId(victim.getId());
+        supplyDAO.update(supply);
+        System.out.println("Supply allocated.");
+    }
+
+    private void viewSupplies() {
+        List<Supply> supplies = supplyDAO.getAll();
+        if (supplies.isEmpty()) { System.out.println("No supplies."); return; }
+        System.out.println("\n-- Supplies --");
+        for (Supply s : supplies) {
+            String status = s.isExpired() ? " [EXPIRED]" : "";
+            String victim = s.getVictimId() > 0 ? " (allocated to victim " + s.getVictimId() + ")" : "";
+            System.out.println("- [ID:" + s.getId() + "] " + s.getType() + status + victim);
+        }
+    }
+
+    private void deleteSupply() {
+        List<Supply> supplies = supplyDAO.getAll();
+        if (supplies.isEmpty()) { System.out.println("No supplies."); return; }
+        System.out.println("Select supply to delete:");
+        for (int i = 0; i < supplies.size(); i++) {
+            System.out.println((i+1) + ". " + supplies.get(i).getType());
+        }
+        try {
+            int choice = Integer.parseInt(scanner.nextLine()) - 1;
+            if (choice >= 0 && choice < supplies.size()) {
+                supplyDAO.delete(supplies.get(choice).getId());
+                System.out.println("Supply deleted.");
+            } else System.out.println("Invalid selection.");
+        } catch (NumberFormatException e) { System.out.println("Please enter a number."); }
+    }
+
+
     /**
      * Provides options regarding managing supplies in the database.
      */
@@ -574,12 +661,16 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    addSupply();
                     break;
                 case 2:
+                    allocateSupply();
                     break;
                 case 3:
+                    viewSupplies();
                     break;
                 case 4:
+                    deleteSupply();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -588,6 +679,47 @@ public class ConsoleUI {
     }
 
     //Locations
+
+    private void addLocation()
+    {
+        System.out.print("Location name: ");
+        String name = scanner.nextLine().trim();
+        System.out.print("Address: ");
+        String address = scanner.nextLine().trim();
+        if (name.isEmpty() || address.isEmpty()) { 
+            System.out.println("Name and address required."); 
+            return; 
+        }
+        locationDAO.insert(new Location(name, address));
+        System.out.println("Location added.");
+    }
+
+    private void viewLocations()
+    {
+        List<Location> locs = locationDAO.getAll();
+        if (locs.isEmpty()) { 
+            System.out.println("No locations."); 
+            return; 
+        }
+        for (Location l : locs) {
+            System.out.println("[ID:" + l.getId() + "] " + l.getName() + " - " + l.getAddress());
+        }
+    }
+
+    private void modifyLocation()
+    {
+        Location loc = pickLocation("Select location to modify:");
+        if (loc == null) return;
+        System.out.print("New name (Enter to keep '" + loc.getName() + "'): ");
+        String newName = scanner.nextLine().trim();
+        System.out.print("New address (Enter to keep '" + loc.getAddress() + "'): ");
+        String newAddress = scanner.nextLine().trim();
+        if (!newName.isEmpty()) loc.setName(newName);
+        if (!newAddress.isEmpty()) loc.setAddress(newAddress);
+        locationDAO.update(loc);
+        System.out.println("Location updated.");
+    }
+
     /**
      * Provides options regarding managing locations in the database.
      */
@@ -611,10 +743,13 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    addLocation();
                     break;
                 case 2:
+                    viewLocations();
                     break;
                 case 3:
+                    modifyLocation();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
