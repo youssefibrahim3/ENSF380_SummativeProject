@@ -37,53 +37,58 @@ public class ConsoleUI {
      * Prompts the user for their input, then goes to that interface.
      */
     public void start() {
-        boolean using = true;
-        System.out.println("-- Disaster Relief Management System --");
-        while (using)
-        {
-            System.out.println("""
-                Please enter an option:
-                0 - Exit program
-                
-                1 - Manage Victims
-                2 - Manage Supplies
-                3 - Manage Locations
-                4 - Manage Inquiries
-                5 - Manage Medical Records
-                6 - Manage Relationships
-                    """);
-            int choice = Integer.parseInt(scanner.nextLine());
+        try {
+            boolean using = true;
+            System.out.println("-- Disaster Relief Management System --");
+            while (using)
+            {
+                System.out.println("""
+                    Please enter an option:
+                    0 - Exit program
+                    
+                    1 - Manage Victims
+                    2 - Manage Supplies
+                    3 - Manage Locations
+                    4 - Manage Inquiries
+                    5 - Manage Medical Records
+                    6 - Manage Relationships
+                        """);
+                int choice = Integer.parseInt(scanner.nextLine());
 
-            switch (choice) {
-                case 0:
-                    System.out.println("Exiting...\n");
-                    using = false;
-                    break;
-                case 1:
-                    manageVictims();
-                    break;
-                case 2:
-                    manageSupplies();
-                    break;
-                case 3:
-                    manageLocations();
-                    break;
-                case 4:
-                    manageInquiries();
-                    break;
-                case 5:
-                    manageMedicalRecords();
-                    break;
-                case 6:
-                    manageRelationships();
-                    break;
-                default:
-                    System.out.println("Unrecognized input. Please enter a valid input.\n");
-                    break;
+                switch (choice) {
+                    case 0:
+                        System.out.println("Exiting...\n");
+                        using = false;
+                        break;
+                    case 1:
+                        manageVictims();
+                        break;
+                    case 2:
+                        manageSupplies();
+                        break;
+                    case 3:
+                        manageLocations();
+                        break;
+                    case 4:
+                        manageInquiries();
+                        break;
+                    case 5:
+                        manageMedicalRecords();
+                        break;
+                    case 6:
+                        manageRelationships();
+                        break;
+                    default:
+                        System.out.println("Unrecognized input. Please enter a valid input.\n");
+                        break;
+                }
+
             }
-
+            scanner.close();
+        } catch (Exception e) {
+            ErrorLogger.log(e);
+            System.out.println("An error occured, please see data/errorlog.txt for details. Exiting...");
         }
-        scanner.close();
     }
 
     //Victims

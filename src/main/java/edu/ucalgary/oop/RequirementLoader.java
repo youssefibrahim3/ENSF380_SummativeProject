@@ -29,9 +29,11 @@ public class RequirementLoader {
             fileIn.close();
             System.out.println("Cultural requirements loaded successfully.");
         } catch (FileNotFoundException e) {
+            ErrorLogger.log(e);
             System.out.println("Error: available_requirements.ser not found in resources folder.");
             System.exit(1);  // exit if file not found
         } catch (IOException | ClassNotFoundException e) {
+            ErrorLogger.log(e);
             System.out.println("Error reading available_requirements.ser: " + e.getMessage());
             System.exit(1);
         }
