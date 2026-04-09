@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Class representing a single victim/person
+ * Class representing a single victim/person.
+ * Holds everything associated with that victim.
  * 
  * @author Youssef Ibrahim
  * @version 3.0
