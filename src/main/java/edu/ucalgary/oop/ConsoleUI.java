@@ -17,7 +17,7 @@ import java.util.Scanner;
  *
  * 
  * @author Youssef Ibrahim
- * @version 2.0
+ * @version 4.0
  * @since 2026-04-03
  */
 public class ConsoleUI {
