@@ -16,7 +16,7 @@ import java.util.List;
  * 
  * @author Youssef Ibrahim
  * @version 3.0
- * @since 2026-04-02
+ * @since 2026-03-30
  */
 
 public class DisasterVictim {
@@ -59,41 +59,65 @@ public class DisasterVictim {
         setDateOfBirth(dateOfBirth);
     }
 
-    //extra constructor for approximate age
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, int approxAge) throws IllegalArgumentException {
         this(firstName, ENTRY_DATE);
         setApproxAge(approxAge);
     }
 
+    /** 
+     * @return String
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /** 
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /** 
+     * @return String
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /** 
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /** 
+     * @return LocalDate
+     */
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
+    /** 
+     * @param location_id
+     */
     public void setLocationId(int location_id)
     {
         this.location_id = location_id;
     }
+    /** 
+     * @return int
+     */
     public int getLocationId()
     {
         return this.location_id;
     }
 
+    /** 
+     * @param dateOfBirth
+     * @throws IllegalArgumentException
+     */
     public void setDateOfBirth(LocalDate dateOfBirth) throws IllegalArgumentException {
         if (dateOfBirth == null) {
             throw new IllegalArgumentException("Date of birth cannot be null");
@@ -108,39 +132,51 @@ public class DisasterVictim {
         this.approxAge = 0;
     }
 
+    /** 
+     * @return FamilyRelation[]
+     */
     public FamilyRelation[] getFamilyConnections() {
         return familyConnections;
     }
 
+    /** 
+     * @return MedicalRecord[]
+     */
     public MedicalRecord[] getMedicalRecords() {
         return medicalRecords;
     }
 
+    /** 
+     * @return Supply[]
+     */
     public Supply[] getPersonalBelongings() {
         return this.personalBelongings;
     }
 
+    /** 
+     * @param connections
+     */
     public void setFamilyConnections(FamilyRelation[] connections) {
-        // Using clone() for defensive copying: creates a new array with the same elements
-        // This prevents external code from modifying the internal array structure
-        // Note: This is a SHALLOW copy - the FamilyRelation objects themselves are shared
         this.familyConnections = connections != null ? connections.clone() : new FamilyRelation[0];
     }
 
+    /** 
+     * @param records
+     */
     public void setMedicalRecords(MedicalRecord[] records) {
-        // Using clone() for defensive copying: creates a new array with the same elements
-        // This prevents external code from modifying the internal array structure
-        // Note: This is a SHALLOW copy - the MedicalRecord objects themselves are shared
         this.medicalRecords = records != null ? records.clone() : new MedicalRecord[0];
     }
 
+    /** 
+     * @param belongings
+     */
     public void setPersonalBelongings(Supply[] belongings) {
-        // Using clone() for defensive copying: creates a new array with the same elements
-        // This prevents external code from modifying the internal array structure
-        // Note: This is a SHALLOW copy - the Supply objects themselves are shared
         this.personalBelongings = belongings != null ? belongings.clone() : new Supply[0];
     }
 
+    /** 
+     * @param supply
+     */
     public void addPersonalBelonging(Supply supply) {
         if (supply == null) {
             throw new IllegalArgumentException("Supply cannot be null");
@@ -153,29 +189,28 @@ public class DisasterVictim {
             return;
         }
 
-        // Create an array one larger than the previous array
         int newLength = this.personalBelongings.length + 1;
         Supply tmpPersonalBelongings[] = new Supply[newLength];
 
-        // Copy all the items in the current array to the new array
         int i;
         for (i=0; i < personalBelongings.length; i++) {
             tmpPersonalBelongings[i] = this.personalBelongings[i];
         }
 
-        // Add the new element at the end of the new array
         tmpPersonalBelongings[i] = supply;
 
-        // Replace the original array with the new array
         this.personalBelongings = tmpPersonalBelongings;
     }
 
+    /** 
+     * @param unwantedSupply
+     * @throws IllegalArgumentException
+     */
     public void removePersonalBelonging(Supply unwantedSupply) throws IllegalArgumentException {
         if (unwantedSupply == null) {
             throw new IllegalArgumentException("Supply to remove cannot be null");
         }
         
-        // Find the supply - must use equals() for proper comparison
         int index = -1;
         for (int i = 0; i < personalBelongings.length; i++) {
             if (personalBelongings[i].equals(unwantedSupply)) {
@@ -184,13 +219,10 @@ public class DisasterVictim {
             }
         }
         
-        // If not found, throw exception
         if (index == -1) {
             throw new IllegalArgumentException("Supply not found in personal belongings");
         }
         
-        // When a personal belonging is removed, it is destroyed (not returned to supply). 
-        // We create a new array without the item.
         Supply[] updatedBelongings = new Supply[personalBelongings.length - 1];
         int newIndex = 0;
         for (int i = 0; i < personalBelongings.length; i++) {
@@ -203,6 +235,10 @@ public class DisasterVictim {
         this.personalBelongings = updatedBelongings;
     }
 
+    /** 
+     * @param exRelation
+     * @throws IllegalArgumentException
+     */
     public void removeFamilyConnection(FamilyRelation exRelation) throws IllegalArgumentException {
         if (exRelation == null) {
             throw new IllegalArgumentException("Family relation to remove cannot be null");
@@ -232,6 +268,9 @@ public class DisasterVictim {
         this.familyConnections = updatedConnections;
     }
 
+    /** 
+     * @param record
+     */
     public void addFamilyConnection(FamilyRelation record) {
         if (record == null) {
             throw new IllegalArgumentException("Family relation cannot be null");
@@ -243,6 +282,9 @@ public class DisasterVictim {
         this.familyConnections = newConnections;
     }
 
+    /** 
+     * @param record
+     */
     public void addMedicalRecord(MedicalRecord record) {
         if (record == null) {
             throw new IllegalArgumentException("Medical record cannot be null");
@@ -254,22 +296,38 @@ public class DisasterVictim {
         this.medicalRecords = newRecords;
     }
 
+    /** 
+     * @return LocalDate
+     */
     public LocalDate getEntryDate() {
         return ENTRY_DATE;
     }
 
+    /** 
+     * @return String
+     */
     public String getComments() {
         return comments;
     }
 
+    /** 
+     * @param comments
+     */
     public void setComments(String comments) {
         this.comments = comments;
     }
 
+    /** 
+     * @return String
+     */
     public String getGender() {
         return gender;
     }
 
+    /** 
+     * @param gender
+     * @throws IllegalArgumentException
+     */
     public void setGender(String gender) throws IllegalArgumentException {
         if (gender == null || gender.trim().isEmpty()) {
             throw new IllegalArgumentException("Gender cannot be null or empty");
@@ -350,29 +408,48 @@ public class DisasterVictim {
     }
 
 
+    /** 
+     * @return boolean
+     */
     //Feature 4
+
     public boolean isDeleted()
     {
         return this.isDeleted;
     }
+    /** 
+     * @param isDeleted
+     */
     public void setDeleted(boolean isDeleted)
     {
         this.isDeleted = isDeleted;
     }
 
+    /** 
+     * @return int
+     */
     public int getId()
     {
         return this.id;
     }
+    /** 
+     * @param id
+     */
     public void setId(int id)
     {
         this.id = id;
     }
 
+    /** 
+     * @return int
+     */
     //Feature 5
     public int getApproxAge() {
         return approxAge;
     }
+    /** 
+     * @param approxAge
+     */
     public void setApproxAge(int approxAge)
     {
         if (approxAge <= 0)
@@ -390,17 +467,29 @@ public class DisasterVictim {
         this.dateOfBirth = null;
     }
 
+    /** 
+     * @param type
+     * @param value
+     */
     //Feature 7
+
     public void setRequirement(String type, String value)
     {
         this.requirements.put(type, value);
     }
+    /** 
+     * @return HashMap<String, String>
+     */
     public HashMap<String, String> getRequirements()
     {
         return this.requirements;
     }
     
+    /** 
+     * @param newSkill
+     */
     //Feature 8
+    
     public void registerSkill(Skill newSkill) {
         for (Skill s : this.skills) {
             if (s instanceof MedicalSkill && newSkill instanceof MedicalSkill) {
@@ -422,14 +511,23 @@ public class DisasterVictim {
         this.skills.add(newSkill);
     }
 
+    /** 
+     * @param skill
+     */
     public void removeSkill(Skill skill)
     {
         this.skills.remove(skill);
     }
+    /** 
+     * @return List<Skill>
+     */
     public List<Skill> getSkills()
     {
         return this.skills;
     }
+    /** 
+     * @param skills
+     */
     public void setSkills(List<Skill> skills)
     {
         this.skills = skills;

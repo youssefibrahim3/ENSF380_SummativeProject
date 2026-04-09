@@ -113,9 +113,16 @@ public class ConsoleUI {
         System.out.println();
     }
 
+    /** 
+     * @param prompt
+     * @return DisasterVictim
+     */
     private DisasterVictim pickVictim(String prompt) {
         List<DisasterVictim> victims = victimDAO.getAll();
-        if (victims.isEmpty()) { System.out.println("No victims in system."); return null; }
+        if (victims.isEmpty()) { 
+            System.out.println("No victims in system."); 
+            return null; 
+        }
         System.out.println(prompt);
         for (int i = 0; i < victims.size(); i++) {
             DisasterVictim v = victims.get(i);
@@ -131,6 +138,10 @@ public class ConsoleUI {
         return null;
     }
 
+    /** 
+     * @param prompt
+     * @return Location
+     */
     private Location pickLocation(String prompt) {
         List<Location> locations = locationDAO.getAll();
         if (locations.isEmpty()) { 
@@ -200,8 +211,12 @@ public class ConsoleUI {
         victim.setLastName(lastName.isEmpty() ? null : lastName);
         victim.setLocationId(loc.getId());
 
-        try { victim.setGender(gender); }
-        catch (IllegalArgumentException e) { System.out.println("Invalid gender: " + e.getMessage()); return; }
+        try { 
+            victim.setGender(gender); 
+        } catch (IllegalArgumentException e) { 
+            System.out.println("Invalid gender: " + e.getMessage()); 
+            return; 
+        }
 
         // Cultural requirements (Feature 7)
         System.out.println("Set cultural requirements? (y/n)");
@@ -221,6 +236,9 @@ public class ConsoleUI {
         }
     }
 
+    /** 
+     * @param victim
+     */
     private void setCulturalRequirements(DisasterVictim victim) 
     {
         // Show available requirement types from .ser file
@@ -298,9 +316,8 @@ public class ConsoleUI {
                     }
                     break;
                 case 5:
-                    // Feature 5 — only if no DOB
                     if (victim.getDateOfBirth() != null) {
-                        System.out.println("Cannot set approximate age — victim already has a date of birth.");
+                        System.out.println("Cannot set approximate age, as victim already has date of birth.");
                     } else {
                         System.out.print("New approximate age: ");
                         int age = Integer.parseInt(scanner.nextLine().trim());
@@ -308,7 +325,6 @@ public class ConsoleUI {
                     }
                     break;
                 case 6:
-                    // Feature 5 — replace approx age with real DOB
                     System.out.print("Date of birth (YYYY-MM-DD): ");
                     LocalDate dob = LocalDate.parse(scanner.nextLine().trim());
                     victimDAO.replaceAgeWithDOB(victim.getId(), dob);
@@ -398,6 +414,9 @@ public class ConsoleUI {
         }
     }
 
+    /** 
+     * @param victim
+     */
     private void addSkillToVictim(DisasterVictim victim) {
         System.out.println("Skill category:\n1 - Medical\n2 -Language\n3 - Trade\n");
         try {
@@ -452,6 +471,9 @@ public class ConsoleUI {
         }
     }
 
+    /** 
+     * @param victim
+     */
     private void removeSkillFromVictim(DisasterVictim victim) {
         List<Skill> skills = victim.getSkills();
         if (skills.isEmpty()) { System.out.println("No skills to remove."); return; }
@@ -480,9 +502,15 @@ public class ConsoleUI {
         try {
             int choice = Integer.parseInt(scanner.nextLine());
             String[] categories = {"medical", "language", "trade"};
-            if (choice < 1 || choice > 3) { System.out.println("Invalid."); return; }
+            if (choice < 1 || choice > 3) { 
+                System.out.println("Invalid."); 
+                return; 
+            }
             List<DisasterVictim> results = victimDAO.getVictimsBySkillCategory(categories[choice - 1]);
-            if (results.isEmpty()) { System.out.println("No victims found with this skill category."); return; }
+            if (results.isEmpty()) { 
+                System.out.println("No victims found with this skill category."); 
+                return; 
+            }
             System.out.println("\n-- Results --");
             for (DisasterVictim v : results) {
                 System.out.println("- " + v.getFirstName() + " " + v.getLastName() + " [ID:" + v.getId() + "]");
@@ -550,7 +578,10 @@ public class ConsoleUI {
     private void addSupply() {
         System.out.print("Supply type: ");
         String type = scanner.nextLine().trim();
-        if (type.isEmpty()) { System.out.println("Type cannot be empty."); return; }
+        if (type.isEmpty()) { 
+            System.out.println("Type cannot be empty."); 
+            return; 
+        }
 
         System.out.print("Description (or press Enter to skip): ");
         String description = scanner.nextLine().trim();
@@ -561,8 +592,12 @@ public class ConsoleUI {
         LocalDate expiry = null;
         if (perishable) {
             System.out.print("Expiry date (YYYY-MM-DD): ");
-            try { expiry = LocalDate.parse(scanner.nextLine().trim()); }
-            catch (Exception e) { System.out.println("Invalid date format."); return; }
+            try { 
+                expiry = LocalDate.parse(scanner.nextLine().trim()); 
+            } catch (Exception e) { 
+                System.out.println("Invalid date format."); 
+                return; 
+            }
         }
 
         Location loc = pickLocation("Select location:");
@@ -579,13 +614,15 @@ public class ConsoleUI {
     }
 
     private void allocateSupply() {
-        // Feature 6 — only show non-expired supplies
         List<Supply> allSupplies = supplyDAO.getAll();
         List<Supply> available = new java.util.ArrayList<>();
         for (Supply s : allSupplies) {
             if (!s.isExpired() && s.getVictimId() == 0) available.add(s);
         }
-        if (available.isEmpty()) { System.out.println("No available supplies."); return; }
+        if (available.isEmpty()) { 
+            System.out.println("No available supplies."); 
+            return; 
+        }
 
         System.out.println("Select supply:");
         for (int i = 0; i < available.size(); i++) {
@@ -742,8 +779,10 @@ public class ConsoleUI {
         String newName = scanner.nextLine().trim();
         System.out.print("New address (Enter to keep '" + loc.getAddress() + "'): ");
         String newAddress = scanner.nextLine().trim();
+
         if (!newName.isEmpty()) loc.setName(newName);
         if (!newAddress.isEmpty()) loc.setAddress(newAddress);
+
         locationDAO.update(loc);
         System.out.println("Location updated.");
     }
@@ -751,7 +790,7 @@ public class ConsoleUI {
     private void deleteLocation() {
         Location loc = pickLocation("Select location to delete:");
         if (loc == null) return;
-        System.out.println("WARNING: Deleting a location may affect victims assigned to it. Continue? (y/n)");
+        System.out.println("This may affect victims assigned to this location. Continue? (y/n)");
         if (scanner.nextLine().trim().equalsIgnoreCase("y")) {
             locationDAO.delete(loc.getId());
             System.out.println("Location deleted.");
@@ -811,7 +850,7 @@ public class ConsoleUI {
 
     private void addInquiry()
     {
-        DisasterVictim inquirerVictim = pickVictim("Select inquirer (from victim list):");
+        DisasterVictim inquirerVictim = pickVictim("Select inquirer from victim list:");
         if (inquirerVictim == null) return;
         Inquirer inquirer = new Inquirer(inquirerVictim.getFirstName(),
             inquirerVictim.getLastName(), null, inquirerVictim.getComments());
@@ -997,6 +1036,7 @@ public class ConsoleUI {
             System.out.println("- " + r.getDateOfTreatment() + ": " + r.getTreatmentDetails());
         }
     }
+    
     /**
      * Provides options regarding managing medical records in the database.
      */

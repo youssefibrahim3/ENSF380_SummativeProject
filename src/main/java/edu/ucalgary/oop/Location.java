@@ -5,7 +5,7 @@ package edu.ucalgary.oop;
  * 
  * @author Youssef Ibrahim
  * @version 1.0
- * @since 2026-04-02
+ * @since 2026-03-30
  */
 public class Location {
     private String name;
