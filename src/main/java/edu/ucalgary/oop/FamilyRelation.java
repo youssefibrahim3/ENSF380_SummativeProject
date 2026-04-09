@@ -1,10 +1,12 @@
-/*
-Copyright Ann Barcomb and Khawla Shnaikat, 2024-2025
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
-
 package edu.ucalgary.oop;
+
+/**
+ * Class representing a (family) relation between two people.
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-02
+ */
 
 public class FamilyRelation {
     private DisasterVictim personOne;

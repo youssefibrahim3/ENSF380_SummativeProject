@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
- * Class for logging errors to data/errorlog.txt
+ * Class for logging errors to error_log.txt
+ *
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-06
  */
+
 public class ErrorLogger {
     private static final String FILE_NAME = "data/error_log.txt";
 

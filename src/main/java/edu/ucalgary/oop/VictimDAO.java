@@ -5,6 +5,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PostgreSQL implementation of GenericDAO for Victim entities.
+ * Handles all database operations for victims including CRUD operations,
+ * and also managing skills, medical records, and anything else
+ * associated with a victim.
+ * 
+ * @author Youssef Ibrahim
+ * @version 3.0
+ * @since 2026-04-03
+ */
+
 public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
 
     private final Connection connection;

@@ -1,5 +1,13 @@
 package edu.ucalgary.oop;
 
+/**
+ * Abstract base class representing an individual skill belonging to a victim
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-04
+ */
+
 abstract class Skill {
     private SkillCategory category;
     private ProficiencyLevel level;

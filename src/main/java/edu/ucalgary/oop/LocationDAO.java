@@ -3,6 +3,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PostgreSQL implementation of GenericDAO for Location entities.
+ * Handles all database operations for locations including CRUD operations.
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-03
+ */
+
 public class LocationDAO implements GenericDAO<Location, Integer> {
     private final Connection connection;
 

@@ -1,7 +1,14 @@
 package edu.ucalgary.oop;
 import java.time.LocalDate;
 
-// Treating this as more of an individual "inquiry" 
+/**
+ * Class representing a single ReliefService (inquiry) in the database
+ * 
+ * @author Youssef Ibrahim
+ * @version 2.0
+ * @since 2026-04-02
+ */
+
 public class ReliefService {
     private Inquirer inquirer;
     private DisasterVictim missingPerson;

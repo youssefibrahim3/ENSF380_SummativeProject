@@ -1,6 +1,15 @@
 package edu.ucalgary.oop;
 import java.time.LocalDate;
 
+/**
+ * Represents an individual medical skill belonging to a victim.
+ * Inherits from the Skill class.
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-04
+ */
+
 public class MedicalSkill extends Skill {
     public enum Certification {
         FIRST_AID,

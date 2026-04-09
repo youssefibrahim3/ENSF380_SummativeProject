@@ -4,6 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PostgreSQL implementation of GenericDAO for Supply entities.
+ * Handles all database operations for supplies including CRUD operations.
+ * 
+ * @author Youssef Ibrahim
+ * @version 2.0
+ * @since 2026-04-03
+ */
+
 public class SupplyDAO implements GenericDAO<Supply, Integer> {
     private final Connection connection;
 

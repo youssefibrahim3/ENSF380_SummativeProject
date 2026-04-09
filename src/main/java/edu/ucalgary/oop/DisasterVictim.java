@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class representing a single victim/person
+ * 
+ * @author Youssef Ibrahim
+ * @version 3.0
+ * @since 2026-04-02
+ */
+
 public class DisasterVictim {
     private String firstName;
     private String lastName;

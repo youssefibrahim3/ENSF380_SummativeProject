@@ -10,6 +10,7 @@ import java.util.List;
  * @param <ID> The type of the entity's identifier
  * 
  */
+
 public interface GenericDAO<T, ID> {
     /**
      * Retrieves all entities from the database.

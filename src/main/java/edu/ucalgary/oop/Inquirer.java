@@ -1,11 +1,12 @@
-/*
-Copyright Ann Barcomb and Khawla Shnaikat, 2024-2025
-Licensed under GPL v3
-See LICENSE.txt for more information.
-*/
-
 package edu.ucalgary.oop;
 
+/**
+ * Class representing a single inquirer in the database
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-02
+ */
 public class Inquirer {
     private final String FIRST_NAME;
     private final String LAST_NAME;

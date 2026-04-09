@@ -1,5 +1,14 @@
 package edu.ucalgary.oop;
 
+/**
+ * Represents an individual language skill belonging to a victim.
+ * Inherits from the Skill class.
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-04
+ */
+
 public class LanguageSkill extends Skill {
     public enum Capabilities
     {

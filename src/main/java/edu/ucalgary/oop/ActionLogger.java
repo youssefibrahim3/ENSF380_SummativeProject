@@ -7,7 +7,6 @@ import java.time.LocalDate;
 /**
  * Class for logging database actions to action_log.txt
  *
- * 
  * @author Youssef Ibrahim
  * @version 1.0
  * @since 2026-04-04

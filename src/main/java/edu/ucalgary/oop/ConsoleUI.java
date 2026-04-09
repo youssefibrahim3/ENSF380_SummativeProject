@@ -9,8 +9,8 @@ import java.util.Scanner;
  *
  * 
  * @author Youssef Ibrahim
- * @version 1.0
- * @since 2026-04-04
+ * @version 2.0
+ * @since 2026-04-03
  */
 public class ConsoleUI {
     //Should I create a DAO object directly, or use stuff like "SupplyController" that interact with the DAO within them?

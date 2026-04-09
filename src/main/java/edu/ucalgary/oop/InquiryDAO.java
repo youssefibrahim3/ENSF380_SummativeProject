@@ -4,6 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PostgreSQL implementation of GenericDAO for DisasterVictim entities.
+ * Handles all database operations for inquiries including CRUD operations.
+ * 
+ * @author Youssef Ibrahim
+ * @version 2.0
+ * @since 2026-04-03
+ */
+
 public class InquiryDAO implements GenericDAO<ReliefService, Integer> {
     private final Connection connection;
 

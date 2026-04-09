@@ -1,6 +1,15 @@
 package edu.ucalgary.oop;
 
 
+/**
+ * Represents an individual trade skill belonging to a victim.
+ * Inherits from the Skill class.
+ * 
+ * @author Youssef Ibrahim
+ * @version 1.0
+ * @since 2026-04-04
+ */
+
 public class TradeSkill extends Skill {
     
     public enum SkillType {

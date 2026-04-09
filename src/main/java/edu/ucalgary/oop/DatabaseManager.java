@@ -6,6 +6,14 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ * Class for creating connection to database
+ * 
+ * @author Youssef Ibrahim
+ * @version 2.0
+ * @since 2026-04-03
+ */
+
 public class DatabaseManager {
     private static Connection connection = null;
 
