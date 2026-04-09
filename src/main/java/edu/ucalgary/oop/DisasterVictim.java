@@ -41,11 +41,11 @@ public class DisasterVictim {
     private List<Skill> skills;
     
     /**
+     * Constructs a new DisasterVictim with the specified attributes.
      * 
-     * 
-     * @param firstName
-     * @param ENTRY_DATE
-     * @throws IllegalArgumentException
+     * @param firstName The victim's first name
+     * @param ENTRY_DATE The victim's entry date
+     * @throws IllegalArgumentException if entry date is null
      */
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE) throws IllegalArgumentException {
         if (ENTRY_DATE == null) {
@@ -62,12 +62,12 @@ public class DisasterVictim {
     }
 
     /**
+     * Constructs a new DisasterVictim with the specified attributes.
      * 
-     * 
-     * @param firstName
-     * @param ENTRY_DATE
-     * @param dateOfBirth
-     * @throws IllegalArgumentException
+     * @param firstName The victim's first name 
+     * @param ENTRY_DATE The victim's entry date
+     * @param dateOfBirth The victim's date of birth
+     * @throws IllegalArgumentException 
      */
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, LocalDate dateOfBirth) throws IllegalArgumentException {
         this(firstName, ENTRY_DATE);
@@ -75,11 +75,11 @@ public class DisasterVictim {
     }
 
     /**
+     * Constructs a new DisasterVictim with the specified attributes.
      * 
-     * 
-     * @param firstName
-     * @param ENTRY_DATE
-     * @param approxAge
+     * @param firstName The victim's first namme
+     * @param ENTRY_DATE The victim's entry date
+     * @param approxAge The victim's approximate age
      * @throws IllegalArgumentException
      */
     public DisasterVictim(String firstName, LocalDate ENTRY_DATE, int approxAge) throws IllegalArgumentException {
@@ -88,65 +88,61 @@ public class DisasterVictim {
     }
 
     /** 
-     * @return String
+     * Gets the victim's first name.
+     * 
+     * @return The victim's first name
      */
     public String getFirstName() {
         return firstName;
     }
 
     /** 
-     * @param firstName
+     * Sets the victim's first name.
+     * 
+     * @param firstName The victim's first name
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     /** 
-     * @return String
+     * Gets the victim's last name.
+     * 
+     * @return The victim's last name
      */
     public String getLastName() {
         return lastName;
     }
 
     /** 
-     * @param lastName
+     * Sets the victim's last name.
+     * 
+     * @param lastName The victim's last name
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     /** 
-     * @return LocalDate
+     * Gets the victim's date of birth.
+     * 
+     * @return The victim's date of birth
      */
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
     /** 
-     * @param location_id
-     */
-    public void setLocationId(int location_id)
-    {
-        this.location_id = location_id;
-    }
-    /** 
-     * @return int
-     */
-    public int getLocationId()
-    {
-        return this.location_id;
-    }
-
-    /** 
-     * @param dateOfBirth
-     * @throws IllegalArgumentException
+     * Sets the victim's date of birth.
+     * 
+     * @param dateOfBirth The victim's date of birth
+     * @throws IllegalArgumentException if date of birth is null, or is in the future
      */
     public void setDateOfBirth(LocalDate dateOfBirth) throws IllegalArgumentException {
         if (dateOfBirth == null) {
             throw new IllegalArgumentException("Date of birth cannot be null");
         }
 
-        // Check if the date is in the future
         if (dateOfBirth.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Date of birth cannot be in the future");
         }
@@ -156,6 +152,28 @@ public class DisasterVictim {
     }
 
     /** 
+     * Set's the victim's associated location ID.
+     * 
+     * @param location_id The victim's location ID
+     */
+    public void setLocationId(int location_id)
+    {
+        this.location_id = location_id;
+    }
+
+    /** 
+     * Gets the victim's associated location ID.
+     * 
+     * @return int
+     */
+    public int getLocationId()
+    {
+        return this.location_id;
+    }
+
+    /** 
+     * Gets the victim's family connections.
+     * 
      * @return FamilyRelation[]
      */
     public FamilyRelation[] getFamilyConnections() {
@@ -163,6 +181,8 @@ public class DisasterVictim {
     }
 
     /** 
+     * Gets the victim's medical records.
+     * 
      * @return MedicalRecord[]
      */
     public MedicalRecord[] getMedicalRecords() {
@@ -170,6 +190,8 @@ public class DisasterVictim {
     }
 
     /** 
+     * Gets the victim's personal belongings.
+     * 
      * @return Supply[]
      */
     public Supply[] getPersonalBelongings() {
@@ -177,35 +199,42 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param connections
+     * Sets the victim's family connections.
+     * 
+     * @param connections The family connections
      */
     public void setFamilyConnections(FamilyRelation[] connections) {
         this.familyConnections = connections != null ? connections.clone() : new FamilyRelation[0];
     }
 
     /** 
-     * @param records
+     * Sets the victim's medical records.
+     * 
+     * @param records The medical records
      */
     public void setMedicalRecords(MedicalRecord[] records) {
         this.medicalRecords = records != null ? records.clone() : new MedicalRecord[0];
     }
 
     /** 
-     * @param belongings
+     * Sets the victim's personal belongings.
+     * 
+     * @param belongings The personal belongings
      */
     public void setPersonalBelongings(Supply[] belongings) {
         this.personalBelongings = belongings != null ? belongings.clone() : new Supply[0];
     }
 
     /** 
-     * @param supply
+     * Adds a personal belonging.
+     * 
+     * @param supply The supply to add
      */
     public void addPersonalBelonging(Supply supply) {
         if (supply == null) {
             throw new IllegalArgumentException("Supply cannot be null");
         }
 
-        
         if (this.personalBelongings == null) {
             Supply tmpSupply[] = { supply };
             this.setPersonalBelongings(tmpSupply);
@@ -226,7 +255,9 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param unwantedSupply
+     * Removes a personal belonging.
+     * 
+     * @param unwantedSupply The supply to remove
      * @throws IllegalArgumentException
      */
     public void removePersonalBelonging(Supply unwantedSupply) throws IllegalArgumentException {
@@ -259,7 +290,9 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param exRelation
+     * Removes a family connection.
+     * 
+     * @param exRelation The relation to remove
      * @throws IllegalArgumentException
      */
     public void removeFamilyConnection(FamilyRelation exRelation) throws IllegalArgumentException {
@@ -292,7 +325,9 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param record
+     * Adds a family connection.
+     * 
+     * @param record The relation to add
      */
     public void addFamilyConnection(FamilyRelation record) {
         if (record == null) {
@@ -306,7 +341,9 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param record
+     * Adds a medical record.
+     * 
+     * @param record The record to add
      */
     public void addMedicalRecord(MedicalRecord record) {
         if (record == null) {
@@ -320,6 +357,8 @@ public class DisasterVictim {
     }
 
     /** 
+     * Gets the entry date.
+     * 
      * @return LocalDate
      */
     public LocalDate getEntryDate() {
@@ -327,6 +366,8 @@ public class DisasterVictim {
     }
 
     /** 
+     * Gets comments.
+     * 
      * @return String
      */
     public String getComments() {
@@ -334,13 +375,17 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param comments
+     * Sets comments.
+     * 
+     * @param comments The comments
      */
     public void setComments(String comments) {
         this.comments = comments;
     }
 
     /** 
+     * Gets gender.
+     * 
      * @return String
      */
     public String getGender() {
@@ -348,7 +393,9 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param gender
+     * Sets gender.
+     * 
+     * @param gender The gender
      * @throws IllegalArgumentException
      */
     public void setGender(String gender) throws IllegalArgumentException {
@@ -359,7 +406,6 @@ public class DisasterVictim {
         String normalizedGender = gender.trim();
         String lowerGender = normalizedGender.toLowerCase();
         
-        // If gender is already set to "Please specify", allow any new value
         if (this.gender != null && this.gender.equalsIgnoreCase("please specify")) {
             this.gender = normalizedGender;
             return;
@@ -430,18 +476,20 @@ public class DisasterVictim {
         this.gender = properCaseOption;
     }
 
-
     /** 
+     * Checks if victim is deleted.
+     * 
      * @return boolean
      */
-    //Feature 4
-
     public boolean isDeleted()
     {
         return this.isDeleted;
     }
+
     /** 
-     * @param isDeleted
+     * Sets deleted status.
+     * 
+     * @param isDeleted The status
      */
     public void setDeleted(boolean isDeleted)
     {
@@ -449,14 +497,19 @@ public class DisasterVictim {
     }
 
     /** 
+     * Gets ID.
+     * 
      * @return int
      */
     public int getId()
     {
         return this.id;
     }
+
     /** 
-     * @param id
+     * Sets ID.
+     * 
+     * @param id The ID
      */
     public void setId(int id)
     {
@@ -464,14 +517,18 @@ public class DisasterVictim {
     }
 
     /** 
+     * Gets approximate age.
+     * 
      * @return int
      */
-    //Feature 5
     public int getApproxAge() {
         return approxAge;
     }
+
     /** 
-     * @param approxAge
+     * Sets approximate age.
+     * 
+     * @param approxAge The age
      */
     public void setApproxAge(int approxAge)
     {
@@ -480,7 +537,6 @@ public class DisasterVictim {
             throw new IllegalArgumentException("Approximate age must be a nonzero positive number.");
         }
 
-        // If date of birth exists, cant approximate age
         if (this.dateOfBirth != null)
         {
             throw new IllegalArgumentException("Cannot set approximate age when date of birth exists");
@@ -491,16 +547,19 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param type
-     * @param value
+     * Sets a requirement.
+     * 
+     * @param type The type
+     * @param value The value
      */
-    //Feature 7
-
     public void setRequirement(String type, String value)
     {
         this.requirements.put(type, value);
     }
+
     /** 
+     * Gets requirements.
+     * 
      * @return HashMap<String, String>
      */
     public HashMap<String, String> getRequirements()
@@ -509,10 +568,10 @@ public class DisasterVictim {
     }
     
     /** 
-     * @param newSkill
+     * Registers a skill.
+     * 
+     * @param newSkill The skill
      */
-    //Feature 8
-    
     public void registerSkill(Skill newSkill) {
         for (Skill s : this.skills) {
             if (s instanceof MedicalSkill && newSkill instanceof MedicalSkill) {
@@ -535,21 +594,29 @@ public class DisasterVictim {
     }
 
     /** 
-     * @param skill
+     * Removes a skill.
+     * 
+     * @param skill The skill
      */
     public void removeSkill(Skill skill)
     {
         this.skills.remove(skill);
     }
+
     /** 
+     * Gets skills.
+     * 
      * @return List<Skill>
      */
     public List<Skill> getSkills()
     {
         return this.skills;
     }
+
     /** 
-     * @param skills
+     * Sets skills.
+     * 
+     * @param skills The skills
      */
     public void setSkills(List<Skill> skills)
     {
