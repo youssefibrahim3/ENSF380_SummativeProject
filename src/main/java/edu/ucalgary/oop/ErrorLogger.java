@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
- * Class for logging errors to errorlog.txt
+ * Class for logging unrecoverable errors to errorlog.txt
  *
  * @author Youssef Ibrahim
  * @version 1.0
