@@ -23,7 +23,7 @@ public class Main {
             InquiryDAO inquiryDAO = new InquiryDAO(conn);
 
             ConsoleUI consoleUI = new ConsoleUI(victimDAO, supplyDAO, locationDAO, inquiryDAO, loader);
-            consoleUI.start(); //MVC
+            consoleUI.start(); 
         } catch (SQLException e) {
             ErrorLogger.log(e);
             System.out.println("Failed to connect to database: " + e.getMessage());
