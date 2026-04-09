@@ -12,7 +12,7 @@ import java.util.List;
  * associated with a victim.
  * 
  * @author Youssef Ibrahim
- * @version 3.0
+ * @version 4.0
  * @since 2026-04-03
  */
 
@@ -390,19 +390,35 @@ public class VictimDAO implements GenericDAO<DisasterVictim, Integer> {
      * @return True if operation successful, false otherwise
      */
     public boolean insertCulturalRequirement(int victimId, String category, String option) {
-        String sql = "INSERT INTO CulturalRequirement (victim_id, requirement_category, requirement_option) " +
-                    "VALUES (?, ?, ?) " +
-                    "ON CONFLICT (victim_id, requirement_category) DO UPDATE SET requirement_option = ?";
+        String checkSQL = "SELECT 1 FROM CulturalRequirement WHERE victim_id = ? AND requirement_category = ?";
+        String insertSQL = "INSERT INTO CulturalRequirement (victim_id, requirement_category, requirement_option) VALUES (?, ?, ?)";
+        String updateSQL = "UPDATE CulturalRequirement SET requirement_option = ? WHERE victim_id = ? AND requirement_category = ?";
+
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, victimId);
-            ps.setString(2, category);
-            ps.setString(3, option);
-            ps.setString(4, option);
-            ps.executeUpdate();
-            ActionLogger.getInstance().log("UPDATED", "cultural requirement for victim " + victimId +
-                " | " + category + ": " + option);
+            PreparedStatement check = connection.prepareStatement(checkSQL);
+            check.setInt(1, victimId);
+            check.setString(2, category);
+            ResultSet rs = check.executeQuery();
+
+            if (rs.next()) {
+                //update if exists
+                PreparedStatement ps = connection.prepareStatement(updateSQL);
+                ps.setString(1, option);
+                ps.setInt(2, victimId);
+                ps.setString(3, category);
+                ps.executeUpdate();
+            } else {
+                PreparedStatement ps = connection.prepareStatement(insertSQL);
+                ps.setInt(1, victimId);
+                ps.setString(2, category);
+                ps.setString(3, option);
+                ps.executeUpdate();
+            }
+
+            ActionLogger.getInstance().log("UPDATED", "cultural requirement for victim " 
+            + victimId + " | " + category + ": " + option);
             return true;
+
         } catch (SQLException e) {
             System.out.println("Error saving cultural requirement: " + e.getMessage());
             return false;

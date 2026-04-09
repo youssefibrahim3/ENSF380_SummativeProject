@@ -16,7 +16,7 @@ import java.util.List;
  * Holds everything associated with that victim.
  * 
  * @author Youssef Ibrahim
- * @version 3.0
+ * @version 4.0
  * @since 2026-03-30
  */
 
