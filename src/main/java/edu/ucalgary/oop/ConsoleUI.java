@@ -759,6 +759,49 @@ public class ConsoleUI {
 
     //Inquiries
 
+    private void addInquiry()
+    {
+        DisasterVictim inquirerVictim = pickVictim("Select inquirer (from victim list):");
+        if (inquirerVictim == null) return;
+        Inquirer inquirer = new Inquirer(inquirerVictim.getFirstName(),
+            inquirerVictim.getLastName(), null, inquirerVictim.getComments());
+        inquirer.setId(inquirerVictim.getId());
+
+        DisasterVictim subject = pickVictim("Select subject (missing person):");
+        if (subject == null) return;
+
+        System.out.print("Details/information provided: ");
+        String details = scanner.nextLine().trim();
+        if (details.isEmpty()) { 
+            System.out.println("Details cannot be empty."); 
+            return; 
+        }
+
+        ReliefService inquiry = new ReliefService(inquirer, subject, LocalDate.now(), details, null);
+        inquiryDAO.insert(inquiry);
+        System.out.println("Inquiry logged.");
+    }
+
+    private void viewInquiries()
+    {
+        List<ReliefService> inquiries = inquiryDAO.getAll();
+        if (inquiries.isEmpty()) { 
+            System.out.println("No inquiries."); 
+            return; 
+        }
+        for (ReliefService inq : inquiries) {
+            System.out.println("[ID:" + inq.getId() + "] Inquirer: " +
+                (inq.getInquirer() != null ? inq.getInquirer().getFirstName() : "Unknown") +
+                " | Subject: " +
+                (inq.getMissingPerson() != null ? inq.getMissingPerson().getFirstName() : "Unknown") +
+                " | " + inq.getInfoProvided());
+        } 
+    }
+
+    private void modifyInquiry()
+    {
+
+    }
     /**
      * Provides options regarding managing inquiries in the database.
      */
@@ -782,10 +825,13 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    addInquiry();
                     break;
                 case 2:
+                    viewInquiries();
                     break;
                 case 3:
+                    modifyInquiry();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -795,6 +841,45 @@ public class ConsoleUI {
 
     //Medical records
 
+    private void addMedicalRecord()
+    {
+        DisasterVictim victim = pickVictim("Select victim:");
+        if (victim == null) return;
+        Location loc = pickLocation("Select treatment location:");
+        if (loc == null) return;
+        System.out.print("Treatment details: ");
+        String details = scanner.nextLine().trim();
+        if (details.isEmpty()) { 
+            System.out.println("Details cannot be empty."); 
+            return; 
+        }
+        System.out.print("Treatment date (YYYY-MM-DD, or Enter for today): ");
+        String dateStr = scanner.nextLine().trim();
+        LocalDate date = dateStr.isEmpty() ? LocalDate.now() : LocalDate.parse(dateStr);
+        try {
+            MedicalRecord record = new MedicalRecord(loc, details, date);
+            victim.addMedicalRecord(record);
+            victimDAO.insertMedicalRecord(victim.getId(), record);
+            System.out.println("Medical record added.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid data: " + e.getMessage());
+        }
+    }
+
+    private void viewMedicalRecords()
+    {
+        DisasterVictim v = pickVictim("Select victim to view records:");
+        if (v == null) return;
+        victimDAO.loadMedicalRecords(v, locationDAO);
+        MedicalRecord[] records = v.getMedicalRecords();
+        if (records.length == 0) { 
+            System.out.println("No medical records."); 
+            return; 
+        }
+        for (MedicalRecord r : records) {
+            System.out.println("- " + r.getDateOfTreatment() + ": " + r.getTreatmentDetails());
+        }
+    }
     /**
      * Provides options regarding managing medical records in the database.
      */
@@ -817,8 +902,10 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    addMedicalRecord();
                     break;
                 case 2:
+                    viewMedicalRecords();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
@@ -827,6 +914,38 @@ public class ConsoleUI {
     }
 
     //Relationships
+
+    private void addRelationship()
+    {
+        DisasterVictim personOne = pickVictim("Select person one:");
+        if (personOne == null) return;
+        DisasterVictim personTwo = pickVictim("Select person two:");
+        if (personTwo == null) return;
+        System.out.print("Relationship type (e.g. parent, sibling, spouse): ");
+        String relType = scanner.nextLine().trim();
+        if (relType.isEmpty()) { 
+            System.out.println("Relationship type required."); 
+            return; 
+        }
+        victimDAO.insertFamilyRelationship(personOne.getId(), personTwo.getId(), relType);
+        System.out.println("Relationship added.");
+    }
+
+    private void viewRelationships()
+    {
+        DisasterVictim v = pickVictim("Select victim:");
+        if (v == null) return;
+        victimDAO.loadFamilyRelationships(v);
+        FamilyRelation[] relations = v.getFamilyConnections();
+        if (relations.length == 0) { 
+            System.out.println("No relationships found."); 
+            return; 
+        }
+        for (FamilyRelation r : relations) {
+            System.out.println("- " + r.getPersonOne().getFirstName() +
+                " is " + r.getRelationshipTo() + " of " + r.getPersonTwo().getFirstName());
+        }
+    }
 
     /**
      * Provides options regarding managing relationships in the database.
@@ -850,8 +969,10 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
+                    addRelationship();
                     break;
                 case 2:
+                    viewRelationships();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input.");
