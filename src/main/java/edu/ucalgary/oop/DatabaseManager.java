@@ -23,6 +23,10 @@ public class DatabaseManager {
                 InputStream input = DatabaseManager.class
                     .getClassLoader()
                     .getResourceAsStream("app.properties");
+                if (input == null)
+                {
+                    System.out.println("app.properties NOT FOUND");
+                }
                 props.load(input);
 
                 String url  = props.getProperty("db.url");
