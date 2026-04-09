@@ -392,10 +392,13 @@ public class ConsoleUI {
         System.out.println("Skill category:\n1 - Medical\n2 -Language\n3 - Trade\n");
         try {
             int cat = Integer.parseInt(scanner.nextLine());
-            System.out.println("Proficiency: 1=Beginner, 2=Intermediate, 3=Advanced");
+            System.out.println("Proficiency level:\n1 - Beginner\n2 -Intermediate\n3 - Advanced\n");
             int profChoice = Integer.parseInt(scanner.nextLine());
             ProficiencyLevel[] levels = {ProficiencyLevel.BEGINNER, ProficiencyLevel.INTERMEDIATE, ProficiencyLevel.ADVANCED};
-            if (profChoice < 1 || profChoice > 3) { System.out.println("Invalid."); return; }
+            if (profChoice < 1 || profChoice > 3) { 
+                System.out.println("Invalid proficiency choice."); 
+                return; 
+            }
             ProficiencyLevel level = levels[profChoice - 1];
 
             Skill skill = null;
@@ -506,22 +509,25 @@ public class ConsoleUI {
                     using = false;
                     break;
                 case 1:
-                    System.out.println("");
-                    scanner.nextLine();
-                    //then build a victim, check if it returned null or smth yes
-                    //ENFORCE data validity
+                    addVictim();
                     break;
                 case 2:
+                    modifyVictim();
                     break;
                 case 3:
+                    softDeleteVictim();
                     break;
                 case 4:
+                    hardDeleteVictim();
                     break;
                 case 5:
+                    manageSkills();
                     break;
                 case 6:
+                    viewVictims();
                     break;
                 case 7:
+                    searchBySkillCategory();
                     break;
                 default:
                     System.out.println("Unrecognized input. Please enter a valid input (0-7).");
