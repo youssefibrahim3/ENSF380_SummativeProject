@@ -4,6 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+* NOTE:
+* This file is incredibly long (most of it for the Victim), and definitely should have 
+* used "Controller" classes to complete the MVC system.
+* However, I found myself with no time left to refactor this to use
+* controllers before the deadline arrives.
+*/
+
 /**
  * Class handling main console UI interactions
  *
@@ -13,8 +21,6 @@ import java.util.Scanner;
  * @since 2026-04-03
  */
 public class ConsoleUI {
-    //Should I create a DAO object directly, or use stuff like "SupplyController" that interact with the DAO within them?
-
     private Scanner scanner = new Scanner(System.in);
     private final VictimDAO victimDAO;
     private final SupplyDAO supplyDAO;
@@ -113,9 +119,12 @@ public class ConsoleUI {
         System.out.println();
     }
 
+
     /** 
-     * @param prompt
-     * @return DisasterVictim
+     * Prompts the user to select a victim.
+     * 
+     * @param prompt The prompt message
+     * @return The chosen DisasterVictim
      */
     private DisasterVictim pickVictim(String prompt) {
         List<DisasterVictim> victims = victimDAO.getAll();
@@ -139,8 +148,10 @@ public class ConsoleUI {
     }
 
     /** 
-     * @param prompt
-     * @return Location
+     * Prompts the user to select a location.
+     * 
+     * @param prompt The prompt message
+     * @return The chosen Location
      */
     private Location pickLocation(String prompt) {
         List<Location> locations = locationDAO.getAll();
@@ -162,6 +173,9 @@ public class ConsoleUI {
         return null;
     }
 
+    /**
+     * Prompts the user to add a new victim.
+     */
     private void addVictim() 
     {
         System.out.print("First name: ");
@@ -237,7 +251,9 @@ public class ConsoleUI {
     }
 
     /** 
-     * @param victim
+     * Sets cultural requirements for a victim.
+     * 
+     * @param victim The victim
      */
     private void setCulturalRequirements(DisasterVictim victim) 
     {
@@ -264,6 +280,10 @@ public class ConsoleUI {
         }
     }
 
+
+    /**
+     * Prompts the user to modify a victim.
+     */
     private void modifyVictim() 
     {
         DisasterVictim victim = pickVictim("Select victim to modify:");
@@ -349,6 +369,10 @@ public class ConsoleUI {
         }
     }
 
+
+    /**
+     * Soft deletes a victim.
+     */
     private void softDeleteVictim() 
     {
         DisasterVictim victim = pickVictim("Select victim to soft delete:");
@@ -363,6 +387,10 @@ public class ConsoleUI {
         }
     }
 
+
+    /**
+     * Hard deletes a victim.
+     */
     private void hardDeleteVictim() 
     {
         DisasterVictim victim = pickVictim("Select victim to permanently delete:");
@@ -378,6 +406,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Manages skills for a victim.
+     */
     private void manageSkills() 
     {
         DisasterVictim victim = pickVictim("Select victim to manage skills:");
@@ -414,8 +445,11 @@ public class ConsoleUI {
         }
     }
 
+
     /** 
-     * @param victim
+     * Adds a skill to a victim.
+     * 
+     * @param victim The victim
      */
     private void addSkillToVictim(DisasterVictim victim) {
         System.out.println("Skill category:\n1 - Medical\n2 -Language\n3 - Trade\n");
@@ -472,7 +506,9 @@ public class ConsoleUI {
     }
 
     /** 
-     * @param victim
+     * Removes a skill from a victim.
+     * 
+     * @param victim The victim
      */
     private void removeSkillFromVictim(DisasterVictim victim) {
         List<Skill> skills = victim.getSkills();
@@ -497,6 +533,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Searches victims by skill category.
+     */
     private void searchBySkillCategory() {
         System.out.println("Category: 1 - Medical, 2 - Language, 3 - Trade");
         try {
@@ -575,6 +614,9 @@ public class ConsoleUI {
 
     //Supplies
 
+    /**
+     * Adds a new supply.
+     */
     private void addSupply() {
         System.out.print("Supply type: ");
         String type = scanner.nextLine().trim();
@@ -613,6 +655,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Allocates a supply to a victim.
+     */
     private void allocateSupply() {
         List<Supply> allSupplies = supplyDAO.getAll();
         List<Supply> available = new java.util.ArrayList<>();
@@ -663,6 +708,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Deletes a supply.
+     */
     private void deleteSupply() {
         List<Supply> supplies = supplyDAO.getAll();
         if (supplies.isEmpty()) { 
@@ -745,6 +793,9 @@ public class ConsoleUI {
 
     //Locations
 
+    /**
+     * Adds a new location.
+     */
     private void addLocation()
     {
         System.out.print("Location name: ");
@@ -759,6 +810,9 @@ public class ConsoleUI {
         System.out.println("Location added.");
     }
 
+    /**
+     * Displays a list of all locations.
+     */
     private void viewLocations()
     {
         List<Location> locs = locationDAO.getAll();
@@ -771,6 +825,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Modifys an existing location.
+     */
     private void modifyLocation()
     {
         Location loc = pickLocation("Select location to modify:");
@@ -787,6 +844,9 @@ public class ConsoleUI {
         System.out.println("Location updated.");
     }
 
+    /**
+     * Deletes a location.
+     */
     private void deleteLocation() {
         Location loc = pickLocation("Select location to delete:");
         if (loc == null) return;
@@ -848,6 +908,9 @@ public class ConsoleUI {
 
     //Inquiries
 
+    /**
+     * Adds a new inquiry.
+     */
     private void addInquiry()
     {
         DisasterVictim inquirerVictim = pickVictim("Select inquirer from victim list:");
@@ -871,6 +934,9 @@ public class ConsoleUI {
         System.out.println("Inquiry logged.");
     }
 
+    /**
+     * Displays a list of all inquiries.
+     */
     private void viewInquiries()
     {
         List<ReliefService> inquiries = inquiryDAO.getAll();
@@ -887,6 +953,9 @@ public class ConsoleUI {
         } 
     }
 
+    /**
+     * Modifys an existing inquiry.
+     */
     private void modifyInquiry() {
         List<ReliefService> inquiries = inquiryDAO.getAll();
         if (inquiries.isEmpty()) { 
@@ -920,6 +989,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Deletes an inquiry.
+     */
     private void deleteInquiry() {
         List<ReliefService> inquiries = inquiryDAO.getAll();
         if (inquiries.isEmpty()) { 
@@ -997,6 +1069,9 @@ public class ConsoleUI {
 
     //Medical records
 
+    /**
+     * Adds a new medical record.
+     */
     private void addMedicalRecord()
     {
         DisasterVictim victim = pickVictim("Select victim:");
@@ -1022,6 +1097,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Displays a list of all medical records for a victim.
+     */
     private void viewMedicalRecords()
     {
         DisasterVictim v = pickVictim("Select victim to view records:");
@@ -1078,6 +1156,9 @@ public class ConsoleUI {
 
     //Relationships
 
+    /**
+     * Adds a new relationship.
+     */
     private void addRelationship()
     {
         DisasterVictim personOne = pickVictim("Select person one:");
@@ -1094,6 +1175,9 @@ public class ConsoleUI {
         System.out.println("Relationship added.");
     }
 
+    /**
+     * Deletes a relationship.
+     */
     private void deleteRelationship() {
         DisasterVictim v = pickVictim("Select victim to view relationships:");
         if (v == null) return;
@@ -1125,6 +1209,9 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Displays a list of a victim's relationships.
+     */
     private void viewRelationships()
     {
         DisasterVictim v = pickVictim("Select victim:");
